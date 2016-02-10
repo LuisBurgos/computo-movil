@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">FragmentsExample</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lbl_detail">Texto</string>
+
+    <string name="student_id">Matricula</string>
+    <string name="student_name">Nombre</string>
+    <string name="student_last_name">Apellido paterno</string>
+    <string name="student_second_last_name">Apellido materno</string>
+    <string name="student_birth_date">Fecha de nacimiento</string>
+    <string name="student_bachelors_degree">Licenciatura</string>
+
+    <string name="lbl_btn_edit">Editar</string>
+    <string name="lbl_btn_save_edition">Guardar cambios</string>
+    <string name="no_data">No hay datos</string>
+    <string name="empty_student_message">Complete todos los datos del estudiante</string>
+</resources>

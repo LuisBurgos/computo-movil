@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Temperature Converter</string>
+    <string name="txv_fahrenheit">Fahrenheit</string>
+    <string name="txv_celsius">Celsius</string>
+    <string name="btn_convert">Convertir</string>
+    <string name="txv_degrees">Degrees</string>
+    <string name="txv_result">Result</string>
+    <string name="error_conversion">Error while converting</string>
+    <string name="error_missing_degree_param">Missing degree parameter</string>
+</resources>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Students Database</string>
+
+    <!-- StudentsActivity -->
+    <string name="title_activity_students">Students List</string>
+    <string name="lbl_detail">Texto</string>
+
+    <!-- StudentDetailsActivity -->
+    <string name="title_activity_student_details">Student Details</string>
+    <string name="student_id">Matrícula</string>
+    <string name="student_name">Nombre</string>
+    <string name="student_lastName">Apellido</string>
+    <string name="loading">Loading...</string>
+    <string name="no_data">No hay datos</string>
+    <string name="lbl_btn_edit">Editar</string>
+    <string name="lbl_btn_save_edition">Guardar cambios</string>
+    <string name="empty_student_message">Los datos del estudiante no pueden estar vacíos</string>
+    <string name="successfully_update_student_message">Estudiante actualizado!</string>
+
+</resources>
