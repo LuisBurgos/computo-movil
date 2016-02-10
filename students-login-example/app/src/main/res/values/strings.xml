@@ -13,4 +13,15 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="title_activity_login">Login</string>
+    <string name="lbl_btn_login">Login</string>
+    <string name="title_activity_main">Main Activity</string>
+    <string name="title_activity_splash">Splash Screen</string>
+    <string name="lbl_btn_logout">Cerrar Sesión</string>
+    <string name="lbl_main_message">Sesión iniciada</string>
+    <string name="lbl_splash_message">Bienvenido</string>
+    <string name="lbl_loading_message">Loading...</string>
+    <string name="empty_data_message">Datos vacios</string>
+    <string name="error_failed_login">Erro al hacer login</string>
 </resources>
