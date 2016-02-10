@@ -1,4 +1,4 @@
-package com.luisburgos.studentslogin;
+package com.luisburgos.studentslogin.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.luisburgos.studentslogin.presenters.LoginContract;
+import com.luisburgos.studentslogin.presenters.LoginPresenter;
+import com.luisburgos.studentslogin.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 

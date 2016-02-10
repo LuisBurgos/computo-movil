@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorPrimary"
-    tools:context="com.luisburgos.studentslogin.SplashActivity">
+    tools:context=".activities.SplashActivity">
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -35,6 +35,6 @@
         android:textColor="@color/colorTextIcons"
         android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:text="Computo Móvil 2016" />
+        android:text="@string/splash_footer" />
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.luisburgos.studentslogin;
+package com.luisburgos.studentslogin.presenters;
 
 /**
  * Created by luisburgos on 6/02/16.

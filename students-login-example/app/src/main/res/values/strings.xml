@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StudentsLogin</string>
+    <string name="app_name">StudentsLoginExample</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -24,4 +24,6 @@
     <string name="lbl_loading_message">Loading...</string>
     <string name="empty_data_message">Datos vacios</string>
     <string name="error_failed_login">Erro al hacer login</string>
+    <string name="lbl_username_prefix"><b>"Username: "</b></string>
+    <string name="splash_footer">Computo Móvil - 2016</string>
 </resources>

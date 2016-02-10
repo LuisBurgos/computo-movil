@@ -1,4 +1,4 @@
-package com.luisburgos.studentslogin;
+package com.luisburgos.studentslogin.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -6,6 +6,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.luisburgos.studentslogin.R;
+import com.luisburgos.studentslogin.utils.UserSessionManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,6 +20,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        final UserSessionManager sessionManager = new UserSessionManager(SplashActivity.this);
+
         TextView mMessage = (TextView) findViewById(R.id.splash_message);
         Typeface robotoBoldCondensedItalic = Typeface.createFromAsset(getAssets(), "fonts/lobster.otf");
         if(mMessage != null){
@@ -26,7 +31,12 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent i;
+                if(sessionManager.isUserLoggedIn()){
+                    i = new Intent(SplashActivity.this, MainActivity.class);
+                }else{
+                    i = new Intent(SplashActivity.this, LoginActivity.class);
+                }
                 startActivity(i);
                 finish();
             }

@@ -1,4 +1,4 @@
-package com.luisburgos.studentslogin;
+package com.luisburgos.studentslogin.presenters;
 
 /**
  * Created by luisburgos on 10/02/16.
@@ -11,6 +11,8 @@ public interface MainContract {
 
         void showConfirmationDialog();
 
+        void showUsername(String username);
+
         void setProgressIndicator(boolean active);
 
     }
@@ -19,6 +21,7 @@ public interface MainContract {
 
         void doLogout();
 
+        void loadUserInformation();
     }
 
 }

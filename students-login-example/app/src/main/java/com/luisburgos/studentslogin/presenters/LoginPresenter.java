@@ -1,8 +1,11 @@
-package com.luisburgos.studentslogin;
+package com.luisburgos.studentslogin.presenters;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+
+import com.luisburgos.studentslogin.utils.UserSessionManager;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +17,7 @@ public class LoginPresenter implements LoginContract.UserActionsListener {
 
     private LoginContract.View mLoginView;
     private Handler handler;
+    private UserSessionManager sessionManager;
 
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
@@ -22,15 +26,17 @@ public class LoginPresenter implements LoginContract.UserActionsListener {
     public LoginPresenter(LoginContract.View mLoginView) {
         this.mLoginView = mLoginView;
         handler = new Handler(Looper.getMainLooper());
+        sessionManager = new UserSessionManager(((AppCompatActivity)mLoginView).getApplicationContext());
     }
 
     @Override
-    public void doLogin(String username, String password) {
+    public void doLogin(final String username, final String password) {
         mLoginView.setProgressIndicator(true);
         if(validateDataLogin(username, password)){
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    sessionManager.createUserLoginSession(username, password);
                     mLoginView.onLoginResult(true, 0);
                 }
             }, 3000);
