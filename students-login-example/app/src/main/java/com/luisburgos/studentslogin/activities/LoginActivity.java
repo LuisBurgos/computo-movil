@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.luisburgos.studentslogin.presenters.LoginContract;
 import com.luisburgos.studentslogin.presenters.LoginPresenter;
 import com.luisburgos.studentslogin.R;
+import com.luisburgos.studentslogin.utils.Injection;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
@@ -30,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mActionsListener = new LoginPresenter(this);
+        mActionsListener = new LoginPresenter(this, Injection.provideUsersDataSource(this));
 
         welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
         Typeface robotoBoldCondensedItalic = Typeface.createFromAsset(getAssets(), "fonts/lobster.otf");
@@ -42,8 +43,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         btnLogin = (Button) findViewById(R.id.btn_login);
 
-        usernameWrapper.setHint("Username");
-        passwordWrapper.setHint("Password");
+        usernameWrapper.setHint(getString(R.string.lbl_username_hint));
+        passwordWrapper.setHint(getString(R.string.lbl_password_hint));
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +62,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void onLoginResult(Boolean result, int code) {
         if(result){
             sendTo(MainActivity.class);
+        } else {
+            showLoginFailedMessage(getString(R.string.error_failed_login));
         }
     }
 
@@ -79,23 +82,33 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
+    public void setUsernameErrorMessage() {
+        usernameWrapper.setError(getString(R.string.error_invalid_username));
+    }
+
+    @Override
+    public void setPasswordErrorMessage() {
+        passwordWrapper.setError(getString(R.string.error_invalid_password));
+    }
+    
+    @Override
     public void showEmptyDataMessage() {
         Snackbar.make(passwordWrapper, getString(R.string.empty_data_message), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void showInvalidEmailMessage() {
-        usernameWrapper.setError(getString(R.string.error_invalid_email));
+    public void showLoginFailedMessage(String message) {
+        Snackbar.make(passwordWrapper, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void showIncorrectPasswordMessage() {
-        passwordWrapper.setError(getString(R.string.error_invalid_password));
+    public void showUserNonExistingMessage() {
+        Snackbar.make(passwordWrapper, getString(R.string.error_non_existing_user), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void showLoginFailedMessage() {
-        Snackbar.make(passwordWrapper, getString(R.string.error_failed_login), Snackbar.LENGTH_LONG).show();
+    public void showPasswordNotMatchMessage() {
+        Snackbar.make(passwordWrapper, getString(R.string.error_password_not_match), Snackbar.LENGTH_LONG).show();
     }
 
     private void sendTo(Class classTo) {

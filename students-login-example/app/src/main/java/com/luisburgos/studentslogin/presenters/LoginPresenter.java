@@ -5,6 +5,8 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.luisburgos.studentslogin.data.UserDataSource;
+import com.luisburgos.studentslogin.domain.User;
 import com.luisburgos.studentslogin.utils.UserSessionManager;
 
 import java.util.regex.Matcher;
@@ -17,33 +19,52 @@ public class LoginPresenter implements LoginContract.UserActionsListener {
 
     private LoginContract.View mLoginView;
     private Handler handler;
-    private UserSessionManager sessionManager;
+    private UserSessionManager mSessionManager;
+    private UserDataSource mDataSource;
 
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
     private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
     private Matcher matcher;
 
-    public LoginPresenter(LoginContract.View mLoginView) {
+    public LoginPresenter(LoginContract.View mLoginView, UserDataSource dataSource) {
         this.mLoginView = mLoginView;
         handler = new Handler(Looper.getMainLooper());
-        sessionManager = new UserSessionManager(((AppCompatActivity)mLoginView).getApplicationContext());
+        mSessionManager = new UserSessionManager(((AppCompatActivity)mLoginView).getApplicationContext());
+        mDataSource = dataSource;
     }
 
     @Override
     public void doLogin(final String username, final String password) {
         mLoginView.setProgressIndicator(true);
-        if(validateDataLogin(username, password)){
+        if(validateDataForLogin(username, password)){
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    sessionManager.createUserLoginSession(username, password);
-                    mLoginView.onLoginResult(true, 0);
+                    User user = getUserFromDataSource(username);
+                    mDataSource.close();
+                    if(user != null){
+                        if(user.getPassword().equals(password)){
+                            mSessionManager.createUserLoginSession(user.getUsername(), user.getPassword());
+                            mLoginView.onLoginResult(true, 0);
+                        }else{
+                            mLoginView.showPasswordNotMatchMessage();
+                            mLoginView.setProgressIndicator(false);
+                        }
+                    } else {
+                        mLoginView.showUserNonExistingMessage();
+                        mLoginView.setProgressIndicator(false);
+                    }
                 }
-            }, 3000);
+            }, 2000);
         }else {
             mLoginView.setProgressIndicator(false);
         }
 
+    }
+
+    private User getUserFromDataSource(String username) {
+        mDataSource.open();
+        return mDataSource.getUser(username);
     }
 
     private int checkUserValidity(String username, String password) {
@@ -60,10 +81,11 @@ public class LoginPresenter implements LoginContract.UserActionsListener {
     }
 
     private boolean validatePassword(String password) {
-        return password.length() > 5;
+        //return password.length() > 5;
+        return true;
     }
 
-    private boolean validateDataLogin(String username, String password) {
+    private boolean validateDataForLogin(String username, String password) {
 
         if(TextUtils.isEmpty(username) && TextUtils.isEmpty(password)){
             mLoginView.showEmptyDataMessage();
@@ -71,10 +93,10 @@ public class LoginPresenter implements LoginContract.UserActionsListener {
         }
 
         if (!validateEmail(username)) {
-            mLoginView.showInvalidEmailMessage();
+            mLoginView.setUsernameErrorMessage();
             return false;
         } else if (!validatePassword(password)) {
-            mLoginView.showIncorrectPasswordMessage();
+            mLoginView.setPasswordErrorMessage();
             return false;
         } else {
             return true;

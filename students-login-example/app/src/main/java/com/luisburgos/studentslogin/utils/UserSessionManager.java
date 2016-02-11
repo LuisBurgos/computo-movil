@@ -3,6 +3,8 @@ package com.luisburgos.studentslogin.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.luisburgos.studentslogin.domain.User;
+
 import java.util.HashMap;
 
 public class UserSessionManager {
@@ -13,33 +15,33 @@ public class UserSessionManager {
 
     int PRIVATE_MODE = 0;
 
-    private static final String PREFER_NAME = "userPreferences";
+    private static final String USER_PREFERENCES = "userPreferences";
     private static final String IS_USER_LOGIN = "IS_USER_LOGIN";
 
-    public static final String KEY_NAME = "KEY_NAME";
-    public static final String KEY_EMAIL = "KEY_EMAIL";
+    public static final String KEY_USERNAME = "KEY_USERNAME";
+    public static final String KEY_PASSWORD = "KEY_PASSWORD";
 
     public UserSessionManager(Context context){
         this.mContext = context;
-        userPreferences = mContext.getSharedPreferences(PREFER_NAME, PRIVATE_MODE);
+        userPreferences = mContext.getSharedPreferences(USER_PREFERENCES, PRIVATE_MODE);
         editor = userPreferences.edit();
     }
 
-    public void createUserLoginSession(String name, String email){
+    public void createUserLoginSession(String username, String password){
         editor.putBoolean(IS_USER_LOGIN, true);
-        editor.putString(KEY_NAME, name);
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_USERNAME, username);
+        editor.putString(KEY_PASSWORD, password);
         editor.commit();
     }
 
     public String getUsername(){
-        return userPreferences.getString(KEY_NAME, null);
+        return userPreferences.getString(KEY_USERNAME, null);
     }
 
-    public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
-        user.put(KEY_NAME, userPreferences.getString(KEY_NAME, null));
-        user.put(KEY_EMAIL, userPreferences.getString(KEY_EMAIL, null));
+    public User getCurrentUserLogin(){
+        User user = new User();
+        user.setUsername(userPreferences.getString(KEY_USERNAME, null));
+        user.setPassword(userPreferences.getString(KEY_PASSWORD, null));
         return user;
     }
 

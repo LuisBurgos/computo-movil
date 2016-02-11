@@ -13,12 +13,15 @@ public interface LoginContract {
 
         void showEmptyDataMessage();
 
-        void showInvalidEmailMessage();
+        void setUsernameErrorMessage();
 
-        void showIncorrectPasswordMessage();
+        void setPasswordErrorMessage();
 
-        void showLoginFailedMessage();
+        void showLoginFailedMessage(String message);
 
+        void showUserNonExistingMessage();
+
+        void showPasswordNotMatchMessage();
     }
 
     interface UserActionsListener {
