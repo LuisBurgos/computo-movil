@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Students Database</string>
+    <string name="app_name">Students Database Example</string>
 
     <!-- StudentsActivity -->
     <string name="title_activity_students">Students List</string>
