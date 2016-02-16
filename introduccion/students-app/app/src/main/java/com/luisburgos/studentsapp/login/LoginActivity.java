@@ -2,78 +2,112 @@ package com.luisburgos.studentsapp.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.luisburgos.studentsapp.R;
 import com.luisburgos.studentsapp.students.StudentsActivity;
+import com.luisburgos.studentsapp.utils.Injection;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
-public class LoginActivity extends AppCompatActivity {
-
+    private TextView welcomeMessage;
     private Button btnLogin;
     private TextInputLayout usernameWrapper;
     private TextInputLayout passwordWrapper;
 
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
-    private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-    private Matcher matcher;
+    private LoginContract.UserActionsListener mActionsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mActionsListener = new LoginPresenter(this, Injection.provideUsersDataSource(this));
+
+        welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
+        Typeface robotoBoldCondensedItalic = Typeface.createFromAsset(getAssets(), "fonts/lobster.otf");
+        if(welcomeMessage != null){
+            welcomeMessage.setTypeface(robotoBoldCondensedItalic);
+        }
         usernameWrapper = (TextInputLayout) findViewById(R.id.usernameWrapper);
         passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
 
         btnLogin = (Button) findViewById(R.id.btn_login);
 
-        usernameWrapper.setHint("Username");
-        passwordWrapper.setHint("Password");
+        usernameWrapper.setHint(getString(R.string.lbl_username_hint));
+        passwordWrapper.setHint(getString(R.string.lbl_password_hint));
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
-                if(validateDataLogin()){
-                    sendTo(StudentsActivity.class);
-                }
+                mActionsListener.doLogin(
+                        usernameWrapper.getEditText().getText().toString().trim(),
+                        passwordWrapper.getEditText().getText().toString().trim()
+                );
             }
         });
     }
 
-    private boolean validateEmail(String email) {
-        //matcher = pattern.matcher(email);
-        //return matcher.matches();
-        return true;
-    }
-
-    private boolean validatePassword(String password) {
-        return password.length() > 5;
-    }
-
-    private boolean validateDataLogin() {
-        String username = usernameWrapper.getEditText().getText().toString();
-        String password = passwordWrapper.getEditText().getText().toString();
-
-        if (!validateEmail(username)) {
-            usernameWrapper.setError("Not a valid email address!");
-            return false;
-        } else if (!validatePassword(password)) {
-            passwordWrapper.setError("Not a valid password!");
-            return false;
+    @Override
+    public void onLoginResult(Boolean result, int code) {
+        if(result){
+            sendTo(StudentsActivity.class);
         } else {
-            usernameWrapper.setErrorEnabled(false);
-            passwordWrapper.setErrorEnabled(false);
-            return true;
+            showLoginFailedMessage(getString(R.string.error_failed_login));
         }
+    }
+
+    @Override
+    public void setProgressIndicator(boolean loading) {
+        usernameWrapper.setEnabled(!loading);
+        passwordWrapper.setEnabled(!loading);
+        btnLogin.setEnabled(!loading);
+        if(loading){
+            usernameWrapper.setError(null);
+            passwordWrapper.setError(null);
+            btnLogin.setText(getString(R.string.lbl_loading_message));
+        }else {
+            btnLogin.setText(getString(R.string.lbl_btn_login));
+        }
+    }
+
+    @Override
+    public void setUsernameErrorMessage() {
+        usernameWrapper.setError(getString(R.string.error_invalid_username));
+    }
+
+    @Override
+    public void setPasswordErrorMessage() {
+        passwordWrapper.setError(getString(R.string.error_invalid_password));
+    }
+    
+    @Override
+    public void showEmptyDataMessage() {
+        Snackbar.make(passwordWrapper, getString(R.string.empty_data_message), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLoginFailedMessage(String message) {
+        Snackbar.make(passwordWrapper, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showUserNonExistingMessage() {
+        Snackbar.make(passwordWrapper, getString(R.string.error_non_existing_user), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showPasswordNotMatchMessage() {
+        Snackbar.make(passwordWrapper, getString(R.string.error_password_not_match), Snackbar.LENGTH_LONG).show();
     }
 
     private void sendTo(Class classTo) {

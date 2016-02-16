@@ -3,8 +3,10 @@ package com.luisburgos.studentsapp.studentdetail;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.luisburgos.studentsapp.data.StudentsRepository;
+import com.luisburgos.studentsapp.data.students.StudentDataSource;
 import com.luisburgos.studentsapp.domain.Student;
+
+import java.sql.SQLException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -13,15 +15,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class StudentDetailPresenter implements StudentDetailContract.UserActionsListener{
 
-    private StudentsRepository mStudentsRepository;
+    private StudentDataSource mStudentsDataSource;
 
     private StudentDetailContract.View mStudentDetailView;
 
     public StudentDetailPresenter(
-            @NonNull StudentsRepository studentsRepository,
+            @NonNull StudentDataSource studentDataSource,
             @NonNull StudentDetailContract.View studentDetailView) {
         mStudentDetailView = checkNotNull(studentDetailView, "studentDetailView cannot be null!");
-        mStudentsRepository = checkNotNull(studentsRepository, "studentsRepository cannot be null!");
+        mStudentsDataSource = checkNotNull(studentDataSource, "studentsRepository cannot be null!");
     }
 
     @Override
@@ -32,41 +34,71 @@ public class StudentDetailPresenter implements StudentDetailContract.UserActions
         }
 
         mStudentDetailView.setProgressIndicator(true);
-        mStudentsRepository.getStudent(id, new StudentsRepository.GetStudentCallback() {
-            @Override
-            public void onStudentLoaded(Student student) {
-                mStudentDetailView.setProgressIndicator(false);
-                if (null == student) {
-                    mStudentDetailView.showMissingStudent();
-                } else {
-                    showStudent(student);
-                }
+        Student student = null;
+        try {
+            mStudentsDataSource.open();
+            student = mStudentsDataSource.getStudent(id);
+            mStudentsDataSource.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        mStudentDetailView.setProgressIndicator(false);
+        if (null == student) {
+            //mStudentDetailView.showMissingStudent();
+        } else {
+            showStudent(student);
+        }
+    }
+
+    @Override
+    public void saveStudentChanges(String id, String name, String lastName) {
+        Student newStudent = new Student(id, name, lastName);
+        //TODO: Check validations when one value comes empty.
+        if(newStudent.isEmpty()){
+            mStudentDetailView.showEmptyStudentError();
+        }else {
+            try {
+                mStudentsDataSource.open();
+                mStudentsDataSource.updateStudent(newStudent);
+                mStudentsDataSource.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        });
+            mStudentDetailView.showStudentsList();
+        }
+    }
+
+    @Override
+    public void editStudent() {
+        mStudentDetailView.enableInformationEdition(true);
     }
 
     private void showStudent(Student student) {
 
-        String id = student.getId();
+        String enrollmentID = student.getId();
         String name = student.getName();
-        String bachelorsDegree = student.getBachelorsDegree();
+        String lastName = student.getLastName();
 
-        if (id != null && id.isEmpty()) {
-            mStudentDetailView.hideID();
+        if (enrollmentID != null && enrollmentID.isEmpty()) {
+            mStudentDetailView.hideEnrollmentID();
         } else {
-            mStudentDetailView.showID(id);
+            mStudentDetailView.showEnrollmentID(enrollmentID);
         }
 
         if (name != null && name.isEmpty()) {
+            //TODO: Check, cause if is empty the EditText turns gone from view
             mStudentDetailView.hideName();
         } else {
             mStudentDetailView.showName(name);
         }
 
-        if (bachelorsDegree != null && bachelorsDegree.isEmpty()) {
-            mStudentDetailView.hideBachelorsDegree();
+        if (lastName != null && lastName.isEmpty()) {
+            mStudentDetailView.hideLastName();
         } else {
-            mStudentDetailView.showBachelorsDegree(bachelorsDegree);
+            mStudentDetailView.showLastName(lastName);
         }
+
+        mStudentDetailView.enableInformationEdition(false);
     }
 }

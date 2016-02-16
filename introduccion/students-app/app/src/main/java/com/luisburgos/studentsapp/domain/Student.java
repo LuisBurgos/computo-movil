@@ -1,5 +1,7 @@
 package com.luisburgos.studentsapp.domain;
 
+import android.text.TextUtils;
+
 /**
  * Created by luisburgos on 2/02/16.
  */
@@ -8,6 +10,10 @@ public class Student {
     private String id;
     private String name;
     private String bachelorsDegree;
+    private String lastName;
+
+    public Student() {
+    }
 
     public Student(String id, String name, String bachelorsDegree) {
         this.id = id;
@@ -39,12 +45,28 @@ public class Student {
         this.bachelorsDegree = bachelorsDegree;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
-                "id='" + id + '\'' +
+                "enrollmentID='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", bachelorsDegree='" + bachelorsDegree + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
+    }
+
+    public boolean isEmpty() {
+        boolean isEnrollmentIDEmpty = TextUtils.isEmpty(id);
+        boolean isNameEmpty = TextUtils.isEmpty(name);
+        boolean isLastNameEmpty = TextUtils.isEmpty(lastName);
+
+        return (isEnrollmentIDEmpty) && (isNameEmpty) && (isLastNameEmpty);
     }
 }

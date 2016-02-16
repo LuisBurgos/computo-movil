@@ -1,27 +1,31 @@
 package com.luisburgos.studentsapp.studentdetail;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.luisburgos.studentsapp.R;
 import com.luisburgos.studentsapp.utils.Injection;
 
 public class StudentDetailActivity extends AppCompatActivity implements StudentDetailContract.View {
 
-    public static final String EXTRA_STUDENT_ID = "STUDENT_ID";
+    public static final String EXTRA_STUDENT_ENROLLMENT_ID = "STUDENT_ENROLLMENT_ID";
 
     private StudentDetailContract.UserActionsListener mActionsListener;
-    private String studentID;
+    private String studentEnrollmentID;
 
-    TextView textViewId;
-    TextView textViewName;
-    TextView textViewBachelorsDegree;
-    ImageView imageViewPhoto;
+    private EditText enrollmentID;
+    private EditText name;
+    private EditText lastName;
+
+    private Button btnEdit;
+    private Button btnSaveEdition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,23 +39,39 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
-        mActionsListener = new StudentDetailPresenter(Injection.provideStudentsRepository(), this);
+        mActionsListener = new StudentDetailPresenter(Injection.provideStudentsDataSource(this), this);
 
-        //Set the requested note id
-        studentID = getIntent().getStringExtra(EXTRA_STUDENT_ID);
+        studentEnrollmentID = getIntent().getStringExtra(EXTRA_STUDENT_ENROLLMENT_ID);
 
+        enrollmentID = (EditText) findViewById(R.id.student_enrollment_id);
+        name = (EditText) findViewById(R.id.student_name);
+        lastName = (EditText) findViewById(R.id.student_lastName);
 
-        textViewId = (TextView ) findViewById(R.id.detailId);
-        textViewName = (TextView) findViewById(R.id.detailName);
-        textViewBachelorsDegree = (TextView) findViewById(R.id.detailBachelorsDegree);
-        imageViewPhoto = (ImageView) findViewById(R.id.detailPhoto);
+        btnEdit = (Button) findViewById(R.id.btn_edit);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActionsListener.editStudent();
+            }
+        });
 
+        btnSaveEdition = (Button) findViewById(R.id.btn_save_edition);
+        btnSaveEdition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActionsListener.saveStudentChanges(
+                        enrollmentID.getText().toString().trim(),
+                        name.getText().toString().trim(),
+                        lastName.getText().toString().trim()
+                );
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mActionsListener.openStudent(studentID);
+        mActionsListener.openStudent(studentEnrollmentID);
     }
 
     @Override
@@ -63,62 +83,72 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
     @Override
     public void setProgressIndicator(boolean active) {
         if (active) {
-            textViewId.setText(getString(R.string.loading));
-            textViewName.setText(getString(R.string.loading));
-            textViewBachelorsDegree.setText(getString(R.string.loading));
+            enrollmentID.setText(getString(R.string.loading));
+            name.setText(getString(R.string.loading));
+            lastName.setText(getString(R.string.loading));
         }
     }
 
     @Override
-    public void showID(String id) {
-        textViewId.setVisibility(View.VISIBLE);
-        textViewId.setText(id);
+    public void enableInformationEdition(boolean editionEnable) {
+        enrollmentID.setEnabled(false);
+        name.setEnabled(editionEnable);
+        lastName.setEnabled(editionEnable);
+        btnSaveEdition.setEnabled(editionEnable);
+    }
+
+    @Override
+    public void showEnrollmentID(String enrollmentID) {
+        this.enrollmentID.setVisibility(View.VISIBLE);
+        this.enrollmentID.setText(enrollmentID);
     }
 
     @Override
     public void showName(String name) {
-        textViewName.setVisibility(View.VISIBLE);
-        textViewName.setText(name);
+        this.name.setVisibility(View.VISIBLE);
+        this.name.setText(name);
     }
 
 
     @Override
-    public void showBachelorsDegree(String bachelorsDegree) {
-        textViewBachelorsDegree.setVisibility(View.VISIBLE);
-        textViewBachelorsDegree.setText(bachelorsDegree);
+    public void showLastName(String lastName) {
+        this.lastName.setVisibility(View.VISIBLE);
+        this.lastName.setText(lastName);
     }
 
     @Override
-    public void hideID() {
-        textViewId.setVisibility(View.GONE);
+    public void hideEnrollmentID() {
+        enrollmentID.setVisibility(View.GONE);
     }
 
     @Override
-    public void hideBachelorsDegree() {
-        textViewBachelorsDegree.setVisibility(View.GONE);
+    public void hideLastName() {
+        lastName.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showStudentsList() {
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 
     @Override
     public void hideName() {
-        textViewName.setVisibility(View.GONE);
+        name.setVisibility(View.GONE);
     }
-
-
-    @Override
-    public void showImage(String imageUrl) {
-        //Empty
-    }
-
-    @Override
-    public void hideImage() {
-        //Empty
-    }
-
 
     @Override
     public void showMissingStudent() {
-        textViewId.setText("");
-        textViewName.setText("No data");
-        textViewBachelorsDegree.setVisibility(View.GONE);
+        enrollmentID.setText(getString(R.string.no_data));
+        enrollmentID.setEnabled(false);
+        name.setText(getString(R.string.no_data));
+        name.setEnabled(false);
+        lastName.setText(getString(R.string.no_data));
+        lastName.setEnabled(false);
+    }
+
+    @Override
+    public void showEmptyStudentError() {
+        Snackbar.make(name, getString(R.string.empty_student_message), Snackbar.LENGTH_LONG).show();
     }
 }

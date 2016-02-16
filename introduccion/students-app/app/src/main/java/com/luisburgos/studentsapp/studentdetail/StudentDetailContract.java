@@ -11,28 +11,34 @@ public interface StudentDetailContract {
 
         void setProgressIndicator(boolean active);
 
-        void showID(String id);
+        void enableInformationEdition(boolean editionEnable);
 
-        void hideID();
+        void showEnrollmentID(String enrollmentID);
+
+        void hideEnrollmentID();
 
         void showName(String name);
 
         void hideName();
 
-        void showImage(String imageUrl);
+        void showLastName(String lastName);
 
-        void hideImage();
+        void hideLastName();
 
-        void showBachelorsDegree(String bachelorsDegree);
-
-        void hideBachelorsDegree();
+        void showStudentsList();
 
         void showMissingStudent();
+
+        void showEmptyStudentError();
     }
 
     interface UserActionsListener {
 
         void openStudent(@Nullable String id);
+
+        void saveStudentChanges(String id, String name, String lastName);
+
+        void editStudent();
     }
 
 }

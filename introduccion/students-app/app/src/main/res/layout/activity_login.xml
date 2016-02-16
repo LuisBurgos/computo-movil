@@ -9,74 +9,73 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.luisburgos.studentsapp.login.LoginActivity">
+    tools:context=".login.LoginActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
 
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/welcomeMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/lbl_welcome_message"
+            android:textSize="30sp"
+            android:textColor="@color/colorAccent"/>
 
-            <TextView
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/usernameWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="Bienvenido"
-                android:textSize="30sp"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorTextIcons"
+                android:inputType="textEmailAddress"
+                android:hint="Username"/>
 
-        </RelativeLayout>
+        </android.support.design.widget.TextInputLayout>
 
-
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordWrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:orientation="vertical">
+            android:layout_below="@id/usernameWrapper"
+            android:layout_marginTop="4dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/usernameWrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextIcons"
-                    android:inputType="textEmailAddress"
-                    android:hint="Username"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/passwordWrapper"
+            <EditText
+                android:id="@+id/password"
+                android:textColor="@color/colorTextIcons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/usernameWrapper"
-                android:layout_marginTop="4dp">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:textColor="@color/colorTextIcons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="Password"/>
+                android:inputType="textPassword"
+                android:hint="Password"/>
 
 
-            </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_marginTop="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_btn_login"/>
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_btn_login"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

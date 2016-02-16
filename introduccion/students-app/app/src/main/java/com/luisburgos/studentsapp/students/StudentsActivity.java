@@ -1,8 +1,10 @@
 package com.luisburgos.studentsapp.students;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -29,11 +31,14 @@ import java.util.List;
 public class StudentsActivity extends AppCompatActivity implements StudentsContract.View {
 
     private static final int REQUEST_ADD_STUDENT = 1;
+    private static final int REQUEST_UPDATE_STUDENT = 2;
 
     private StudentsContract.UserActionsListener mActionsListener;
     private StudentsAdapter mListAdapter;
 
+    private CoordinatorLayout coordinatorLayout;
     private RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +47,9 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mActionsListener = new StudentsPresenter(Injection.provideStudentsRepository(), this);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.students_coordinator_layout);
+
+        mActionsListener = new StudentsPresenter(Injection.provideStudentsDataSource(this), this);
 
         mListAdapter = new StudentsAdapter(this, new ArrayList<Student>(0), new StudentItemListener() {
             @Override
@@ -88,6 +95,15 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // If a note was successfully added, show snackbar
+        if (REQUEST_UPDATE_STUDENT == requestCode && Activity.RESULT_OK == resultCode) {
+            Snackbar.make(coordinatorLayout, getString(R.string.successfully_update_student_message),
+                    Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -119,7 +135,9 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
 
     @Override
     public void showStudents(List<Student> students) {
-        mListAdapter.replaceData(students);
+        if(students != null){
+            mListAdapter.replaceData(students);
+        }
     }
 
     @Override
@@ -131,10 +149,10 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
     @Override
     public void showStudentDetailUi(String id) {
         Intent intent = new Intent(StudentsActivity.this, StudentDetailActivity.class);
-        intent.putExtra(StudentDetailActivity.EXTRA_STUDENT_ID, id);
+        intent.putExtra(StudentDetailActivity.EXTRA_STUDENT_ENROLLMENT_ID, id);
         //intent.putExtra("name", student.getName());
         //intent.putExtra("degree", student.getBachelorsDegree());
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_UPDATE_STUDENT);
     }
 
 }

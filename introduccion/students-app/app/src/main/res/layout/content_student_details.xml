@@ -10,39 +10,78 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".studentdetail.StudentDetailActivity"
+    tools:context=".studentdetail.StudentDetailActivity.StudentDetailActivity"
     tools:showIn="@layout/activity_student_details">
 
-
-    <ImageView
-        android:id="@+id/detailPhoto"
-        android:layout_gravity="center_horizontal"
-        android:background="@mipmap/ic_launcher"
-        android:layout_width="200dp"
-        android:layout_height="200dp" />
-
-    <TextView
-        android:id="@+id/detailName"
-        android:layout_gravity="center_horizontal|center_vertical"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/idWrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_detail"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/detailId"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_detail"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <EditText
+            android:id="@+id/student_enrollment_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="@string/student_id"/>
 
-    <TextView
-        android:id="@+id/detailBachelorsDegree"
-        android:layout_gravity="center_horizontal|center_vertical"
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/nameWrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_detail"
-        android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/student_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/student_name"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/lastNameWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/student_lastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/student_lastName"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:weightSum="5"
+        android:paddingTop="16dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_weight="3"
+            android:id="@+id/btn_edit"
+            android:layout_marginRight="8dp"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/lbl_btn_edit"
+            android:background="@color/colorTextIcons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_weight="2"
+            android:id="@+id/btn_save_edition"
+            android:text="@string/lbl_btn_save_edition"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_marginLeft="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextIcons"
+            android:background="@color/colorAccent"/>
+
+    </LinearLayout>
 
 </LinearLayout>

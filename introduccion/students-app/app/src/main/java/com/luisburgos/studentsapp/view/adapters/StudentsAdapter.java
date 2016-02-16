@@ -9,10 +9,10 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.luisburgos.studentsapp.R;
 import com.luisburgos.studentsapp.domain.Student;
-
-import java.util.List;
 import com.luisburgos.studentsapp.utils.ScreenUtils;
 import com.luisburgos.studentsapp.view.listeners.StudentItemListener;
+
+import java.util.List;
 
 /**
  * Created by luisburgos on 2/02/16.
@@ -53,7 +53,7 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsViewHolder> {
         });
 
         holder.textViewId.setText(student.getId());
-        holder.textViewName.setText(student.getName());
+        holder.textViewName.setText(student.getName() + " " + student.getLastName());
     }
 
     public void replaceData(List<Student> students) {
