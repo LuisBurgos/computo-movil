@@ -20,7 +20,6 @@ public interface StudentsContract {
         void showAddStudent();
 
         void showStudentDetailUi(String noteId);
-
     }
 
     interface UserActionsListener {

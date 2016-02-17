@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.luisburgos.studentsapp.login.LoginActivity;
 import com.luisburgos.studentsapp.R;
+import com.luisburgos.studentsapp.students.StudentsActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 Intent i;
                 if(sessionManager.isUserLoggedIn()){
-                    i = new Intent(SplashActivity.this, LoginActivity.class);
+                    i = new Intent(SplashActivity.this, StudentsActivity.class);
                 }else{
                     i = new Intent(SplashActivity.this, LoginActivity.class);
                 }

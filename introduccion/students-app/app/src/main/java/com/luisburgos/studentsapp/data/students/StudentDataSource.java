@@ -3,11 +3,11 @@ package com.luisburgos.studentsapp.data.students;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.luisburgos.studentsapp.domain.Student;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +22,8 @@ public class StudentDataSource {
     private String[] allColumns = {
             StudentsDBContract.COLUMN_NAME_ENROLLMENT_ID,
             StudentsDBContract.COLUMN_NAME_NAME,
-            StudentsDBContract.COLUMN_NAME_LASTNAME
+            StudentsDBContract.COLUMN_NAME_LAST_NAME,
+            StudentsDBContract.COLUMN_NAME_BACHELORS_DEGREE
     };
 
     public StudentDataSource(Context context){
@@ -44,14 +45,24 @@ public class StudentDataSource {
      * @param lastName
      * @return row ID of the newly Student inserted row, or -1
      */
-    public long insertStudent(String enrollmentID, String name, String lastName){
+    public long insertStudent(String enrollmentID, String name, String lastName, String bachelorsDegree){
         ContentValues values = new ContentValues();
         values.put(StudentsDBContract.COLUMN_NAME_ENROLLMENT_ID, enrollmentID);
         values.put(StudentsDBContract.COLUMN_NAME_NAME, name);
-        values.put(StudentsDBContract.COLUMN_NAME_LASTNAME, lastName);
+        values.put(StudentsDBContract.COLUMN_NAME_LAST_NAME, lastName);
+        values.put(StudentsDBContract.COLUMN_NAME_BACHELORS_DEGREE, bachelorsDegree);
         long newRowId;
         newRowId = database.insert(StudentsDBContract.TABLE_NAME,null,values);
         return newRowId;
+    }
+
+    public long insertStudent(Student newStudent){
+        return insertStudent(
+                newStudent.getEnrollmentID(),
+                newStudent.getName(),
+                newStudent.getLastName(),
+                newStudent.getBachelorsDegree()
+        );
     }
 
     /**
@@ -92,18 +103,20 @@ public class StudentDataSource {
     public int updateStudent(Student student){
         ContentValues values = new ContentValues();
         values.put(StudentsDBContract.COLUMN_NAME_NAME, student.getName());
-        values.put(StudentsDBContract.COLUMN_NAME_LASTNAME, student.getLastName());
+        values.put(StudentsDBContract.COLUMN_NAME_LAST_NAME, student.getLastName());
+        values.put(StudentsDBContract.COLUMN_NAME_BACHELORS_DEGREE, student.getBachelorsDegree());
 
 
         return database.update(StudentsDBContract.TABLE_NAME, values, StudentsDBContract.COLUMN_NAME_ENROLLMENT_ID + " =?",
-                new String[]{String.valueOf(student.getId()) });
+                new String[]{String.valueOf(student.getEnrollmentID()) });
     }
 
     private Student cursorToStudent(Cursor cursor){
         Student student = new Student();
-        student.setId(cursor.getString(0));
+        student.setEnrollmentID(cursor.getString(0));
         student.setName(cursor.getString(1));
         student.setLastName(cursor.getString(2));
+        student.setBachelorsDegree(cursor.getString(3));
         return student;
     }
 

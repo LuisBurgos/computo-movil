@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bachelors_degrees_array">
+        <item>LIS</item>
+        <item>LCC</item>
+        <item>LIC</item>
+        <item>LM</item>
+        <item>LEM</item>
+    </string-array>
+</resources>

@@ -7,8 +7,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.luisburgos.studentsapp.R;
 import com.luisburgos.studentsapp.utils.Injection;
@@ -23,7 +25,8 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
     private EditText enrollmentID;
     private EditText name;
     private EditText lastName;
-
+    private Spinner bachelorsDegree;
+    private ArrayAdapter<CharSequence> mBachelorsDegreeAdapter;
     private Button btnEdit;
     private Button btnSaveEdition;
 
@@ -47,6 +50,13 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         name = (EditText) findViewById(R.id.student_name);
         lastName = (EditText) findViewById(R.id.student_lastName);
 
+        bachelorsDegree = (Spinner) findViewById(R.id.student_bachelorsDegree);
+        mBachelorsDegreeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.bachelors_degrees_array, android.R.layout.simple_spinner_item
+        );
+        mBachelorsDegreeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bachelorsDegree.setAdapter(mBachelorsDegreeAdapter);
+
         btnEdit = (Button) findViewById(R.id.btn_edit);
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +72,8 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
                 mActionsListener.saveStudentChanges(
                         enrollmentID.getText().toString().trim(),
                         name.getText().toString().trim(),
-                        lastName.getText().toString().trim()
+                        lastName.getText().toString().trim(),
+                        bachelorsDegree.getSelectedItem().toString().trim()
                 );
             }
         });
@@ -94,6 +105,7 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         enrollmentID.setEnabled(false);
         name.setEnabled(editionEnable);
         lastName.setEnabled(editionEnable);
+        bachelorsDegree.setEnabled(editionEnable);
         btnSaveEdition.setEnabled(editionEnable);
     }
 
@@ -145,10 +157,22 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         name.setEnabled(false);
         lastName.setText(getString(R.string.no_data));
         lastName.setEnabled(false);
+        bachelorsDegree.setEnabled(false);
     }
 
     @Override
     public void showEmptyStudentError() {
         Snackbar.make(name, getString(R.string.empty_student_message), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showBachelorsDegree(String bachelorsDegree) {
+        this.bachelorsDegree.setVisibility(View.VISIBLE);
+        this.bachelorsDegree.setSelection(mBachelorsDegreeAdapter.getPosition(bachelorsDegree));
+    }
+
+    @Override
+    public void hideBachelorsDegree() {
+        this.bachelorsDegree.setVisibility(View.GONE);
     }
 }

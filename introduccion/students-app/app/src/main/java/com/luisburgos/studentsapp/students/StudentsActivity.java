@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.luisburgos.studentsapp.R;
 import com.luisburgos.studentsapp.addstudent.AddStudentActivity;
@@ -23,6 +24,7 @@ import com.luisburgos.studentsapp.domain.Student;
 import com.luisburgos.studentsapp.studentdetail.StudentDetailActivity;
 import com.luisburgos.studentsapp.utils.Injection;
 import com.luisburgos.studentsapp.view.adapters.StudentsAdapter;
+import com.luisburgos.studentsapp.view.adapters.StudentsSimpleAdapter;
 import com.luisburgos.studentsapp.view.listeners.StudentItemListener;
 
 import java.util.ArrayList;
@@ -34,16 +36,16 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
     private static final int REQUEST_UPDATE_STUDENT = 2;
 
     private StudentsContract.UserActionsListener mActionsListener;
-    private StudentsAdapter mListAdapter;
+    private StudentsSimpleAdapter mListAdapter;
 
     private CoordinatorLayout coordinatorLayout;
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_student);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,17 +53,17 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
 
         mActionsListener = new StudentsPresenter(Injection.provideStudentsDataSource(this), this);
 
-        mListAdapter = new StudentsAdapter(this, new ArrayList<Student>(0), new StudentItemListener() {
+        mListAdapter = new StudentsSimpleAdapter(this, new ArrayList<Student>(0), new StudentItemListener() {
             @Override
             public void onStudentClick(Student clickedStudent) {
                     mActionsListener.openStudentDetails(clickedStudent);
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.students_list);
-        recyclerView.setAdapter(mListAdapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView = (RecyclerView) findViewById(R.id.students_list);
+        mRecyclerView.setAdapter(mListAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Pull-to-refresh
         SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
@@ -82,8 +84,6 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
             @Override
             public void onClick(View view) {
                 mActionsListener.addNewStudent();
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                  //      .setAction("Action", null).show();
             }
         });
     }
@@ -96,9 +96,14 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // If a note was successfully added, show snackbar
+
         if (REQUEST_UPDATE_STUDENT == requestCode && Activity.RESULT_OK == resultCode) {
             Snackbar.make(coordinatorLayout, getString(R.string.successfully_update_student_message),
+                    Snackbar.LENGTH_SHORT).show();
+        }
+
+        if (REQUEST_ADD_STUDENT == requestCode && Activity.RESULT_OK == resultCode) {
+            Snackbar.make(coordinatorLayout, getString(R.string.successfully_add_student_message),
                     Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -112,7 +117,6 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -150,9 +154,6 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
     public void showStudentDetailUi(String id) {
         Intent intent = new Intent(StudentsActivity.this, StudentDetailActivity.class);
         intent.putExtra(StudentDetailActivity.EXTRA_STUDENT_ENROLLMENT_ID, id);
-        //intent.putExtra("name", student.getName());
-        //intent.putExtra("degree", student.getBachelorsDegree());
         startActivityForResult(intent, REQUEST_UPDATE_STUDENT);
     }
-
 }

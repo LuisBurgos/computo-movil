@@ -11,13 +11,12 @@ public interface AddStudentContract {
 
         void showEmptyStudentMessage();
 
-        void setUserActionListener(UserActionsListener listener);
-
+        void showStudentsList();
     }
 
     interface UserActionsListener {
 
-        void saveStudent(String id, String name, String bachelorsDegree);
+        void saveStudent(String id, String name, String lastName, String bachelorsDegree);
 
     }
 

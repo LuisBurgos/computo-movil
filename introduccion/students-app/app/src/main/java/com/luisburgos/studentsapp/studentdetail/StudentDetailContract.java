@@ -30,13 +30,18 @@ public interface StudentDetailContract {
         void showMissingStudent();
 
         void showEmptyStudentError();
+
+        void showBachelorsDegree(String bachelorsDegree);
+
+        void hideBachelorsDegree();
+
     }
 
     interface UserActionsListener {
 
         void openStudent(@Nullable String id);
 
-        void saveStudentChanges(String id, String name, String lastName);
+        void saveStudentChanges(String id, String name, String lastName, String bachelorsDegree);
 
         void editStudent();
     }

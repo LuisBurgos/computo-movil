@@ -7,26 +7,27 @@ import android.text.TextUtils;
  */
 public class Student {
 
-    private String id;
+    private String enrollmentID;
     private String name;
-    private String bachelorsDegree;
     private String lastName;
+    private String bachelorsDegree;
 
     public Student() {
     }
 
-    public Student(String id, String name, String bachelorsDegree) {
-        this.id = id;
+    public Student(String enrollmentID, String name, String lastName, String bachelorsDegree) {
+        this.enrollmentID = enrollmentID;
         this.name = name;
+        this.lastName = lastName;
         this.bachelorsDegree = bachelorsDegree;
     }
 
-    public String getId() {
-        return id;
+    public String getEnrollmentID() {
+        return enrollmentID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setEnrollmentID(String enrollmentID) {
+        this.enrollmentID = enrollmentID;
     }
 
     public String getName() {
@@ -56,17 +57,31 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "enrollmentID='" + id + '\'' +
+                "enrollmentID='" + enrollmentID + '\'' +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
 
     public boolean isEmpty() {
-        boolean isEnrollmentIDEmpty = TextUtils.isEmpty(id);
+        /*boolean isEnrollmentIDEmpty = TextUtils.isEmpty(enrollmentID);
         boolean isNameEmpty = TextUtils.isEmpty(name);
         boolean isLastNameEmpty = TextUtils.isEmpty(lastName);
+        boolean isDegreeEmpty = TextUtils.isEmpty(bachelorsDegree);
+        return (isEnrollmentIDEmpty) && (isNameEmpty) && (isLastNameEmpty) && (isDegreeEmpty);*/
+        if(TextUtils.isEmpty(enrollmentID)){
+            return true;
+        }
+        if(TextUtils.isEmpty(name)){
+            return true;
+        }
+        if(TextUtils.isEmpty(lastName)){
+            return true;
+        }
+        if(TextUtils.isEmpty(bachelorsDegree)){
+            return true;
+        }
 
-        return (isEnrollmentIDEmpty) && (isNameEmpty) && (isLastNameEmpty);
+        return false;
     }
 }

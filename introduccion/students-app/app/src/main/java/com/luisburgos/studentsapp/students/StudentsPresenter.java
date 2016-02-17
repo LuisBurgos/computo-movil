@@ -1,12 +1,13 @@
 package com.luisburgos.studentsapp.students;
 
+import android.database.SQLException;
 import android.support.annotation.NonNull;
 
 import com.google.common.collect.Lists;
 import com.luisburgos.studentsapp.data.students.StudentDataSource;
 import com.luisburgos.studentsapp.domain.Student;
 
-import java.sql.SQLException;
+
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -42,8 +43,9 @@ public class StudentsPresenter implements StudentsContract.UserActionsListener {
             e.printStackTrace();
         }
 
-
         mStudentsView.setProgressIndicator(false);
+
+        //boolean isListEmpty = students == null || students.isEmpty();
         mStudentsView.showStudents(students);
     }
 
@@ -55,6 +57,6 @@ public class StudentsPresenter implements StudentsContract.UserActionsListener {
     @Override
     public void openStudentDetails(@NonNull Student requestedStudent) {
         checkNotNull(requestedStudent, "requestedNote cannot be null!");
-        mStudentsView.showStudentDetailUi(requestedStudent.getId());
+        mStudentsView.showStudentDetailUi(requestedStudent.getEnrollmentID());
     }
 }

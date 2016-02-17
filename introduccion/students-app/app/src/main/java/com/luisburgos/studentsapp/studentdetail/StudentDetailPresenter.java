@@ -1,12 +1,11 @@
 package com.luisburgos.studentsapp.studentdetail;
 
+import android.database.SQLException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.luisburgos.studentsapp.data.students.StudentDataSource;
 import com.luisburgos.studentsapp.domain.Student;
-
-import java.sql.SQLException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -16,7 +15,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class StudentDetailPresenter implements StudentDetailContract.UserActionsListener{
 
     private StudentDataSource mStudentsDataSource;
-
     private StudentDetailContract.View mStudentDetailView;
 
     public StudentDetailPresenter(
@@ -52,8 +50,8 @@ public class StudentDetailPresenter implements StudentDetailContract.UserActions
     }
 
     @Override
-    public void saveStudentChanges(String id, String name, String lastName) {
-        Student newStudent = new Student(id, name, lastName);
+    public void saveStudentChanges(String id, String name, String lastName, String bachelorsDegree) {
+        Student newStudent = new Student(id, name, lastName, bachelorsDegree);
         //TODO: Check validations when one value comes empty.
         if(newStudent.isEmpty()){
             mStudentDetailView.showEmptyStudentError();
@@ -76,9 +74,10 @@ public class StudentDetailPresenter implements StudentDetailContract.UserActions
 
     private void showStudent(Student student) {
 
-        String enrollmentID = student.getId();
+        String enrollmentID = student.getEnrollmentID();
         String name = student.getName();
         String lastName = student.getLastName();
+        String bachelorsDegree = student.getBachelorsDegree();
 
         if (enrollmentID != null && enrollmentID.isEmpty()) {
             mStudentDetailView.hideEnrollmentID();
@@ -97,6 +96,12 @@ public class StudentDetailPresenter implements StudentDetailContract.UserActions
             mStudentDetailView.hideLastName();
         } else {
             mStudentDetailView.showLastName(lastName);
+        }
+
+        if(bachelorsDegree != null && bachelorsDegree.isEmpty()){
+            mStudentDetailView.hideBachelorsDegree();
+        }else {
+            mStudentDetailView.showBachelorsDegree(bachelorsDegree);
         }
 
         mStudentDetailView.enableInformationEdition(false);

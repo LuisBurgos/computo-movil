@@ -15,45 +15,40 @@ import com.luisburgos.studentsapp.view.listeners.StudentItemListener;
 import java.util.List;
 
 /**
- * Created by luisburgos on 2/02/16.
+ * Created by luisburgos on 16/02/16.
  */
-public class StudentsAdapter extends RecyclerView.Adapter<StudentsViewHolder> {
+public class StudentsSimpleAdapter extends RecyclerView.Adapter<StudentsSimpleViewHolder> {
 
     private Context mContext;
     private int lastAnimatedPosition = -1;
     private List<Student> mStudents;
     private StudentItemListener mItemListener;
 
-    public StudentsAdapter(Context context, List<Student> students, StudentItemListener itemListener) {
+    public StudentsSimpleAdapter(Context context, List<Student> students, StudentItemListener itemListener) {
         setList(students);
         mContext = context;
         mItemListener = itemListener;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
-    public StudentsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StudentsSimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_student, parent, false);
-        StudentsViewHolder vh = new StudentsViewHolder(v);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_simple_student, parent, false);
+        StudentsSimpleViewHolder vh = new StudentsSimpleViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(StudentsViewHolder holder, int position) {
+    public void onBindViewHolder(StudentsSimpleViewHolder holder, int position) {
         runEnterAnimation(holder.itemView, position);
-
         final Student student = mStudents.get(position);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.detailEnrollmentID.setText(student.getEnrollmentID());
+        holder.detailEnrollmentID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mItemListener.onStudentClick(student);
             }
         });
-
-        holder.textViewId.setText(student.getEnrollmentID());
-        holder.textViewName.setText(student.getName() + " " + student.getLastName());
     }
 
     public void replaceData(List<Student> students) {
