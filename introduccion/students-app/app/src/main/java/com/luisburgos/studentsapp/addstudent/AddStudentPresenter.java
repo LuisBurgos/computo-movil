@@ -30,7 +30,7 @@ public class AddStudentPresenter implements AddStudentContract.UserActionsListen
     public void saveStudent(String id, String name, String lastName, String bachelorsDegree) {
         mAddStudentView.setProgressIndicator(true);
         Student newStudent = new Student(id, name, lastName, bachelorsDegree);
-        //TODO: Check spinner default value
+
         if(mValidator.isEmpty(newStudent)){
             mAddStudentView.showEmptyStudentMessage();
         }else {

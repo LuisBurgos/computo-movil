@@ -3,6 +3,7 @@ package com.luisburgos.studentsapp.studentdetail;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,9 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
 
     private StudentDetailContract.UserActionsListener mActionsListener;
     private String studentEnrollmentID;
+
+    private TextInputLayout nameWrapper;
+    private TextInputLayout lastNameWrapper;
 
     private EditText enrollmentID;
     private EditText name;
@@ -49,6 +53,8 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         enrollmentID = (EditText) findViewById(R.id.student_enrollment_id);
         name = (EditText) findViewById(R.id.student_name);
         lastName = (EditText) findViewById(R.id.student_lastName);
+        nameWrapper = (TextInputLayout) findViewById(R.id.nameWrapper);
+        lastNameWrapper = (TextInputLayout) findViewById(R.id.lastNameWrapper);
 
         bachelorsDegree = (Spinner) findViewById(R.id.student_bachelorsDegree);
         mBachelorsDegreeAdapter = ArrayAdapter.createFromResource(this,
@@ -71,8 +77,8 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
             public void onClick(View v) {
                 mActionsListener.saveStudentChanges(
                         enrollmentID.getText().toString().trim(),
-                        name.getText().toString().trim(),
-                        lastName.getText().toString().trim(),
+                        nameWrapper.getEditText().getText().toString().trim(),
+                        lastNameWrapper.getEditText().getText().toString().trim(),
                         bachelorsDegree.getSelectedItem().toString().trim()
                 );
             }
@@ -175,4 +181,15 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
     public void hideBachelorsDegree() {
         this.bachelorsDegree.setVisibility(View.GONE);
     }
+
+    @Override
+    public void setNameErrorMessage() {
+        nameWrapper.setError(getString(R.string.error_name));
+    }
+
+    @Override
+    public void setLastNameErrorMessage() {
+        lastNameWrapper.setError(getString(R.string.error_last_name));
+    }
+
 }

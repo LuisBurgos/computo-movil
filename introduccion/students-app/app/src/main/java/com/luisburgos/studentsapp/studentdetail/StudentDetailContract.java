@@ -35,6 +35,9 @@ public interface StudentDetailContract {
 
         void hideBachelorsDegree();
 
+        void setNameErrorMessage();
+
+        void setLastNameErrorMessage();
     }
 
     interface UserActionsListener {
