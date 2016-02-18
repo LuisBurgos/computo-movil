@@ -59,4 +59,15 @@ public class StudentsPresenter implements StudentsContract.UserActionsListener {
         checkNotNull(requestedStudent, "requestedNote cannot be null!");
         mStudentsView.showStudentDetailUi(requestedStudent.getEnrollmentID());
     }
+
+    @Override
+    public void deleteStudent(String id) {
+        try {
+            mStudentsDataSource.open();
+            mStudentsDataSource.deleteStudent(id);
+            mStudentsDataSource.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

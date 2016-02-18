@@ -29,6 +29,8 @@ public interface StudentsContract {
         void addNewStudent();
 
         void openStudentDetails(@NonNull Student requestedStudent);
+
+        void deleteStudent(String id);
     }
 
 }

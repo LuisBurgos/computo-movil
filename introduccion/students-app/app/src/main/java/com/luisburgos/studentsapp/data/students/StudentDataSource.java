@@ -120,6 +120,15 @@ public class StudentDataSource {
         database.close();
     }
 
+    public void deleteStudent(String studentID) {
+        database.delete(
+                StudentsDBContract.TABLE_NAME,
+                StudentsDBContract.COLUMN_NAME_ENROLLMENT_ID + " = ?",
+                new String[]{String.valueOf(studentID)}
+        );
+        database.close();
+    }
+
     private Student cursorToStudent(Cursor cursor){
         Student student = new Student();
         student.setEnrollmentID(cursor.getString(0));

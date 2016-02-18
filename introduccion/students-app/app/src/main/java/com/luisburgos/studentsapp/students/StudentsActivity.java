@@ -3,12 +3,7 @@ package com.luisburgos.studentsapp.students;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -34,11 +29,12 @@ import com.luisburgos.studentsapp.utils.Injection;
 import com.luisburgos.studentsapp.utils.UserLogoutDialog;
 import com.luisburgos.studentsapp.view.adapters.StudentsSimpleAdapter;
 import com.luisburgos.studentsapp.view.listeners.StudentItemListener;
+import com.luisburgos.studentsapp.view.listeners.StudentItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentsActivity extends AppCompatActivity implements StudentsContract.View {
+public class StudentsActivity extends AppCompatActivity implements StudentsContract.View, StudentItemTouchHelperCallback.SwipeReactor {
 
     private static final int REQUEST_ADD_STUDENT = 1;
     private static final int REQUEST_UPDATE_STUDENT = 2;
@@ -95,83 +91,7 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
                 mActionsListener.addNewStudent();
             }
         });
-
         initSwipe();
-    }
-
-    private void initSwipe() {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-
-                if (direction == ItemTouchHelper.LEFT){
-                    showDeleteDialog(position);
-                } else {
-                    mActionsListener.openStudentDetails(mListAdapter.getItem(position));
-                }
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-                Bitmap icon;
-                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
-
-                    View itemView = viewHolder.itemView;
-                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
-                    float width = height / 3;
-
-                    if(dX > 0){
-                        paint.setColor(Color.parseColor("#388E3C"));
-                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX,(float) itemView.getBottom());
-                        c.drawRect(background, paint);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_edit_white);
-                        RectF icon_dest = new RectF((float) itemView.getLeft() + width ,(float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,(float)itemView.getBottom() - width);
-                        c.drawBitmap(icon,null,icon_dest, paint);
-                    } else {
-                        paint.setColor(Color.parseColor("#D32F2F"));
-                        RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
-                        c.drawRect(background, paint);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delete);
-                        RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
-                        c.drawBitmap(icon,null,icon_dest, paint);
-                    }
-                }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
-    }
-
-    private void showDeleteDialog(final int currentStudentPosition) {
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure,You wanted to make decision");
-
-        alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                mListAdapter.removeItem(currentStudentPosition);
-            }
-        });
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                mListAdapter.notifyDataSetChanged();
-            }
-        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 
     @Override
@@ -250,5 +170,41 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
         Intent intent = new Intent(StudentsActivity.this, StudentDetailActivity.class);
         intent.putExtra(StudentDetailActivity.EXTRA_STUDENT_ENROLLMENT_ID, id);
         startActivityForResult(intent, REQUEST_UPDATE_STUDENT);
+    }
+
+    @Override
+    public void onLeftSwiped(int position) {
+        showDeleteDialog(position);
+    }
+
+    @Override
+    public void onRightSwiped(int position) {
+        mActionsListener.openStudentDetails(mListAdapter.getItem(position));
+    }
+
+    private void initSwipe() {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new StudentItemTouchHelperCallback(this));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    private void showDeleteDialog(final int currentStudentPosition) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(getString(R.string.delete_student_confirm_message));
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                mListAdapter.removeItem(currentStudentPosition);
+                mActionsListener.deleteStudent(mListAdapter.getItem(currentStudentPosition).getEnrollmentID());
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                mListAdapter.notifyDataSetChanged();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
