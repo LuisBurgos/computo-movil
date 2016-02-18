@@ -56,6 +56,17 @@ public class StudentsSimpleAdapter extends RecyclerView.Adapter<StudentsSimpleVi
         notifyDataSetChanged();
     }
 
+    public void addItem(Student student) {
+        mStudents.add(student);
+        notifyItemInserted(mStudents.size());
+    }
+
+    public void removeItem(int position) {
+        mStudents.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mStudents.size());
+    }
+
     private void setList(List<Student> students) {
         mStudents = students;
     }
