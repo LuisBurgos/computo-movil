@@ -13,8 +13,7 @@ public class UsersDBContract implements BaseColumns {
 
     public static final String SQL_CREATE_USERS =
             "CREATE TABLE " + TABLE_NAME + " (" +
-                    _ID + " INTEGER PRIMARY KEY," +
-                    COLUMN_USERNAME + TEXT_TYPE + COMMA_SEP +
+                    COLUMN_USERNAME + " TEXT PRIMARY KEY" + COMMA_SEP +
                     COLUMN_PASSWORD + TEXT_TYPE +
             " )";
 

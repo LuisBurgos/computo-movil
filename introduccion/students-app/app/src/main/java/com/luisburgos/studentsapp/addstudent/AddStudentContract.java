@@ -9,9 +9,19 @@ public interface AddStudentContract {
 
     interface View {
 
+        void setProgressIndicator(boolean loading);
+
         void showEmptyStudentMessage();
 
         void showStudentsList();
+
+        void setEnrollmentIDErrorMessage();
+
+        void setNameErrorMessage();
+
+        void setLastNameErrorMessage();
+
+        void setBachelorsDegreeErrorMessage();
     }
 
     interface UserActionsListener {

@@ -111,6 +111,15 @@ public class StudentDataSource {
                 new String[]{String.valueOf(student.getEnrollmentID()) });
     }
 
+    public void deleteStudent(Student student) {
+        database.delete(
+                StudentsDBContract.TABLE_NAME,
+                StudentsDBContract.COLUMN_NAME_ENROLLMENT_ID + " = ?",
+                new String[]{String.valueOf(student.getEnrollmentID())}
+        );
+        database.close();
+    }
+
     private Student cursorToStudent(Cursor cursor){
         Student student = new Student();
         student.setEnrollmentID(cursor.getString(0));

@@ -15,7 +15,7 @@ public class Injection {
         StudentDataSource dataSource = new StudentDataSource(context);
 
         //Dummy init block
-        /*try {
+        try {
             dataSource.open();
             dataSource.insertStudent("10004020", "Luis", "Burgos", "LIS");
             dataSource.insertStudent("10003020", "Juan", "Mendez", "LCC");
@@ -24,7 +24,7 @@ public class Injection {
             dataSource.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
 
         return dataSource;
     }
@@ -33,13 +33,13 @@ public class Injection {
         UserDataSource dataSource = new UserDataSource(context);
 
         //Dummy init block
-        /*try {
+        try {
             dataSource.open();
             dataSource.insertUser("admin", "adminadmin");
             dataSource.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
 
         return dataSource;
     }

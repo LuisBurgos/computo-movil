@@ -18,8 +18,7 @@ public class StudentsDBContract implements BaseColumns{
 
     public static final String SQL_CREATE_STUDENTS =
             "CREATE TABLE " + TABLE_NAME + " (" +
-                    _ID + " INTEGER PRIMARY KEY," +
-                    COLUMN_NAME_ENROLLMENT_ID + TEXT_TYPE + COMMA_SEP +
+                    COLUMN_NAME_ENROLLMENT_ID +  " TEXT PRIMARY KEY," +
                     COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_LAST_NAME + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_BACHELORS_DEGREE + TEXT_TYPE +

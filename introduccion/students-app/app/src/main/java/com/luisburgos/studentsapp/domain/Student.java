@@ -64,12 +64,12 @@ public class Student {
     }
 
     public boolean isEmpty() {
-        /*boolean isEnrollmentIDEmpty = TextUtils.isEmpty(enrollmentID);
+        boolean isEnrollmentIDEmpty = TextUtils.isEmpty(enrollmentID);
         boolean isNameEmpty = TextUtils.isEmpty(name);
         boolean isLastNameEmpty = TextUtils.isEmpty(lastName);
         boolean isDegreeEmpty = TextUtils.isEmpty(bachelorsDegree);
-        return (isEnrollmentIDEmpty) && (isNameEmpty) && (isLastNameEmpty) && (isDegreeEmpty);*/
-        if(TextUtils.isEmpty(enrollmentID)){
+        return (isEnrollmentIDEmpty) && (isNameEmpty) && (isLastNameEmpty) && (isDegreeEmpty);
+        /*if(TextUtils.isEmpty(enrollmentID)){
             return true;
         }
         if(TextUtils.isEmpty(name)){
@@ -81,7 +81,6 @@ public class Student {
         if(TextUtils.isEmpty(bachelorsDegree)){
             return true;
         }
-
-        return false;
+        return false;*/
     }
 }
