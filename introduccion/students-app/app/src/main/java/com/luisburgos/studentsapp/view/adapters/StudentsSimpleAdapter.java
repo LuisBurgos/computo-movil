@@ -12,6 +12,7 @@ import com.luisburgos.studentsapp.domain.Student;
 import com.luisburgos.studentsapp.utils.ScreenUtils;
 import com.luisburgos.studentsapp.view.listeners.StudentItemListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class StudentsSimpleAdapter extends RecyclerView.Adapter<StudentsSimpleVi
 
     private Context mContext;
     private int lastAnimatedPosition = -1;
-    private List<Student> mStudents;
+    private ArrayList<Student> mStudents;
     private StudentItemListener mItemListener;
 
     public StudentsSimpleAdapter(Context context, List<Student> students, StudentItemListener itemListener) {
@@ -68,7 +69,7 @@ public class StudentsSimpleAdapter extends RecyclerView.Adapter<StudentsSimpleVi
     }
 
     private void setList(List<Student> students) {
-        mStudents = students;
+        mStudents = (ArrayList<Student>) students;
     }
 
     @Override

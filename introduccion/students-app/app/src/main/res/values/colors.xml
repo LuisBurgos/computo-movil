@@ -10,6 +10,7 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorDividerGroup">#B6B6B6</color>
 
+    <color name="colorBackgroundMain">#FFFFFF</color>
     <color name="colorDeleteItem">#D32F2F</color>
     <color name="colorEditItem">#388E3C</color>
 </resources>

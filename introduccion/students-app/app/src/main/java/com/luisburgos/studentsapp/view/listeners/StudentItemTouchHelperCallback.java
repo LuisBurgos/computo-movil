@@ -35,7 +35,7 @@ public class StudentItemTouchHelperCallback extends ItemTouchHelper.SimpleCallba
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        int position = viewHolder.getAdapterPosition();
+        final int position = viewHolder.getAdapterPosition();
         if (direction == ItemTouchHelper.LEFT){
             mListener.onLeftSwiped(position);
         } else {

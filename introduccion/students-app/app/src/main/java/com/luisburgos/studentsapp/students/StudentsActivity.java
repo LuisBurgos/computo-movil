@@ -193,8 +193,8 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                mListAdapter.removeItem(currentStudentPosition);
                 mActionsListener.deleteStudent(mListAdapter.getItem(currentStudentPosition).getEnrollmentID());
+                mListAdapter.removeItem(currentStudentPosition);
             }
         });
         alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
