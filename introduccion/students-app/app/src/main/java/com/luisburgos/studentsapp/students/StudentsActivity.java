@@ -1,6 +1,7 @@
 package com.luisburgos.studentsapp.students;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,8 @@ import com.luisburgos.studentsapp.addstudent.AddStudentActivity;
 import com.luisburgos.studentsapp.domain.Student;
 import com.luisburgos.studentsapp.studentdetail.StudentDetailActivity;
 import com.luisburgos.studentsapp.utils.Injection;
+import com.luisburgos.studentsapp.utils.UserLogoutDialog;
+import com.luisburgos.studentsapp.utils.UserSessionManager;
 import com.luisburgos.studentsapp.view.adapters.StudentsAdapter;
 import com.luisburgos.studentsapp.view.adapters.StudentsSimpleAdapter;
 import com.luisburgos.studentsapp.view.listeners.StudentItemListener;
@@ -117,7 +121,16 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if(id == R.id.action_logout){
+            doLogout();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void doLogout() {
+        new UserLogoutDialog(this).show();
     }
 
     @Override
