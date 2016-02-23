@@ -2,6 +2,7 @@ package com.luisburgos.studentsapp.students;
 
 import android.database.SQLException;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.common.collect.Lists;
 import com.luisburgos.studentsapp.data.students.StudentDataSource;
@@ -31,14 +32,19 @@ public class StudentsPresenter implements StudentsContract.UserActionsListener {
     public void loadStudents(boolean forceUpdate) {
         mStudentsView.setProgressIndicator(true);
         if (forceUpdate) {
-            //mStudentsDataSource.refreshData();
+            mStudentsDataSource.refreshData();
         }
 
         List<Student> students = null;
         try {
+
             mStudentsDataSource.open();
-            students = Lists.newArrayList(mStudentsDataSource.getAllStudents());
+            long startTime = System.currentTimeMillis();
+            students = Lists.newArrayList(mStudentsDataSource.getAllFromDatabase().iterator());
+            long endTime = System.currentTimeMillis() - startTime;
             mStudentsDataSource.close();
+
+            Log.i("STUDENTS APP", "Load time: "+String.valueOf(endTime));
         } catch (SQLException e) {
             e.printStackTrace();
         }
