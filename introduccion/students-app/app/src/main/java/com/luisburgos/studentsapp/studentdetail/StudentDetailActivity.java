@@ -119,10 +119,10 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         });
 
         fab = (FloatingActionButton) findViewById(R.id.photoFab);
-        CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        /*CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
         p.setAnchorId(View.NO_ID);
         fab.setLayoutParams(p);
-        fab.setVisibility(View.GONE);
+        fab.setVisibility(View.GONE);*/
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,14 +133,14 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         });
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_student_details, menu);
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -159,7 +159,7 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onResume() {
