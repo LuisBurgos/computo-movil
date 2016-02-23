@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.luisburgos.studentsapp.data.students.cache.StudentsCacheManager;
 import com.luisburgos.studentsapp.domain.Student;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
  */
 public class StudentDataSource {
 
+    private StudentsCacheManager cache;
     private SQLiteDatabase database;
     private StudentDBHelper studentDBHelper;
     private String[] allColumns = {
@@ -28,6 +31,7 @@ public class StudentDataSource {
 
     public StudentDataSource(Context context){
         studentDBHelper = new StudentDBHelper(context);
+        cache = new StudentsCacheManager(context);
     }
 
     public void open() throws SQLException {
@@ -70,9 +74,16 @@ public class StudentDataSource {
      * @return List of Students from Database
      */
     public Iterator<Student> getAllStudents(){
+        if(cache.isEmpty()){
+            cache.put(loadFirstStudents(2));
+        }
+        return cache.getCachedStudents().iterator();
+    }
+
+    private List<Student> loadFirstStudents(int maxRows) {
         List<Student> students = new ArrayList<Student>();
         Student currentStudent;
-        Cursor cursor = database.query(StudentsDBContract.TABLE_NAME, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(false, StudentsDBContract.TABLE_NAME, allColumns, null, null, null, null, null, String.valueOf(maxRows));
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             currentStudent = cursorToStudent(cursor);
@@ -80,7 +91,7 @@ public class StudentDataSource {
             cursor.moveToNext();
         }
         cursor.close();
-        return students.iterator();
+        return students;
     }
 
     public Student getStudent(String id) {
@@ -138,4 +149,24 @@ public class StudentDataSource {
         return student;
     }
 
+    public void refreshData() {
+
+        cache.put(getAllFromDatabase());
+    }
+
+    public List<Student> getAllFromDatabase() {
+        this.open();
+        List<Student> students = new ArrayList<Student>();
+        Student currentStudent;
+        Cursor cursor = database.query(StudentsDBContract.TABLE_NAME, allColumns, null, null, null, null, null);
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            currentStudent = cursorToStudent(cursor);
+            students.add(currentStudent);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        this.close();
+        return students;
+    }
 }

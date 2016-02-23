@@ -2,10 +2,12 @@ package com.luisburgos.studentsapp.domain;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
+
 /**
  * Created by luisburgos on 2/02/16.
  */
-public class Student {
+public class Student implements Serializable {
 
     private String enrollmentID;
     private String name;
