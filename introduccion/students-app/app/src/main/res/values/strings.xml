@@ -57,5 +57,6 @@
     <string name="error_last_name">Error en apellido</string>
     <string name="logout_confirm_message">Are you sure to logout?</string>
     <string name="delete_student_confirm_message">Are you sure to delete this student?</string>
+    <string name="action_edit">Editar</string>
 
 </resources>
