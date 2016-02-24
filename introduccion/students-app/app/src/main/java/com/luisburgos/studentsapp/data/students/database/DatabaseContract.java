@@ -1,4 +1,4 @@
-package com.luisburgos.studentsapp.data.students;
+package com.luisburgos.studentsapp.data.students.database;
 
 /**
  * Created by luisburgos on 4/02/16.

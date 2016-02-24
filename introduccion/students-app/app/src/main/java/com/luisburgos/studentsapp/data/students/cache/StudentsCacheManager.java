@@ -7,10 +7,12 @@ import com.luisburgos.studentsapp.domain.Student;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ import java.util.List;
 public class StudentsCacheManager {
 
     private static final String STUDENTS_CACHE_FILE_NAME = "studentsCache.ser";
+    public static final int DEFAULT_CACHE_ELEMENTS = 4;
 
     private Context mContext;
     private static File mStudentsCache;
@@ -27,7 +30,6 @@ public class StudentsCacheManager {
         mContext = context;
         mStudentsCache = new File(mContext.getCacheDir(), STUDENTS_CACHE_FILE_NAME);
     }
-
 
     public void put(final List<Student> studentList) {
         ObjectOutputStream oos = null;
@@ -45,10 +47,10 @@ public class StudentsCacheManager {
                 }
             }
         }
-
+        Log.i("STUDENTS APP", "Cache put: " + String.valueOf(studentList.toString()));
     }
 
-    public List<Student> getCachedStudents() {
+    public List<Student> getAll() {
         List<Student> cachedStudents = null;
 
         ObjectInputStream ois = null;
@@ -73,9 +75,29 @@ public class StudentsCacheManager {
     }
 
     public boolean isEmpty(){
-        Log.i("STUDENTS APP", "Cache size: "+String.valueOf(mStudentsCache.getTotalSpace()));
+        Log.i("STUDENTS APP", "Cache size: " + String.valueOf(mStudentsCache.getTotalSpace()));
         return mStudentsCache.getTotalSpace() == 0;
     }
 
 
+    public void clear() {
+        File file = new File(mStudentsCache.getAbsolutePath());
+        boolean deleted = file.delete();
+        if(!deleted){
+            Log.i("STUDENTS APP", "Cache size after delete: " + String.valueOf(mStudentsCache.getTotalSpace()));
+        }else{
+            Log.i("STUDENTS APP", "Cache file deleted");
+        }
+
+    }
+
+    public Student getStudentById(String id) {
+        Student student = null;
+        for(Student current : getAll()){
+            if(current.getEnrollmentID().equals(id)){
+                student = current;
+            }
+        }
+        return student;
+    }
 }

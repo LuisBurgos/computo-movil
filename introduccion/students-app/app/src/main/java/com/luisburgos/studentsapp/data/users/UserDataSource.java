@@ -30,7 +30,7 @@ public class UserDataSource {
     }
 
     /**
-     * Function oriented to insert a new User into Database
+     * Function oriented to insertStudent a new User into Database
      * @param username
      * @param password
      * @return row ID of the newly User inserted row, or -1

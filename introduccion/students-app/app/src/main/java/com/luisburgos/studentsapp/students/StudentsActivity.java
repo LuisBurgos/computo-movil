@@ -102,15 +102,12 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (REQUEST_UPDATE_STUDENT == requestCode && Activity.RESULT_OK == resultCode) {
-            Snackbar.make(coordinatorLayout, getString(R.string.successfully_update_student_message),
-                    Snackbar.LENGTH_SHORT).show();
+            showSuccessMessage(getString(R.string.successfully_update_student_message));
         }
 
         if (REQUEST_ADD_STUDENT == requestCode && Activity.RESULT_OK == resultCode) {
-            Snackbar.make(coordinatorLayout, getString(R.string.successfully_add_student_message),
-                    Snackbar.LENGTH_SHORT).show();
+            showSuccessMessage(getString(R.string.successfully_add_student_message));
         }
     }
 
@@ -195,6 +192,7 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
             public void onClick(DialogInterface arg0, int arg1) {
                 mActionsListener.deleteStudent(mListAdapter.getItem(currentStudentPosition).getEnrollmentID());
                 mListAdapter.removeItem(currentStudentPosition);
+                showSuccessMessage(getString(R.string.successfully_delete_student_message));
             }
         });
         alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -206,5 +204,10 @@ public class StudentsActivity extends AppCompatActivity implements StudentsContr
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private void showSuccessMessage(String message) {
+        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
+        mActionsListener.loadStudents(true);
     }
 }

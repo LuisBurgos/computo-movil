@@ -1,4 +1,4 @@
-package com.luisburgos.studentsapp.data.students;
+package com.luisburgos.studentsapp.data.students.database;
 
 import android.provider.BaseColumns;
 

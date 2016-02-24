@@ -38,9 +38,7 @@ public class StudentDetailPresenter implements StudentDetailContract.UserActions
         mStudentDetailView.setProgressIndicator(true);
         Student student = null;
         try {
-            mStudentsDataSource.open();
             student = mStudentsDataSource.getStudent(id);
-            mStudentsDataSource.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,9 +60,7 @@ public class StudentDetailPresenter implements StudentDetailContract.UserActions
         }else {
             if(isValidStudentData(newStudent)){
                 try {
-                    mStudentsDataSource.open();
                     mStudentsDataSource.updateStudent(newStudent);
-                    mStudentsDataSource.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

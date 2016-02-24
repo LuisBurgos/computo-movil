@@ -36,9 +36,7 @@ public class AddStudentPresenter implements AddStudentContract.UserActionsListen
         }else {
             if(isValidStudentData(newStudent)){
                 try {
-                    mStudentsDataSource.open();
                     mStudentsDataSource.insertStudent(newStudent);
-                    mStudentsDataSource.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
