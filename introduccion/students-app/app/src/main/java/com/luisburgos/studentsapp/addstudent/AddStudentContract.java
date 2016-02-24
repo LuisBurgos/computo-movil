@@ -15,7 +15,7 @@ public interface AddStudentContract {
 
         void showStudentsList();
 
-        void setEnrollmentIDErrorMessage();
+        void setEnrollmentIDErrorMessage(String message);
 
         void setNameErrorMessage();
 

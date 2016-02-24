@@ -52,7 +52,7 @@
     <string name="action_confirm">Nuevo estudiante</string>
     <string name="lbl_bachelors_degree">Licenciatura</string>
     <string name="prompt_bachelors_degree">Selecciona una licenciatura</string>
-    <string name="error_enrollment_id">Error en matrícula</string>
+    <string name="error_enrollment_id">La matrícula debe ser de 8 dígitos</string>
     <string name="error_name">Error en nombre</string>
     <string name="error_last_name">Error en apellido</string>
     <string name="logout_confirm_message">Are you sure to logout?</string>

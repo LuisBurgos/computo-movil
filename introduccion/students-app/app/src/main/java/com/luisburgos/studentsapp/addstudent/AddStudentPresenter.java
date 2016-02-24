@@ -35,12 +35,18 @@ public class AddStudentPresenter implements AddStudentContract.UserActionsListen
             mAddStudentView.showEmptyStudentMessage();
         }else {
             if(isValidStudentData(newStudent)){
+                long rowID = -1;
                 try {
-                    mStudentsDataSource.insertStudent(newStudent);
+                    rowID = mStudentsDataSource.insertStudent(newStudent);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                mAddStudentView.showStudentsList();
+
+                if(rowID == -1){
+                    mAddStudentView.setEnrollmentIDErrorMessage("Ya existe esa matricula");
+                }else {
+                    mAddStudentView.showStudentsList();
+                }
             } else {
                 mAddStudentView.setProgressIndicator(false);
             }
@@ -51,7 +57,7 @@ public class AddStudentPresenter implements AddStudentContract.UserActionsListen
 
         boolean isValid = true;
         if (!mValidator.validateEnrollmentID(newStudent.getEnrollmentID())) {
-            mAddStudentView.setEnrollmentIDErrorMessage();
+            mAddStudentView.setEnrollmentIDErrorMessage(null);
             isValid = false;
         }
 
