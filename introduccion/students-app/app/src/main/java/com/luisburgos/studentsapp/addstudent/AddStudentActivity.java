@@ -90,8 +90,11 @@ public class AddStudentActivity extends AppCompatActivity implements AddStudentC
     }
 
     @Override
-    public void setEnrollmentIDErrorMessage() {
-        enrollmentIDWrapper.setError(getString(R.string.error_enrollment_id));
+    public void setEnrollmentIDErrorMessage(String message) {
+        if(message == null){
+            message = getString(R.string.error_enrollment_id);
+        }
+        enrollmentIDWrapper.setError(message);
     }
 
     @Override

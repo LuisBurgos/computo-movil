@@ -56,7 +56,7 @@ public class LoginPresenter implements LoginContract.UserActionsListener {
                         mLoginView.setProgressIndicator(false);
                     }
                 }
-            }, 2000);
+            }, 1000);
         }else {
             mLoginView.setProgressIndicator(false);
         }

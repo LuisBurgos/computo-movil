@@ -10,12 +10,12 @@
     android:background="@color/colorPrimary"
     tools:context=".activities.SplashActivity">
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/imgLogo"
         android:layout_width="250dip"
         android:layout_height="250dip"
         android:layout_centerInParent="true"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher" />-->
 
     <TextView
         android:id="@+id/splash_message"
@@ -24,8 +24,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextIcons"
-        android:textSize="24sp"
-        android:layout_below="@+id/imgLogo"/>
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/splash_app_description_message"
+        android:text="@string/lbl_app_description_message"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:textColor="@color/colorTextIcons"
+        android:gravity="center"
+        android:layout_below="@+id/splash_message"
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="fill_parent"
