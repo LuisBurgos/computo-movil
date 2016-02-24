@@ -60,5 +60,6 @@
     <string name="successfully_delete_student_message">Estudiante eliminado!</string>
     <string name="lbl_app_description_message">Swipe on items to edit or delete\n</string>
     <string name="action_edit">Editar</string>
+    <string name="action_take_photo">Ups! Tomar foto no ha sido implementado</string>
 
 </resources>

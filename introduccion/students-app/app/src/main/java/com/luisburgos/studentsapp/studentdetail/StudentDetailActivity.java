@@ -61,7 +61,7 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
 
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Editar estudiante");
+        collapsingToolbar.setTitle(getString(R.string.title_activity_student_details));
         collapsingToolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
         collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
         collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -127,7 +127,7 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
             @Override
             public void onClick(View view) {
                 //mActionsListener.addNewStudent();
-                Snackbar.make(mCoordinatorLayout, "Tomar foto",
+                Snackbar.make(mCoordinatorLayout, getString(R.string.action_take_photo),
                         Snackbar.LENGTH_SHORT).show();
             }
         });
