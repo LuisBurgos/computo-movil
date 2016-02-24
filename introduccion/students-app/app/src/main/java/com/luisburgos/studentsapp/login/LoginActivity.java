@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void onLoginResult(Boolean result, int code) {
         if(result){
             sendTo(StudentsActivity.class);
+            finish();
         } else {
             showLoginFailedMessage(getString(R.string.error_failed_login));
         }

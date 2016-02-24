@@ -1,16 +1,26 @@
 package com.luisburgos.studentsapp.studentdetail;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.luisburgos.studentsapp.R;
@@ -33,6 +43,9 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
     private ArrayAdapter<CharSequence> mBachelorsDegreeAdapter;
     private Button btnEdit;
     private Button btnSaveEdition;
+    private ImageView mImageView;
+    private FloatingActionButton fab;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +57,28 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
+        //ab.setDisplayShowHomeEnabled(true);
+
+        final CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Editar estudiante");
+        collapsingToolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+        collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        /*mImageView = (ImageView) findViewById(R.id.backdrop);
+        Bitmap bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                int primaryDark = getResources().getColor(R.color.colorPrimaryDark);
+                int primary = getResources().getColor(R.color.colorPrimary);
+                collapsingToolbar.setContentScrimColor(palette.getMutedColor(primary));
+                collapsingToolbar.setStatusBarScrimColor(palette.getDarkVibrantColor(primaryDark));
+            }
+        });*/
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.student_detail_coordinator_layout);
+
 
         mActionsListener = new StudentDetailPresenter(Injection.provideStudentsDataSource(this), this);
 
@@ -83,7 +117,49 @@ public class StudentDetailActivity extends AppCompatActivity implements StudentD
                 );
             }
         });
+
+        fab = (FloatingActionButton) findViewById(R.id.photoFab);
+        /*CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        p.setAnchorId(View.NO_ID);
+        fab.setLayoutParams(p);
+        fab.setVisibility(View.GONE);*/
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //mActionsListener.addNewStudent();
+                Snackbar.make(mCoordinatorLayout, "Tomar foto",
+                        Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_student_details, menu);
+        return super.onCreateOptionsMenu(menu);
+    }*/
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_confirm) {
+            Snackbar.make(mCoordinatorLayout, "Confirmar cambios",
+                    Snackbar.LENGTH_SHORT).show();
+        }
+
+        if (id == R.id.action_edit) {
+            Snackbar.make(mCoordinatorLayout, "Editar estudiante",
+                    Snackbar.LENGTH_SHORT).show();
+            CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+            p.setBehavior(new FloatingActionButton.Behavior());
+            p.setAnchorId(R.id.appbar);
+            fab.setLayoutParams(p);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }*/
 
     @Override
     public void onResume() {

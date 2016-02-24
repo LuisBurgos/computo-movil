@@ -59,5 +59,6 @@
     <string name="delete_student_confirm_message">Are you sure to delete this student?</string>
     <string name="successfully_delete_student_message">Estudiante eliminado!</string>
     <string name="lbl_app_description_message">Swipe on items to edit or delete\n</string>
+    <string name="action_edit">Editar</string>
 
 </resources>

@@ -8,8 +8,8 @@ Implementación de una aplicación CRUD de estudiantes, integrando los conocimie
 * **Password:** adminadmin
 
 #### Interacción
-* **Eliminar estudiant:** Swipe hacia la izquerda sobre el estudiante.
+* **Eliminar estudiante:** Swipe hacia la izquerda sobre el estudiante.
 * **Editar estudiante:**
   * Swipe hacia la derecha sobre el estudiante, ó
   * Click sobre el estudiante.
-* **Agregar estudiante:** Click sobre el FAB button en la vista principal.
+* **Agregar estudiante:** Click sobre el FAB button en la vista principal. La matrícula debe ser de 8 dígitos.
