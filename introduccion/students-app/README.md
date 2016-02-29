@@ -1,6 +1,6 @@
 # Students App
 
-Implementación de una aplicación CRUD de estudiantes, integrando los conocimientos adquiridos durante la Unida 1 del curso.
+Implementación de una aplicación CRUD de estudiantes, integrando los conocimientos adquiridos durante la [Unidad 1](https://github.com/LuisBurgos/computo-movil/tree/unidad-1) del curso.
 
 #### Login
 
