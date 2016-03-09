@@ -26,9 +26,9 @@
         android:text="Get visible"
         android:onClick="visible"
         android:id="@+id/visibilityButton"
-        android:layout_below="@+id/listButton"
-        android:layout_toRightOf="@+id/turnOffButton"
-        android:layout_toEndOf="@+id/turnOffButton" />
+        android:layout_below="@+id/turnOnButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,9 +36,19 @@
         android:text="List devices"
         android:onClick="list"
         android:id="@+id/listButton"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/visibilityButton"
-        android:layout_alignStart="@+id/visibilityButton" />
+        android:layout_above="@+id/textView2"
+        android:layout_toRightOf="@+id/visibilityButton"
+        android:layout_toEndOf="@+id/visibilityButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discover"
+        android:onClick="discover"
+        android:id="@+id/discoverButton"
+        android:layout_above="@+id/listButton"
+        android:layout_toRightOf="@+id/turnOffButton"
+        android:layout_toEndOf="@+id/turnOffButton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -46,9 +56,9 @@
         android:text="turn off"
         android:onClick="off"
         android:id="@+id/turnOffButton"
-        android:layout_below="@+id/turnOnButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/turnOnButton"
+        android:layout_toRightOf="@+id/turnOnButton"
+        android:layout_toEndOf="@+id/turnOnButton" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -62,12 +72,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Paired devices:"
+        android:text="List of devices:"
         android:id="@+id/textView2"
         android:textColor="#ff34ff06"
         android:textSize="25dp"
-        android:layout_below="@+id/turnOffButton"
-        android:layout_alignLeft="@+id/listView"
-        android:layout_alignStart="@+id/listView" />
+        android:layout_below="@+id/visibilityButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -3,7 +3,10 @@ package com.luisburgos.bluetoothexample.listdevices;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -28,8 +31,8 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
 
     public static final int REQUEST_BLUETOOTH_ON = 1;
 
-    Button turnOnButton, visibilityButton, listButton, turnOffButton;
-    private BluetoothAdapter bluetoothAdapter;
+    Button turnOnButton, visibilityButton, listButton, turnOffButton, discoverButton;
+    private BluetoothAdapter mBluetoothAdapter;
     private Set<BluetoothDevice> pairedDevices;
     ListView listView;
 
@@ -41,6 +44,7 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
     private static final int ON_REQUEST_BLUETOOTH_PERMISSIONS = 0;
     private CoordinatorLayout mCoordinator;
     private PermissionsChecker checker;
+    ArrayAdapter<String> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +66,23 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
         visibilityButton =(Button)findViewById(R.id.visibilityButton);
         listButton =(Button)findViewById(R.id.listButton);
         turnOffButton =(Button)findViewById(R.id.turnOffButton);
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        discoverButton =(Button)findViewById(R.id.discoverButton);
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         listView = (ListView)findViewById(R.id.listView);
+
+        ArrayList<String> list = new ArrayList<>();
+        mAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(mAdapter);
+        // Register the BroadcastReceiver
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -76,7 +95,7 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
     }
 
     public void on(View v){
-        if (!bluetoothAdapter.isEnabled()) {
+        if (!mBluetoothAdapter.isEnabled()) {
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(turnOn, REQUEST_BLUETOOTH_ON);
             Snackbar.make(mCoordinator, R.string.turn_on, Snackbar.LENGTH_INDEFINITE).show();
@@ -86,7 +105,7 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
     }
 
     public void off(View v){
-        bluetoothAdapter.disable();
+        mBluetoothAdapter.disable();
         Snackbar.make(mCoordinator, R.string.turn_off, Snackbar.LENGTH_INDEFINITE).show();
     }
 
@@ -96,25 +115,47 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
     }
 
     public void list(View v){
-        pairedDevices = bluetoothAdapter.getBondedDevices();
-        ArrayList<String> list = new ArrayList<>();
+        pairedDevices = mBluetoothAdapter.getBondedDevices();
 
+        ArrayList<String> list = new ArrayList<>();
         for(BluetoothDevice bt : pairedDevices) {
             list.add(bt.getName());
             Log.d("BLUETOOTH APP", bt.getName());
         }
 
+        mAdapter.clear();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, list);
         if (pairedDevices.size() > 0) {
             Snackbar.make(mCoordinator, R.string.showing_paired_devices, Snackbar.LENGTH_INDEFINITE).show();
             for (BluetoothDevice device : pairedDevices) {
-                adapter.add(device.getName() + "\n" + device.getAddress());
+                mAdapter.add(device.getName() + "\n" + device.getAddress() + "   PAIRED");
             }
         }
-        listView.setAdapter(adapter);
+
+        mAdapter.notifyDataSetChanged();
     }
 
+    public void discover(View v){
+        if (mBluetoothAdapter.isDiscovering()) {
+            mBluetoothAdapter.cancelDiscovery();
+        }
+        mBluetoothAdapter.startDiscovery();
+        Snackbar.make(mCoordinator, R.string.discovering, Snackbar.LENGTH_INDEFINITE).show();
+    }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            // When discovery finds a device
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Get the BluetoothDevice object from the Intent
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                // Add the name and address to an array adapter to show in a ListView
+                mAdapter.add(device.getName() + "\n" + device.getAddress() + "   UNPAIRED");
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, ON_REQUEST_BLUETOOTH_PERMISSIONS, PERMISSIONS);

@@ -24,6 +24,7 @@
     <string name="already_on">Already On</string>
     <string name="showing_paired_devices">Showing Paired Devices</string>
     <string name="turn_off">Turned Off</string>
+    <string name="discovering">Discovering</string>
 
 
     <!--Bluetooth Devices -->
