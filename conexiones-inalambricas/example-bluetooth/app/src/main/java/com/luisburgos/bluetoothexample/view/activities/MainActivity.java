@@ -1,10 +1,8 @@
 package com.luisburgos.bluetoothexample.view.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,44 +17,40 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 
 import com.luisburgos.bluetoothexample.permissions.PermissionsActivity;
 import com.luisburgos.bluetoothexample.permissions.PermissionsChecker;
 import com.luisburgos.bluetoothexample.R;
-import com.luisburgos.bluetoothexample.presenters.MainContract;
+import com.luisburgos.bluetoothexample.presenters.contracts.MainContract;
 import com.luisburgos.bluetoothexample.presenters.MainPresenter;
 import com.luisburgos.bluetoothexample.utils.Injection;
 import com.luisburgos.bluetoothexample.view.fragments.DiscoverDevicesFragment;
 import com.luisburgos.bluetoothexample.view.fragments.PairedDevicesFragment;
 
-import java.util.ArrayList;
-import java.util.Set;
+public class MainActivity extends AppCompatActivity implements MainContract.View, CompoundButton.OnCheckedChangeListener {
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
-
+    public static final int ON_REQUEST_BLUETOOTH_PERMISSIONS = 0;
     public static final int REQUEST_BLUETOOTH_ON = 1;
-
-    private MainContract.UserActionsListener mActionsListener;
-
+    public static final int REQUEST_BLUETOOTH_DISCOVERABLE = 2;
+    public static final String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
     private static final String[] PERMISSIONS = new String[] {
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN
     };
+    public static final String TAG = "Bluetooth Example App";
 
-    private static final int ON_REQUEST_BLUETOOTH_PERMISSIONS = 0;
-    private CoordinatorLayout mCoordinator;
+    private MainContract.UserActionsListener mActionsListener;
     private PermissionsChecker checker;
 
+    private CoordinatorLayout mCoordinator;
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
+
+    SwitchCompat menuIteVisibility, menuItemBluetooth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -107,40 +100,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
          * method returns PERMISSION_DENIED, and the app has to explicitly ask the user for permission.
          */
         //askForPermissions();
-
-        /*ArrayList<String> list = new ArrayList<>();
-        mAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(mAdapter);
-        // Register the BroadcastReceiver
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy*/
-
         setupDrawerContent(mNavigationView);
 
         if (null == savedInstanceState) {
             initFragment(PairedDevicesFragment.newInstance());
         }
 
-        SwitchCompat item = (SwitchCompat) mNavigationView.getMenu().findItem(R.id.menu_item_visibility).getActionView();
-        item.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener(){
-            @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mActionsListener.makeDeviceVisible();
-                }
-            }
-        });
+        menuIteVisibility = (SwitchCompat) mNavigationView.getMenu().findItem(R.id.menu_item_visibility).getActionView();
+        menuIteVisibility.setOnCheckedChangeListener(this);
 
-        SwitchCompat item4 = (SwitchCompat) mNavigationView.getMenu().findItem(R.id.menu_item_bluetooth).getActionView();
-        item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    mActionsListener.turnOnBluetooth();
-                }else {
-                    mActionsListener.turnOffBluetooth();
-                }
-            }
-        });
+        menuItemBluetooth = (SwitchCompat) mNavigationView.getMenu().findItem(R.id.menu_item_bluetooth).getActionView();
+        menuItemBluetooth.setOnCheckedChangeListener(this);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -208,7 +178,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             finish();
         }
 
-        if (requestCode == 0 );
+        if(requestCode == REQUEST_BLUETOOTH_ON && resultCode == Activity.RESULT_OK){
+            Snackbar.make(mCoordinator, R.string.turn_on, Snackbar.LENGTH_SHORT).show();
+        }
+
+        if(requestCode == REQUEST_BLUETOOTH_DISCOVERABLE){
+            if(resultCode == Activity.RESULT_CANCELED){
+                Snackbar.make(mCoordinator, getString(R.string.visible_permission_not_granted), Snackbar.LENGTH_SHORT).show();
+                menuIteVisibility.setChecked(false);
+            }else if (resultCode == 300){
+                Snackbar.make(mCoordinator, getString(R.string.now_visible), Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -240,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void setVisibility(boolean visible) {
-        Snackbar.make(mCoordinator, R.string.turn_on, Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(mCoordinator, R.string.turn_on, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -250,29 +231,28 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showMakeVisible() {
-        Intent getVisible = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        startActivityForResult(getVisible, 0);
+        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+        startActivityForResult(discoverableIntent, REQUEST_BLUETOOTH_DISCOVERABLE);
     }
 
     @Override
     public void showTurnOnBluetooth() {
         Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(turnOn, REQUEST_BLUETOOTH_ON);
-        //Snackbar.make(mCoordinator, R.string.turn_on, Snackbar.LENGTH_INDEFINITE).show();
     }
 
     @Override
     public void showBluetoothAlreadyOnMessage() {
-        Snackbar.make(mCoordinator, R.string.already_on, Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(mCoordinator, R.string.already_on, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void showTurnOffBluetoothMessage() {
-        Snackbar.make(mCoordinator, R.string.turn_off, Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(mCoordinator, R.string.turn_off, Snackbar.LENGTH_SHORT).show();
     }
 
     private void initFragment(Fragment notesFragment) {
-        // Add the NotesFragment to the layout
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.container, notesFragment);
@@ -281,5 +261,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, ON_REQUEST_BLUETOOTH_PERMISSIONS, PERMISSIONS);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(buttonView.getId() == R.id.menu_item_visibility){
+            if (isChecked) {
+                mActionsListener.makeDeviceVisible();
+            }
+        }
+
+        if(buttonView.getId() == R.id.menu_item_bluetooth){
+            if (isChecked) {
+                mActionsListener.turnOnBluetooth();
+            } else {
+                mActionsListener.turnOffBluetooth();
+            }
+        }
+        mDrawerLayout.closeDrawers();
     }
 }

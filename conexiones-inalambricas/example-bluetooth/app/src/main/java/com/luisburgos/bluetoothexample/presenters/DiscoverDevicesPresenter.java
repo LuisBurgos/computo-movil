@@ -1,11 +1,10 @@
 package com.luisburgos.bluetoothexample.presenters;
 
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
 
 import com.luisburgos.bluetoothexample.domain.BluetoothBroadcastReceiver;
 import com.luisburgos.bluetoothexample.domain.BluetoothWrapper;
-import com.luisburgos.bluetoothexample.view.fragments.DiscoverDevicesFragment;
+import com.luisburgos.bluetoothexample.presenters.contracts.DiscoverDevicesContract;
 
 /**
  * Created by luisburgos on 15/03/16.
@@ -41,6 +40,11 @@ public class DiscoverDevicesPresenter implements DiscoverDevicesContract.UserAct
     public void stopDiscover() {
         mBluetoothWrapper.stopDiscovering();
         mView.setProgress(false);
+    }
+
+    @Override
+    public void requestPairingToDevice() {
+
     }
 
     @Override

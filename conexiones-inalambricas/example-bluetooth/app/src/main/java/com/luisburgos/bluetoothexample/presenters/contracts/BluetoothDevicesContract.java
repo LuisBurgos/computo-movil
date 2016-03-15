@@ -1,4 +1,4 @@
-package com.luisburgos.bluetoothexample.listdevices;
+package com.luisburgos.bluetoothexample.presenters.contracts;
 
 import android.bluetooth.BluetoothDevice;
 import android.support.annotation.NonNull;

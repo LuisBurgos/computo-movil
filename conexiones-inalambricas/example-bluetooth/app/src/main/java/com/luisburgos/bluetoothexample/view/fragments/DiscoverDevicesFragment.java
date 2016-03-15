@@ -1,9 +1,7 @@
 package com.luisburgos.bluetoothexample.view.fragments;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,9 +15,8 @@ import android.widget.Button;
 
 import com.luisburgos.bluetoothexample.R;
 import com.luisburgos.bluetoothexample.domain.BluetoothBroadcastReceiver;
-import com.luisburgos.bluetoothexample.presenters.DiscoverDevicesContract;
+import com.luisburgos.bluetoothexample.presenters.contracts.DiscoverDevicesContract;
 import com.luisburgos.bluetoothexample.presenters.DiscoverDevicesPresenter;
-import com.luisburgos.bluetoothexample.presenters.PairedDevicesPresenter;
 import com.luisburgos.bluetoothexample.utils.Injection;
 import com.luisburgos.bluetoothexample.view.adapter.BluetoothDevicesAdapter;
 
@@ -128,6 +125,11 @@ public class DiscoverDevicesFragment extends Fragment implements DiscoverDevices
 
         mButtonDiscover.setBackgroundColor(getResources().getColor(color));
         mButtonDiscover.setText(message);
+    }
+
+    @Override
+    public void showPairedDeviceMessage() {
+
     }
 
     @Override

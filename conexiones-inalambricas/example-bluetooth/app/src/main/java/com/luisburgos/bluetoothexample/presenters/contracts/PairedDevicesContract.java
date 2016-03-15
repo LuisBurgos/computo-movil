@@ -1,4 +1,4 @@
-package com.luisburgos.bluetoothexample.presenters;
+package com.luisburgos.bluetoothexample.presenters.contracts;
 
 import android.bluetooth.BluetoothDevice;
 

@@ -2,8 +2,10 @@ package com.luisburgos.bluetoothexample.view.fragments;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.luisburgos.bluetoothexample.R;
-import com.luisburgos.bluetoothexample.presenters.PairedDevicesContract;
+import com.luisburgos.bluetoothexample.presenters.contracts.PairedDevicesContract;
 import com.luisburgos.bluetoothexample.presenters.PairedDevicesPresenter;
 import com.luisburgos.bluetoothexample.utils.Injection;
+import com.luisburgos.bluetoothexample.view.activities.BluetoothDeviceControllerActivity;
+import com.luisburgos.bluetoothexample.view.activities.MainActivity;
 import com.luisburgos.bluetoothexample.view.adapter.BluetoothDevicesAdapter;
 
 import java.util.ArrayList;
@@ -29,7 +33,7 @@ public class PairedDevicesFragment extends Fragment implements PairedDevicesCont
     private PairedDevicesContract.UserActionsListener mActionsListener;
 
     public PairedDevicesFragment() {
-        // Requires empty public constructor
+
     }
 
     public static PairedDevicesFragment newInstance() {
@@ -43,7 +47,7 @@ public class PairedDevicesFragment extends Fragment implements PairedDevicesCont
                 new BluetoothDevicesAdapter.BluetoothItemListener() {
             @Override
             public void onDeviceClick(BluetoothDevice deviceClicked) {
-
+                mActionsListener.openBluetoothDeviceController(deviceClicked);
             }
         });
     }
@@ -81,7 +85,7 @@ public class PairedDevicesFragment extends Fragment implements PairedDevicesCont
 
     @Override
     public void setProgressIndicator(boolean active) {
-        //Do nothing yet
+
     }
 
     @Override
@@ -93,7 +97,9 @@ public class PairedDevicesFragment extends Fragment implements PairedDevicesCont
 
     @Override
     public void showBluetoothDeviceControllerUI(BluetoothDevice device) {
-
+        Intent remoteControlIntent = new Intent(getActivity(), BluetoothDeviceControllerActivity.class);
+        remoteControlIntent.putExtra(MainActivity.EXTRA_DEVICE_ADDRESS, device.getAddress());
+        startActivity(remoteControlIntent);
     }
 
 }

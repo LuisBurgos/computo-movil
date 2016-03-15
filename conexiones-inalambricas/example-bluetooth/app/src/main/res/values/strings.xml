@@ -35,5 +35,9 @@
     <!--Bluetooth Devices -->
     <string name="start_discover">Start discover!</string>
     <string name="cancel_discover">Stop discover!</string>
+    <string name="title_activity_bluetooth_device_controller">BluetoothDeviceControllerActivity
+    </string>
+    <string name="now_visible">Dispositivo visible</string>
+    <string name="visible_permission_not_granted">Permission not granted</string>
 
 </resources>

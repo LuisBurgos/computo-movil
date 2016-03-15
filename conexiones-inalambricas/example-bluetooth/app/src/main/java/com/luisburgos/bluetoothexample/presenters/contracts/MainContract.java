@@ -1,4 +1,4 @@
-package com.luisburgos.bluetoothexample.presenters;
+package com.luisburgos.bluetoothexample.presenters.contracts;
 
 /**
  * Created by luisburgos on 15/03/16.

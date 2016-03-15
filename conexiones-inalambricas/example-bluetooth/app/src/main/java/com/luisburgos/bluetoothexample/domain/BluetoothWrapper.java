@@ -1,6 +1,7 @@
 package com.luisburgos.bluetoothexample.domain;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 
 /**
  * Created by luisburgos on 15/03/16.
@@ -31,5 +32,9 @@ public class BluetoothWrapper {
 
     public void beginDiscovering() {
         mBluetoothAdapter.startDiscovery();
+    }
+
+    public BluetoothDevice getRemoteDevice(String deviceAddress) {
+        return mBluetoothAdapter.getRemoteDevice(deviceAddress);
     }
 }

@@ -2,6 +2,7 @@ package com.luisburgos.bluetoothexample.presenters;
 
 import android.bluetooth.BluetoothDevice;
 import com.luisburgos.bluetoothexample.domain.DevicesRepository;
+import com.luisburgos.bluetoothexample.presenters.contracts.PairedDevicesContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,6 @@ public class PairedDevicesPresenter implements PairedDevicesContract.UserActions
 
     @Override
     public void openBluetoothDeviceController(BluetoothDevice device) {
-
+        mView.showBluetoothDeviceControllerUI(device);
     }
 }

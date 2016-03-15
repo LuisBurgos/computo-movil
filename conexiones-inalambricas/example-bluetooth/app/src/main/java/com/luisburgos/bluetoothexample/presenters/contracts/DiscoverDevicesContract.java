@@ -1,4 +1,4 @@
-package com.luisburgos.bluetoothexample.presenters;
+package com.luisburgos.bluetoothexample.presenters.contracts;
 
 import android.bluetooth.BluetoothDevice;
 
@@ -13,6 +13,8 @@ public interface DiscoverDevicesContract {
 
         void setProgress(boolean active);
 
+        void showPairedDeviceMessage();
+
         void showDeviceFound(BluetoothDevice device);
 
         void setupReceiver(BluetoothBroadcastReceiver mBroadcastReceiver, boolean register);
@@ -23,6 +25,8 @@ public interface DiscoverDevicesContract {
         void startDiscover();
 
         void stopDiscover();
+
+        void requestPairingToDevice();
 
         void dropReceiver();
     }

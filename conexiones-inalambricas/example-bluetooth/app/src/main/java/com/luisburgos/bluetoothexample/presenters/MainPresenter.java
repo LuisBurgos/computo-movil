@@ -1,12 +1,7 @@
 package com.luisburgos.bluetoothexample.presenters;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
-import android.support.design.widget.Snackbar;
-
-import com.luisburgos.bluetoothexample.R;
 import com.luisburgos.bluetoothexample.domain.BluetoothWrapper;
-import com.luisburgos.bluetoothexample.domain.DevicesRepository;
+import com.luisburgos.bluetoothexample.presenters.contracts.MainContract;
 
 /**
  * Created by luisburgos on 15/03/16.
