@@ -19,6 +19,9 @@
     <color name="colorDeleteItem">#D32F2F</color>
     <color name="colorEditItem">#388E3C</color>
 
+    <color name="colorRed">#F44336</color>
+    <color name="colorGreen">#4CAF50</color>
+
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="black_trans">#14000000</color>

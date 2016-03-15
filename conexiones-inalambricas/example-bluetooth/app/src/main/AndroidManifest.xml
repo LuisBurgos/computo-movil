@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".listdevices.BluetoothDevicesActivity"
+            android:name=".view.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

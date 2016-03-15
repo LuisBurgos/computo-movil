@@ -1,6 +1,5 @@
 package com.luisburgos.bluetoothexample.utils;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,7 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.luisburgos.bluetoothexample.listdevices.BluetoothDevicesActivity;
+import com.luisburgos.bluetoothexample.view.activities.MainActivity;
 import com.luisburgos.bluetoothexample.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
                     //if(sessionManager.isUserLoggedIn()){
                     //i = new Intent(SplashActivity.this, StudentsActivity.class);
                     //}else{
-                    i = new Intent(SplashActivity.this, BluetoothDevicesActivity.class);
+                    i = new Intent(SplashActivity.this, MainActivity.class);
                     //}
                     startActivity(i);
 
@@ -52,7 +51,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean isBluetoothSupported() {
-        return BluetoothAdapter.getDefaultAdapter() != null;
+
+        //return BluetoothAdapter.getDefaultAdapter() != null;
+        return true;
     }
 
     private void showBluetoothUnsupportedMessage(){

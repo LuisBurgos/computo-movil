@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_item_group_first"
+        android:checkableBehavior="single">
+        <item android:id="@+id/menu_paired"
+            android:icon="@drawable/ic_paired"
+            android:title="@string/menu_item_paired_devices" />
+
+        <item android:id="@+id/menu_discover"
+            android:icon="@drawable/ic_search"
+            android:title="@string/menu_item_discover" />
+    </group>
+
+    <item android:title="@string/menu_item_settings">
+        <menu>
+            <group
+                android:id="@+id/menu_item_group_second"
+                android:checkableBehavior="single">
+
+                <item
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/menu_item_visibility"
+                    android:icon="@drawable/ic_visibility"
+                    android:title="Visibility"
+                    app:actionLayout="@layout/menu_switch"
+                    app:showAsAction="always" />
+
+                <item
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/menu_item_bluetooth"
+                    android:icon="@drawable/ic_action_bluetooth"
+                    android:title="Bluetooth"
+                    app:actionLayout="@layout/menu_switch"
+                    app:showAsAction="always" />
+
+            </group>
+
+        </menu>
+    </item>
+
+</menu>

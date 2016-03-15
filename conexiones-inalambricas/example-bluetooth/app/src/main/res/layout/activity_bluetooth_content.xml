@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".listdevices.BluetoothDevicesActivity"
+    tools:context=".view.activities.MainActivity"
     tools:showIn="@layout/activity_bluetooth">
 
     <Button
@@ -17,14 +17,12 @@
         android:layout_height="wrap_content"
         android:text="Turn On"
         android:id="@+id/turnOnButton"
-        android:clickable="true"
-        android:onClick="on" />
+        android:clickable="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Get visible"
-        android:onClick="visible"
         android:id="@+id/visibilityButton"
         android:layout_below="@+id/turnOnButton"
         android:layout_alignParentLeft="true"
@@ -34,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="List devices"
-        android:onClick="list"
         android:id="@+id/listButton"
         android:layout_above="@+id/textView2"
         android:layout_toRightOf="@+id/visibilityButton"
@@ -44,7 +41,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Discover"
-        android:onClick="discover"
         android:id="@+id/discoverButton"
         android:layout_above="@+id/listButton"
         android:layout_toRightOf="@+id/turnOffButton"
@@ -54,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="turn off"
-        android:onClick="off"
         android:id="@+id/turnOffButton"
         android:layout_alignTop="@+id/turnOnButton"
         android:layout_toRightOf="@+id/turnOnButton"
