@@ -1,6 +1,8 @@
 package com.luisburgos.bluetoothexample.presenters;
 
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
+import android.os.Build;
 
 import com.luisburgos.bluetoothexample.domain.BluetoothBroadcastReceiver;
 import com.luisburgos.bluetoothexample.domain.BluetoothWrapper;
@@ -43,8 +45,8 @@ public class DiscoverDevicesPresenter implements DiscoverDevicesContract.UserAct
     }
 
     @Override
-    public void requestPairingToDevice() {
-
+    public void requestPairingToDevice(BluetoothDevice deviceClicked) {
+        mView.showPairDevice(deviceClicked);
     }
 
     @Override

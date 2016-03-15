@@ -18,6 +18,9 @@ public interface DiscoverDevicesContract {
         void showDeviceFound(BluetoothDevice device);
 
         void setupReceiver(BluetoothBroadcastReceiver mBroadcastReceiver, boolean register);
+
+        void showPairDevice(BluetoothDevice device);
+
     }
 
     interface UserActionsListener {
@@ -26,7 +29,7 @@ public interface DiscoverDevicesContract {
 
         void stopDiscover();
 
-        void requestPairingToDevice();
+        void requestPairingToDevice(BluetoothDevice deviceClicked);
 
         void dropReceiver();
     }

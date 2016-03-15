@@ -39,5 +39,6 @@
     </string>
     <string name="now_visible">Dispositivo visible</string>
     <string name="visible_permission_not_granted">Permission not granted</string>
+    <string name="add_paired_device">New paired device</string>
 
 </resources>

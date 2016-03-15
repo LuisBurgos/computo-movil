@@ -64,6 +64,10 @@ public class BluetoothDevicesAdapter extends RecyclerView.Adapter<BluetoothDevic
         notifyDataSetChanged();
     }
 
+    public boolean hasItem(BluetoothDevice device){
+        return mDevices.contains(device);
+    }
+
     public void addItem(BluetoothDevice device) {
         mDevices.add(device);
         notifyItemInserted(mDevices.size());
