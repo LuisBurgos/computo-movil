@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public static final int REQUEST_BLUETOOTH_ON = 1;
     public static final int REQUEST_BLUETOOTH_DISCOVERABLE = 2;
     public static final String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
+    public static final String EXTRA_DEVICE_NAME = "EXTRA_DEVICE_NAME";
     private static final String[] PERMISSIONS = new String[] {
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN
@@ -280,4 +281,5 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
         mDrawerLayout.closeDrawers();
     }
+
 }

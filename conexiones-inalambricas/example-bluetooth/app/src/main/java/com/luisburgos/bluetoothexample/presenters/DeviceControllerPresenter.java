@@ -1,7 +1,6 @@
 package com.luisburgos.bluetoothexample.presenters;
 
 import android.bluetooth.BluetoothDevice;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.luisburgos.bluetoothexample.domain.BluetoothWrapper;
@@ -28,15 +27,10 @@ public class DeviceControllerPresenter implements DeviceControllerContract.UserA
     }
 
     @Override
-    public void pageUp() {
-        Log.d(MainActivity.TAG, "Page up");
-        mThread.pgUp();
-    }
-
-    @Override
-    public void pageDown() {
-        Log.d(MainActivity.TAG, "Page down");
-        mThread.pgDown();
+    public void prepareDeviceConnection() {
+        if(!mBluetoothWrapper.isBluetoothAlreadyEnable()){
+            mView.requestTurnOnBluetooth();
+        }
     }
 
     @Override
@@ -48,20 +42,28 @@ public class DeviceControllerPresenter implements DeviceControllerContract.UserA
             return;
         }
 
-        mView.setDeviceAddress(deviceAddress);
-        mThread = new BluetoothRemoteControlThread((AppCompatActivity)mView, mRemoteDevice);
-        if(mThread.connectDevice()){
+        mView.setDeviceInformation(deviceAddress);
+        mThread = new BluetoothRemoteControlThread(mRemoteDevice);
+        Log.i(MainActivity.TAG, "Before run socket connect");
+        mThread.run();
+        /*if(mThread.connectDevice()){
             mView.showDeviceConnectionEstablish();
         } else {
             mView.showDeviceConnectionError("Could not establish remote connection");
-        }
+        }*/
 
     }
 
     @Override
-    public void prepareDeviceConnection() {
-        if(!mBluetoothWrapper.isBluetoothAlreadyEnable()){
-            mView.requestTurnOnBluetooth();
-        }
+    public void pageUp() {
+        Log.d(MainActivity.TAG, "Page up");
+        mThread.pgUp();
     }
+
+    @Override
+    public void pageDown() {
+        Log.d(MainActivity.TAG, "Page down");
+        mThread.pgDown();
+    }
+
 }

@@ -13,7 +13,7 @@ public interface DeviceControllerContract {
 
         void showPageDownMessage();
 
-        void setDeviceAddress(String deviceAddress);
+        void setDeviceInformation(String deviceInfo);
 
         void showDeviceConnectionError(String errorMessage);
 

@@ -165,7 +165,9 @@ public class DiscoverDevicesFragment extends Fragment implements DiscoverDevices
     @Override
     public void setupReceiver(BluetoothBroadcastReceiver mBroadcastReceiver, boolean register) {
         if(register){
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND); //Add Adapter.FINISHED
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            getActivity().registerReceiver(mBroadcastReceiver, filter);
+            filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
             getActivity().registerReceiver(mBroadcastReceiver, filter);
         }else {
             getActivity().unregisterReceiver(mBroadcastReceiver);
@@ -176,6 +178,7 @@ public class DiscoverDevicesFragment extends Fragment implements DiscoverDevices
     public void showPairDevice(BluetoothDevice device) {
         Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
         intent.putExtra(MainActivity.EXTRA_DEVICE_ADDRESS, device.getAddress());
+        intent.putExtra(MainActivity.EXTRA_DEVICE_NAME, device.getName());
         startActivityForResult(intent, REQUEST_PAIR_DEVICE);
     }
 }

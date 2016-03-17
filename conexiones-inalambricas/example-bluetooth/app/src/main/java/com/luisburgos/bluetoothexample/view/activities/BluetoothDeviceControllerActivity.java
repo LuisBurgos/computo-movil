@@ -25,6 +25,7 @@ public class BluetoothDeviceControllerActivity extends AppCompatActivity impleme
     private FloatingActionButton btnRight;
     private CoordinatorLayout mCoordinator;
     private TextView mDeviceControllerAddress;
+    private String mDeviceName;
     private String mDeviceAddress;
     private ImageView mImageView;
 
@@ -38,6 +39,7 @@ public class BluetoothDeviceControllerActivity extends AppCompatActivity impleme
         setSupportActionBar(toolbar);
 
         mDeviceAddress = getIntent().getExtras().getString(MainActivity.EXTRA_DEVICE_ADDRESS);
+        mDeviceName = getIntent().getExtras().getString(MainActivity.EXTRA_DEVICE_NAME);
 
         mImageView = (ImageView) findViewById(R.id.deviceControllerImageView);
         mDeviceControllerAddress = (TextView)findViewById(R.id.deviceControllerAddress);
@@ -93,15 +95,15 @@ public class BluetoothDeviceControllerActivity extends AppCompatActivity impleme
     }
 
     @Override
-    public void setDeviceAddress(String deviceAddress) {
-        mDeviceControllerAddress.setText(deviceAddress);
+    public void setDeviceInformation(String deviceInfo) {
+        mDeviceControllerAddress.setText(deviceInfo);
     }
 
     @Override
     public void showDeviceConnectionError(String errorMessage) {
         Snackbar.make(mCoordinator, errorMessage, Snackbar.LENGTH_INDEFINITE).show();
-        btnLeft.setEnabled(false);
-        btnRight.setEnabled(false);
+        //btnLeft.setEnabled(false);
+        //btnRight.setEnabled(false);
     }
 
     @Override

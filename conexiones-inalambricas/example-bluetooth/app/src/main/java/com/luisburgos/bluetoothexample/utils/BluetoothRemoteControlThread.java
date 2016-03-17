@@ -5,72 +5,78 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.util.Log;
 
-import com.luisburgos.bluetoothexample.R;
-import com.luisburgos.bluetoothexample.presenters.contracts.DeviceControllerContract;
+import com.luisburgos.bluetoothexample.view.activities.MainActivity;
 
-public class BluetoothRemoteControlThread {
+public class BluetoothRemoteControlThread extends Thread{
 
-	private final BluetoothSocket socket;
-	private final BluetoothDevice deviceSrv;
-	private BluetoothAdapter mBluetoothAdapter;
-	
-	private InputStream in;
-	private OutputStream out;
-	private Activity act;
-	
-	private static final UUID MY_UUID = UUID.fromString("04c6093b-0000-1000-8000-00805f9b34fb");
-	
-	public BluetoothRemoteControlThread(Activity act, BluetoothDevice server){
-		BluetoothSocket tmp =  null;
-		deviceSrv = server;
-		this.act = act;
-		try{
-			tmp = deviceSrv.createRfcommSocketToServiceRecord(MY_UUID);
-		}catch(IOException exp){
-			exp.printStackTrace();
-		}
-		socket = tmp;
-		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-	}
-	
-	public boolean connectDevice(){
-		mBluetoothAdapter.cancelDiscovery();
-		try{
-			socket.connect();
-			out = socket.getOutputStream();
-			in = socket.getInputStream();
-			return true;
-		}catch(IOException connectException){
+    private final BluetoothSocket mSocket;
+    private final BluetoothDevice mDevice;
 
-			try{
-				socket.close();
-			}catch(IOException exp){}
-			return false;
-		}
-	}
-	
-	public void pgDown(){
-		try {
-			out.write(1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void pgUp(){
-		byte image[] = new byte[200]; 
-		try {
-			out.write(2);
+    private BluetoothAdapter mBluetoothAdapter;
+
+    private InputStream in;
+    private OutputStream out;
+
+    private static final UUID MY_UUID = UUID.fromString("04c6093b-0000-1000-8000-00805f9b34fb");
+
+    public BluetoothRemoteControlThread(BluetoothDevice device){
+        BluetoothSocket tmp =  null;
+        mDevice = device;
+
+        try{
+            tmp = mDevice.createRfcommSocketToServiceRecord(MY_UUID);
+        }catch(IOException exp){
+            exp.printStackTrace();
+        }
+
+        mSocket = tmp;
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    }
+
+    public void run(){
+        mBluetoothAdapter.cancelDiscovery();
+
+        try{
+            Log.i(MainActivity.TAG, "Before socket connect");
+            mSocket.connect();
+            Log.i(MainActivity.TAG, "After socket connect");
+            out = mSocket.getOutputStream();
+            in = mSocket.getInputStream();
+        }catch(IOException connectException){
+            connectException.printStackTrace();
+            try{
+                mSocket.close();
+            }catch(IOException exp){
+                exp.printStackTrace();
+            }
+            return;
+        }
+    }
+
+    public void cancel() {
+        try {
+            mSocket.close();
+        } catch (IOException e) { }
+    }
+
+    public void pgDown(){
+        try {
+            out.write(1);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void pgUp(){
+        byte image[] = new byte[200];
+        try {
+            out.write(2);
 			/*in.read(image);
 			int l = image.length;
 			int a1 = in.available();
@@ -78,10 +84,10 @@ public class BluetoothRemoteControlThread {
 			int a2 = in.available();
 			Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
 			((DeviceControllerContract.View) act).setPresentationImage(bmp);*/
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
