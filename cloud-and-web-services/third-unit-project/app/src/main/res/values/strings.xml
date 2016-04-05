@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Proyecto Tercera Unidad</string>
+    <string name="action_settings">Settings</string>
+    <string name="device_not_compatible">Not compatible</string>
+    <string name="device_not_compatible_explanation">Your phone does not support Bluetooth</string>
+    <string name="device_not_compatible_action">Exit</string>
+    <string name="label_view_more">Ver más</string>
+</resources>
