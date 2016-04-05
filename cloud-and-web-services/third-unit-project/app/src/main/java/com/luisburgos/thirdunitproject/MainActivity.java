@@ -24,15 +24,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.luisburgos.thirdunitproject.bluetooth.BluetoothConection;
+import com.luisburgos.thirdunitproject.bluetooth.BluetoothConnection;
 import com.luisburgos.thirdunitproject.bluetooth.BluetoothUtil;
 import com.luisburgos.thirdunitproject.bluetooth.ListDeviceActivity;
 import com.luisburgos.thirdunitproject.network.model.ArticlesCallback;;
 import com.luisburgos.thirdunitproject.network.services.ServiceGenerator;
 import com.luisburgos.thirdunitproject.network.model.ArticlesResponse;
 import com.luisburgos.thirdunitproject.network.services.ArticlesApiService;
-
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesCallback 
 
     private BluetoothAdapter mBluetoothAdapter;
     private ProgressDialog mProgressDialog;
-    private BluetoothConection mControlThread;
+    private BluetoothConnection mControlThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesCallback 
                 if (resultCode == Activity.RESULT_OK) {
                     String address = data.getExtras().getString(ListDeviceActivity.EXTRA_DEVICE_ADDRESS);
                     BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-                    mControlThread = new BluetoothConection(device);
+                    mControlThread = new BluetoothConnection(device);
                     mControlThread.connectDevice();
                     sendToDevice.setEnabled(true);
                 }

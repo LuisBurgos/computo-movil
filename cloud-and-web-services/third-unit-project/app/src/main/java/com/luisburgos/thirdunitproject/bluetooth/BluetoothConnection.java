@@ -5,23 +5,25 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import com.luisburgos.thirdunitproject.MainActivity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
-public class BluetoothConection {
+public class BluetoothConnection {
 
-	private final BluetoothSocket socket;
+	private final BluetoothSocket mSocket;
 	private BluetoothAdapter mBluetoothAdapter;
 
-	private InputStream in;
-	private OutputStream out;
+	private InputStream mInput;
+	private OutputStream mOutput;
 
 	private static final UUID MY_UUID = UUID.fromString("04c6093b-0000-1000-8000-00805f9b34fb");
 
-	public BluetoothConection(BluetoothDevice server){
+	public BluetoothConnection(BluetoothDevice server){
 		BluetoothSocket socket =  null;
 		try{
 			socket = server.createRfcommSocketToServiceRecord(MY_UUID);
@@ -29,19 +31,19 @@ public class BluetoothConection {
 			exception.printStackTrace();
 		}
 
-		this.socket = socket;
+		this.mSocket = socket;
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 	}
 
 	public void connectDevice(){
 		mBluetoothAdapter.cancelDiscovery();
 		try{
-			socket.connect();
-			out = socket.getOutputStream();
-			in = socket.getInputStream();
+			mSocket.connect();
+			mOutput = mSocket.getOutputStream();
+			mInput = mSocket.getInputStream();
 		}catch(IOException connectException){
 			try{
-				socket.close();
+				mSocket.close();
 			}catch(IOException ignored){}
 		}
 
@@ -50,10 +52,10 @@ public class BluetoothConection {
 	public void sendData(String data){
 		byte[] buffer = data.getBytes(Charset.forName("UTF-8"));
 		try {
-			if(out != null){
-				out.write(buffer);
+			if(mOutput != null){
+				mOutput.write(buffer);
 			}else{
-				Log.d("BLUETOOTH DEVICE", "Output Stream Null");
+				Log.d(MainActivity.TAG, "Output Stream Null");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
