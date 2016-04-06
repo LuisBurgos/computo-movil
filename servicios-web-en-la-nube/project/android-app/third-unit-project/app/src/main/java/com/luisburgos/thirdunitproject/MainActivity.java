@@ -27,6 +27,8 @@ import com.google.gson.JsonParser;
 import com.luisburgos.thirdunitproject.bluetooth.BluetoothConnection;
 import com.luisburgos.thirdunitproject.bluetooth.BluetoothUtil;
 import com.luisburgos.thirdunitproject.bluetooth.ListDeviceActivity;
+import com.luisburgos.thirdunitproject.files.FileManagerHelper;
+import com.luisburgos.thirdunitproject.files.JSONHelper;
 import com.luisburgos.thirdunitproject.network.model.ArticlesCallback;;
 import com.luisburgos.thirdunitproject.network.services.ServiceGenerator;
 import com.luisburgos.thirdunitproject.network.model.ArticlesResponse;
@@ -63,13 +65,19 @@ public class MainActivity extends AppCompatActivity implements ArticlesCallback 
         setSupportActionBar(toolbar);
 
         if(BluetoothUtil.isBluetoothSupported()){
-            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            String contentFromServer = FileManagerHelper.readFileFromInternalStorage(this);
+            if(contentFromServer != null){
+                Log.d(TAG, "CONTENT PREVIOUS SAVED" + JSONHelper.prettyFormat(contentFromServer));
+            }else{
+                Log.d(TAG, "There is not CONTENT from Server store in File System");
+            }
 
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            sendToDevice.setEnabled(false);
+            chooseDevice.setEnabled(false);
             if(!mBluetoothAdapter.isEnabled()){
                 requestBluetoothActivation();
             }
-            sendToDevice.setEnabled(false);
-            chooseDevice.setEnabled(false);
         }else{
             showBluetoothUnsupportedMessage();
         }
@@ -109,12 +117,9 @@ public class MainActivity extends AppCompatActivity implements ArticlesCallback 
                     ArticlesResponse articlesResponse = response.body();
 
                     String JSONString = new Gson().toJson(articlesResponse);
-                    JsonParser parser = new JsonParser();
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    JsonElement element = parser.parse(JSONString);
-                    JSONString = gson.toJson(element);
+                    JSONString = JSONHelper.prettyFormat(JSONString);
 
-                    Log.d(TAG, JSONString);
+                    Log.d(TAG, "DATA LOADED: " + JSONString);
                     callback.onDataLoaded(JSONString);
 
                 } else {
@@ -192,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements ArticlesCallback 
 
     @Override
     public void onDataLoaded(String data) {
+        FileManagerHelper.writeToInternalFile(this, data);
         jsonContentTextView.setText(data);
         chooseDevice.setEnabled(true);
         mProgressDialog.dismiss();
