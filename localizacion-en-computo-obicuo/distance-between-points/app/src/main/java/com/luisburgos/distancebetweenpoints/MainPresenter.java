@@ -79,11 +79,11 @@ public class MainPresenter implements LocationListener, MainContract.ActionsList
         }
 
         if(!isValidCoordinate(mView.getInputLatitude()) || TextUtils.isEmpty(mView.getInputLatitude()) ){
-            mView.setLongitudeErrorMessage();
+            mView.setLatitudeErrorMessage();
         }
 
         if(!isValidCoordinate(mView.getInputLongitude()) || TextUtils.isEmpty(mView.getInputLongitude())){
-            mView.setLatitudeErrorMessage();
+            mView.setLongitudeErrorMessage();
             return;
         }
 
