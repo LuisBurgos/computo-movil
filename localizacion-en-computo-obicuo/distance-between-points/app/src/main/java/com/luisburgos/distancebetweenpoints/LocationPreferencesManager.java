@@ -52,7 +52,7 @@ public class LocationPreferencesManager {
         return Double.longBitsToDouble(mPreferences.getLong(KEY_LNG, 0));
     }
 
-    public boolean hasAlreadyChooseLocation(){
+    public boolean hasAlreadySetLocation(){
         return mPreferences.getBoolean(KEY_IS_LOCATION_SET, false);
     }
 
@@ -61,4 +61,7 @@ public class LocationPreferencesManager {
         mEditor.commit();
     }
 
+    public String getLastKnowLocation() {
+        return String.format("LAT: %f - LNG: %f", getLatitude(), getLongitude());
+    }
 }
