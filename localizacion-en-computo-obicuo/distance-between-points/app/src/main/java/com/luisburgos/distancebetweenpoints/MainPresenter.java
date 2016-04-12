@@ -18,6 +18,8 @@ import java.util.Locale;
  */
 public class MainPresenter implements LocationListener, MainContract.ActionsListener {
 
+    public static float RADIUS_DISTANCE = 100;
+
     private LocationPreferencesManager mLocationPreferences;
     private MainContract.View mView;
 
@@ -95,6 +97,10 @@ public class MainPresenter implements LocationListener, MainContract.ActionsList
 
         float distance = mCurrentLocation.distanceTo(targetLocation);
         mView.setDistanceBetweenTwoLocations(String.format("%.5f meters", distance));
+
+        if(distance > RADIUS_DISTANCE){
+            mView.showErrorMessage("You are not in app radius");
+        }
     }
 
     @Override
