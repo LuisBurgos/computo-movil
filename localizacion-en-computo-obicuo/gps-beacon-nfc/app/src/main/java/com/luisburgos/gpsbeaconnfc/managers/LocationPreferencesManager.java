@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc;
+package com.luisburgos.gpsbeaconnfc.managers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

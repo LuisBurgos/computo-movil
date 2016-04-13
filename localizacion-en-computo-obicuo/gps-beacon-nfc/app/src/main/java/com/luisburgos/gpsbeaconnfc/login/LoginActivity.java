@@ -12,8 +12,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.luisburgos.distancebetweenpoints.MainActivity;
-import com.luisburgos.distancebetweenpoints.R;
+import com.luisburgos.gpsbeaconnfc.MainActivity;
+import com.luisburgos.gpsbeaconnfc.R;
+
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GPSBeaconNFC</string>
+    <string name="app_name">GPS,Beacosn,NFC</string>
 
     <!-- Splash Activity -->
     <string name="title_activity_splash">Splash Screen</string>
@@ -19,13 +19,15 @@
     <string name="lbl_btn_login">Login</string>
     <string name="lbl_btn_logout">Log out</string>
     <string name="lbl_main_message">Current session</string>
-    <string name="lbl_welcome_message">Welcome</string>
-    <string name="lbl_loading_message">Loading...</string>
+    <string name="lbl_welcome_message">Bienvenido</string>
+    <string name="lbl_login_message">Podrás iniciar sesión si te encuentras dentro de las instalaciones de la Facultad de Matemáticas de la UADY</string>
+    <string name="lbl_loading_message">Cargando...</string>
     <string name="empty_data_message">Empty Fields</string>
     <string name="error_failed_login">Error on login</string>
     <string name="lbl_username_prefix"><b>"Username: "</b></string>
     <string name="lbl_password_hint">Password</string>
     <string name="lbl_username_hint">Username</string>
     <string name="lbl_app_description_message">GPS, Beacons and NFC</string>
+    <string name="label_view_more">Ver más</string>
 
 </resources>

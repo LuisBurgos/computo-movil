@@ -7,10 +7,10 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.luisburgos.distancebetweenpoints.MainActivity;
-import com.luisburgos.distancebetweenpoints.R;
-import com.luisburgos.distancebetweenpoints.login.LoginActivity;
-import com.luisburgos.distancebetweenpoints.managers.UserSessionManager;
+import com.luisburgos.gpsbeaconnfc.MainActivity;
+import com.luisburgos.gpsbeaconnfc.R;
+import com.luisburgos.gpsbeaconnfc.login.LoginActivity;
+import com.luisburgos.gpsbeaconnfc.managers.UserSessionManager;
 
 public class SplashActivity extends AppCompatActivity {
 

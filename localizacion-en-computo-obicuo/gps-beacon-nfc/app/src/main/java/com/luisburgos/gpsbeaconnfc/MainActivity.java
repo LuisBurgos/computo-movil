@@ -8,12 +8,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
-    public static final String TAG = "DISTANCE2POINTS";
+    public static final String TAG = "GPS-BEACON-NFC";
 
     @Bind(R.id.locationTextView) TextView locationTextView;
     @Bind(R.id.distanceTextView) TextView distanceTextView;

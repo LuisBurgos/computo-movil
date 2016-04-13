@@ -5,7 +5,7 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
-import com.luisburgos.distancebetweenpoints.managers.UserSessionManager;
+import com.luisburgos.gpsbeaconnfc.managers.UserSessionManager;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

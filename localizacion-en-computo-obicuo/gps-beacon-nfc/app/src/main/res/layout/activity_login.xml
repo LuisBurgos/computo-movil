@@ -27,6 +27,18 @@
             android:textSize="30sp"
             android:textColor="@color/colorAccent"/>
 
+        <TextView
+            android:id="@+id/login_description_message"
+            android:text="@string/lbl_login_message"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:textColor="@color/colorTextIcons"
+            android:gravity="center"
+            android:layout_below="@+id/welcomeMessage"
+            android:textSize="16sp"/>
+
     </RelativeLayout>
 
 

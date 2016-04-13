@@ -3,7 +3,8 @@ package com.luisburgos.gpsbeaconnfc.managers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.luisburgos.distancebetweenpoints.domain.User;
+import com.luisburgos.gpsbeaconnfc.domain.User;
+
 
 public class UserSessionManager {
 

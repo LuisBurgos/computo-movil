@@ -3,6 +3,8 @@ package com.luisburgos.gpsbeaconnfc;
 import android.content.Context;
 import android.location.Location;
 
+import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
+
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.functions.Action1;
 

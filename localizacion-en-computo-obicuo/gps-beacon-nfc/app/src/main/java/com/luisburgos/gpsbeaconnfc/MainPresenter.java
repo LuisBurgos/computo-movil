@@ -1,13 +1,18 @@
 package com.luisburgos.gpsbeaconnfc;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -26,9 +31,22 @@ public class MainPresenter implements LocationListener, MainContract.ActionsList
     private LocationManager locationManager;
     private Location mCurrentLocation;
 
+    private Location buildingBLocation;
+    private Location campusLibraryLocation;
+
     public MainPresenter(@NonNull MainContract.View view, @NonNull LocationPreferencesManager locationPreferences) {
         this.mView = view;
         mLocationPreferences = locationPreferences;
+
+        //Edificio B 21.047814, -89.644161
+        buildingBLocation = new Location("");
+        buildingBLocation.setLatitude(21.047814);
+        buildingBLocation.setLongitude(-89.644161);
+
+        //Biblioteca de Ciencias Exactas Mérida, Yuc. 21.048348, -89.643599
+        campusLibraryLocation = new Location("");
+        campusLibraryLocation.setLatitude(21.048348);
+        campusLibraryLocation.setLongitude(-89.643599);
     }
 
     @Override
