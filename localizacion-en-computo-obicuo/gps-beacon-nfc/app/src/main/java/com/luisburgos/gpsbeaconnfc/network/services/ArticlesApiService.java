@@ -2,8 +2,8 @@ package com.luisburgos.gpsbeaconnfc.network.services;
 
 
 
-import com.luisburgos.gpsbeaconnfc.network.ApiConstants;
-import com.luisburgos.gpsbeaconnfc.network.model.ArticlesResponse;
+import com.luisburgos.gpsbeaconnfc.network.APIConstants;
+import com.luisburgos.gpsbeaconnfc.network.response.ArticlesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,6 +13,6 @@ import retrofit2.http.GET;
  */
 public interface ArticlesApiService {
 
-    @GET(ApiConstants.ARTICLES_URL)
+    @GET(APIConstants.ARTICLES_URL)
     public Call<ArticlesResponse> getArticles();
 }

@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.login;
+package com.luisburgos.gpsbeaconnfc.presenters;
 
 /**
  * Created by luisburgos on 6/02/16.

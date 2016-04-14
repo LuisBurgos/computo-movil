@@ -3,7 +3,7 @@ package com.luisburgos.gpsbeaconnfc.network.services;
 import android.util.Base64;
 
 
-import com.luisburgos.gpsbeaconnfc.network.ApiConstants;
+import com.luisburgos.gpsbeaconnfc.network.APIConstants;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ public class ServiceGenerator {
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
-                    .baseUrl(ApiConstants.BASE_URL)
+                    .baseUrl(APIConstants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {

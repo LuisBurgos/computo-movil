@@ -1,7 +1,7 @@
-package com.luisburgos.gpsbeaconnfc.network.model;
+package com.luisburgos.gpsbeaconnfc.network.response;
 
 import com.google.gson.annotations.SerializedName;
-import com.luisburgos.gpsbeaconnfc.domain.Article;
+import com.luisburgos.gpsbeaconnfc.models.Article;
 
 import java.util.ArrayList;
 

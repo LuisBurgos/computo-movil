@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.login;
+package com.luisburgos.gpsbeaconnfc.views.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.luisburgos.gpsbeaconnfc.MainActivity;
+import com.luisburgos.gpsbeaconnfc.presenters.LoginContract;
+import com.luisburgos.gpsbeaconnfc.presenters.LoginPresenter;
 import com.luisburgos.gpsbeaconnfc.R;
 
 

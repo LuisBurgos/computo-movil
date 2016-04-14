@@ -3,7 +3,7 @@ package com.luisburgos.gpsbeaconnfc.managers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.luisburgos.gpsbeaconnfc.domain.User;
+import com.luisburgos.gpsbeaconnfc.models.User;
 
 
 public class UserSessionManager {

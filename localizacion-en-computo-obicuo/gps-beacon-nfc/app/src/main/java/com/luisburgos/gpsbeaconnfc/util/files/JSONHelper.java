@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.files;
+package com.luisburgos.gpsbeaconnfc.util.files;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

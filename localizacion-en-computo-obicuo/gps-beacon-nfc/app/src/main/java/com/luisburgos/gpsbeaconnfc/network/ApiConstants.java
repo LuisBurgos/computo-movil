@@ -3,7 +3,7 @@ package com.luisburgos.gpsbeaconnfc.network;
 /**
  * Created by luisburgos on 21/03/16.
  */
-public class ApiConstants {
+public class APIConstants {
 
     //TODO: Change string VALUES
 

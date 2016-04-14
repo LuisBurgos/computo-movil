@@ -1,10 +1,10 @@
-package com.luisburgos.gpsbeaconnfc.files;
+package com.luisburgos.gpsbeaconnfc.util.files;
 
 import android.content.Context;
 import android.util.Log;
 
 
-import com.luisburgos.gpsbeaconnfc.MainActivity;
+import com.luisburgos.gpsbeaconnfc.views.activities.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

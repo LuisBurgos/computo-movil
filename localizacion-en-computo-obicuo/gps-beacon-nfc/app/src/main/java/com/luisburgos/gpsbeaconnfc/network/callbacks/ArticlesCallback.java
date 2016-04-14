@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.network.model;
+package com.luisburgos.gpsbeaconnfc.network.callbacks;
 
 /**
  * Created by luisburgos on 5/04/16.

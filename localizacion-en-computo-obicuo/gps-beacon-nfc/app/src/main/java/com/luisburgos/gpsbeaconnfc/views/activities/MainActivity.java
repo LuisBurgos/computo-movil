@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc;
+package com.luisburgos.gpsbeaconnfc.views.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.luisburgos.gpsbeaconnfc.presenters.MainContract;
+import com.luisburgos.gpsbeaconnfc.presenters.MainPresenter;
+import com.luisburgos.gpsbeaconnfc.R;
 import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
 
 import butterknife.Bind;

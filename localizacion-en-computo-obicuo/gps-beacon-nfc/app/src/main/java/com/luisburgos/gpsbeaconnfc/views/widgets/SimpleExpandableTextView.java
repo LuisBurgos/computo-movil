@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.widgets;
+package com.luisburgos.gpsbeaconnfc.views.widgets;
 
 import android.content.Context;
 import android.text.Spannable;

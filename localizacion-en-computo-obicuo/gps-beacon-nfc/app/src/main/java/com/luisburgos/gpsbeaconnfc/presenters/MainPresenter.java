@@ -1,18 +1,17 @@
-package com.luisburgos.gpsbeaconnfc;
+package com.luisburgos.gpsbeaconnfc.presenters;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
+import com.luisburgos.gpsbeaconnfc.util.PermissionHelper;
+import com.luisburgos.gpsbeaconnfc.views.activities.MainActivity;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc;
+package com.luisburgos.gpsbeaconnfc.presenters;
 
 import android.content.Context;
 

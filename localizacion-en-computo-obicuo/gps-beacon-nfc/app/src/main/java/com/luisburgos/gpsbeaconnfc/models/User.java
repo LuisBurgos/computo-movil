@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.domain;
+package com.luisburgos.gpsbeaconnfc.models;
 
 /**
  * Created by luisburgos on 11/02/16.

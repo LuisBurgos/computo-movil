@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.login;
+package com.luisburgos.gpsbeaconnfc.presenters;
 
 import android.os.Handler;
 import android.os.Looper;

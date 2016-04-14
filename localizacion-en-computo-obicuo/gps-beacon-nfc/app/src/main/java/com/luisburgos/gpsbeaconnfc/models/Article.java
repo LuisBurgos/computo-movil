@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.domain;
+package com.luisburgos.gpsbeaconnfc.models;
 
 import com.google.gson.annotations.SerializedName;
 
