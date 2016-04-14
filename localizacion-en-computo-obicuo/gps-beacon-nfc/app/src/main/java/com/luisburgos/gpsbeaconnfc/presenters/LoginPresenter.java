@@ -72,7 +72,8 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
 
     @Override
     public void doLogin() {
-
+        //mSessionManager.createUserLoginSession("", "");
+        mView.showMain();
     }
 
     @Override
@@ -105,7 +106,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
 
         boolean isInsideCampus = distance <= RADIUS_DISTANCE;
         mView.setCanLoginState(isInsideCampus);
-        if(isInsideCampus){
+        if(!isInsideCampus){
             mView.showErrorMessage("No estás dentro del campus");
         }
     }
@@ -123,21 +124,23 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
         mView.setCurrentLocation(
                 "LAT: " + String.valueOf(location.getLatitude()) + " - LNG: " + String.valueOf(location.getLongitude())
         );
+        Log.d(MainActivity.TAG, "CHANGE LOCATION: " +
+                "LAT: " + String.valueOf(location.getLatitude()) + " - LNG: " + String.valueOf(location.getLongitude()));
         calculateDistance();
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
+        Log.d(MainActivity.TAG, "ENABLED: " + provider);
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
+        Log.d(MainActivity.TAG, "ENABLED: " + provider);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
+        Log.d(MainActivity.TAG, "DISABLED: " + provider);
     }
 }

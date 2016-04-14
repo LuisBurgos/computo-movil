@@ -22,6 +22,8 @@ public interface LoginContract {
         void showLocationSubscribeError();
 
         void showErrorMessage(String message);
+
+        void showMain();
     }
 
     interface UserActionsListener {

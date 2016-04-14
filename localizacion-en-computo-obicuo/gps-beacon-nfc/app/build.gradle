@@ -26,7 +26,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.google.android.gms:play-services:8.4.0'
+    //compile 'com.google.android.gms:play-services:8.4.0'
 
     compile "com.android.support:multidex:$rootProject.multidex"
     compile "com.jakewharton:butterknife:$rootProject.butterknife"
@@ -35,6 +35,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.converterGson"
     compile "com.google.code.gson:gson:$rootProject.gson"
+    compile "com.estimote:sdk:$rootProject.estimote"
 
     //ReactiveLocation for Android
     compile "pl.charmas.android:android-reactive-location:$rootProject.reactiveLocation"

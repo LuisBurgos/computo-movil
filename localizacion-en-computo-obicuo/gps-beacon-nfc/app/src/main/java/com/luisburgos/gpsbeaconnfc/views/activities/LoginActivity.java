@@ -65,12 +65,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 mActionsListener.doLogin();
             }
         });
+        mActionsListener.subscribeForLocationChanges(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mActionsListener.subscribeForLocationChanges(this);
+
     }
 
     @Override
@@ -131,7 +132,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void showErrorMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void showMain() {
+        sendTo(MainActivity.class);
     }
 
     private void sendTo(Class classTo) {
