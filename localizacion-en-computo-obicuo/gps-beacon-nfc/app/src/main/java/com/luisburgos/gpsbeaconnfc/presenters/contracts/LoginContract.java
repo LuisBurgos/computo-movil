@@ -1,5 +1,7 @@
 package com.luisburgos.gpsbeaconnfc.presenters.contracts;
 
+import android.content.Context;
+
 /**
  * Created by luisburgos on 6/02/16.
  */
@@ -7,27 +9,30 @@ public interface LoginContract {
 
     interface View {
 
-        void onLoginResult(Boolean result, int code);
+        void onLoginResult(Boolean result);
 
         void setProgressIndicator(boolean active);
 
-        void showEmptyDataMessage();
+        void setCanLoginState(boolean canLoginState);
 
-        void setUsernameErrorMessage();
+        void setCurrentLocation(String location);
 
-        void setPasswordErrorMessage();
+        void setCurrentDistance(String distance);
 
-        void showLoginFailedMessage(String message);
-
-        void showUserNonExistingMessage();
-
-        void showPasswordNotMatchMessage();
+        void showLocationSubscribeError();
     }
 
     interface UserActionsListener {
 
-        void doLogin(String username, String password);
+        void subscribeForLocationChanges(Context context);
 
+        void unsubscribeForLocationChanges(Context context);
+
+        void doLogin();
+
+        void reloadInformation();
+
+        void loadLocation();
     }
 
 

@@ -29,5 +29,9 @@
     <string name="lbl_username_hint">Username</string>
     <string name="lbl_app_description_message">GPS, Beacons and NFC</string>
     <string name="label_view_more">Ver más</string>
+    <string name="current_location">Ubicación Actual:</string>
+    <string name="location_holder">Location...</string>
+    <string name="current_distance">Distancia Actual</string>
+    <string name="distance_holder">Distancia...</string>
 
 </resources>
