@@ -21,6 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         final UserSessionManager sessionManager = new UserSessionManager(SplashActivity.this);
+        sessionManager.logoutUser();
 
         TextView mMessage = (TextView) findViewById(R.id.splash_message);
         Typeface robotoBoldCondensedItalic = Typeface.createFromAsset(getAssets(), "fonts/lobster.otf");

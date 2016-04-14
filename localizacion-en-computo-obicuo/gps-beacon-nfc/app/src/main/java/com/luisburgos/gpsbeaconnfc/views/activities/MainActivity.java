@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.estimote.sdk.repackaged.retrofit_v1_9_0.retrofit.RestAdapter;
 import com.luisburgos.gpsbeaconnfc.presenters.contracts.MainContract;
 import com.luisburgos.gpsbeaconnfc.presenters.MainPresenter;
 import com.luisburgos.gpsbeaconnfc.R;
@@ -56,23 +58,26 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
             @Override
             public void onEnteredRegion(Region region, List<Beacon> list) {
+                Log.d(MainActivity.TAG, "Entrando a Region");
                 isOnClassroom = true;
                 btnDownload.setEnabled(isOnClassroom);
                 showNotification(
                         "BIENVENIDO AL CC1",
-                        "Listo para descargar la información de la aisgnatura?");
+                        "¿Listo para descargar la información de la aisgnatura?");
             }
             @Override
             public void onExitedRegion(Region region) {
+                Log.d(MainActivity.TAG, "Saliendo de Region");
                 isOnClassroom = false;
                 btnDownload.setEnabled(isOnClassroom);
-                showNotification("SALIDA","Nos vemos pronto");
+                showNotification("SALIDA","Acabas de salir del CC1. Nos vemos pronto");
             }
         });
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
+                Log.d(MainActivity.TAG, "Montoreando Region");
                 beaconManager.startMonitoring(new Region(
                         "monitored region",
                         UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
