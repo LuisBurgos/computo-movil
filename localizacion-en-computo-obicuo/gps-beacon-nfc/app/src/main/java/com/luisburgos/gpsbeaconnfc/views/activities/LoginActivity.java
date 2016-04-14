@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.luisburgos.gpsbeaconnfc.presenters.LoginContract;
+import com.luisburgos.gpsbeaconnfc.presenters.contracts.LoginContract;
 import com.luisburgos.gpsbeaconnfc.presenters.LoginPresenter;
 import com.luisburgos.gpsbeaconnfc.R;
 

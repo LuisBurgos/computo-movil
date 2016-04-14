@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.luisburgos.gpsbeaconnfc.presenters.MainContract;
+import com.luisburgos.gpsbeaconnfc.presenters.contracts.MainContract;
 import com.luisburgos.gpsbeaconnfc.presenters.MainPresenter;
 import com.luisburgos.gpsbeaconnfc.R;
 import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;

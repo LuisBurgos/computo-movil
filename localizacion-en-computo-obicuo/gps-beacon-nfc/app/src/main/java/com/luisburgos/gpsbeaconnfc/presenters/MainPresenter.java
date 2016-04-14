@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
+import com.luisburgos.gpsbeaconnfc.presenters.contracts.MainContract;
 import com.luisburgos.gpsbeaconnfc.util.PermissionHelper;
 import com.luisburgos.gpsbeaconnfc.views.activities.MainActivity;
 

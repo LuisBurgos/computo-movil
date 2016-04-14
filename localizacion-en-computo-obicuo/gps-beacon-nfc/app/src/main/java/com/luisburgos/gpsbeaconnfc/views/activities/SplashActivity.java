@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.util;
+package com.luisburgos.gpsbeaconnfc.views.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -7,9 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.luisburgos.gpsbeaconnfc.views.activities.MainActivity;
 import com.luisburgos.gpsbeaconnfc.R;
-import com.luisburgos.gpsbeaconnfc.views.activities.LoginActivity;
 import com.luisburgos.gpsbeaconnfc.managers.UserSessionManager;
 
 public class SplashActivity extends AppCompatActivity {

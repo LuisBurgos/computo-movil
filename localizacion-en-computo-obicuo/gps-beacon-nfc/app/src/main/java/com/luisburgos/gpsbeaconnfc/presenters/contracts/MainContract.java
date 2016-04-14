@@ -1,4 +1,4 @@
-package com.luisburgos.gpsbeaconnfc.presenters;
+package com.luisburgos.gpsbeaconnfc.presenters.contracts;
 
 import android.content.Context;
 
