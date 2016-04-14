@@ -31,22 +31,9 @@ public class MainPresenter implements LocationListener, MainContract.ActionsList
     private LocationManager locationManager;
     private Location mCurrentLocation;
 
-    private Location buildingBLocation;
-    private Location campusLibraryLocation;
-
     public MainPresenter(@NonNull MainContract.View view, @NonNull LocationPreferencesManager locationPreferences) {
         this.mView = view;
         mLocationPreferences = locationPreferences;
-
-        //Edificio B 21.047814, -89.644161
-        buildingBLocation = new Location("");
-        buildingBLocation.setLatitude(21.047814);
-        buildingBLocation.setLongitude(-89.644161);
-
-        //Biblioteca de Ciencias Exactas Mérida, Yuc. 21.048348, -89.643599
-        campusLibraryLocation = new Location("");
-        campusLibraryLocation.setLatitude(21.048348);
-        campusLibraryLocation.setLongitude(-89.643599);
     }
 
     @Override

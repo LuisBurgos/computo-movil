@@ -20,6 +20,8 @@ public interface LoginContract {
         void setCurrentDistance(String distance);
 
         void showLocationSubscribeError();
+
+        void showErrorMessage(String message);
     }
 
     interface UserActionsListener {

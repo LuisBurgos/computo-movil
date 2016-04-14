@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                         usernameWrapper.getEditText().getText().toString().trim(),
                         passwordWrapper.getEditText().getText().toString().trim()
                 );*/
+                mActionsListener.doLogin();
             }
         });
     }
@@ -126,6 +127,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showLocationSubscribeError() {
         Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+
     }
 
     private void sendTo(Class classTo) {

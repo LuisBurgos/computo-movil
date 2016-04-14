@@ -23,6 +23,8 @@ import java.util.Locale;
  */
 public class LoginPresenter implements LocationListener, LoginContract.UserActionsListener {
 
+    public static float RADIUS_DISTANCE = 100;
+
     private LoginContract.View mView;
 
     private LocationPreferencesManager mLocationPreferences;
@@ -85,43 +87,31 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
             mCurrentLocation.setLatitude(mLocationPreferences.getLatitude());
             mCurrentLocation.setLongitude(mLocationPreferences.getLongitude());
             mView.setCurrentLocation(mLocationPreferences.getLastKnowLocation());
-            //mView.enableDistanceCalculation();
+            calculateDistance();
+        } else{
+            mView.setCanLoginState(false);
         }
     }
 
     public void calculateDistance() {
 
-        /*if(mCurrentLocation == null){
+        if(mCurrentLocation == null){
             mView.showErrorMessage("Error con ubicación actual");
             return;
         }
 
-        if(!isValidCoordinate(mView.getInputLatitude()) || TextUtils.isEmpty(mView.getInputLatitude()) ){
-            mView.setLatitudeErrorMessage();
+        float distance = mCurrentLocation.distanceTo(campusLibraryLocation);
+        mView.setCurrentDistance(String.format("%.5f metros", distance));
+
+        boolean isInsideCampus = distance <= RADIUS_DISTANCE;
+        mView.setCanLoginState(isInsideCampus);
+        if(isInsideCampus){
+            mView.showErrorMessage("No estás dentro del campus");
         }
-
-        if(!isValidCoordinate(mView.getInputLongitude()) || TextUtils.isEmpty(mView.getInputLongitude())){
-            mView.setLongitudeErrorMessage();
-            return;
-        }
-
-        Location targetLocation = getTargetLocation();
-        if(targetLocation == null){
-            mView.showErrorMessage("Error con ubicación destino");
-            return;
-        }
-
-        float distance = mCurrentLocation.distanceTo(targetLocation);
-        mView.setDistanceBetweenTwoLocations(String.format("%.5f meters", distance));
-
-        if(distance > RADIUS_DISTANCE){
-            mView.showErrorMessage("You are not in app radius");
-        }*/
     }
 
     private boolean isValidCoordinate(String coordinate) {
         boolean valid = coordinate.matches("^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,6})?))$");
-
         Log.d(MainActivity.TAG, coordinate + "is" + String.valueOf(valid));
         return valid;
     }
@@ -133,7 +123,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
         mView.setCurrentLocation(
                 "LAT: " + String.valueOf(location.getLatitude()) + " - LNG: " + String.valueOf(location.getLongitude())
         );
-        //mView.enableDistanceCalculation();
+        calculateDistance();
     }
 
     @Override
