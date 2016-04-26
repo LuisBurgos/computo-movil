@@ -26,7 +26,7 @@
 
             <com.luisburgos.gpsbeaconnfc.views.widgets.ExpandableTextView
                 android:id="@+id/jsonContentTextView"
-                android:text="Contenido del mensaje"
+                android:text=""
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="Hello World!"
+        android:text=""
         android:layout_above="@+id/btnDownload"
         android:layout_centerHorizontal="true" />
 
