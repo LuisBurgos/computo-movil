@@ -33,5 +33,6 @@
     <string name="location_holder">Location...</string>
     <string name="current_distance">Distancia Actual</string>
     <string name="distance_holder">Distancia...</string>
+    <string name="title_activity_main">Descargar contenido</string>
 
 </resources>

@@ -9,11 +9,16 @@ public interface MainContract {
 
     interface View {
 
+        void showContent(String content);
+
+        void setProgressIndicator(boolean active);
+
+        void showErrorMessage();
     }
 
     interface ActionsListener {
 
-
+        void downloadContent();
     }
 
 }

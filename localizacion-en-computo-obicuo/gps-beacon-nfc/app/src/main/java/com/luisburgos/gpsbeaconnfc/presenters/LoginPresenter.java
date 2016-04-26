@@ -23,7 +23,7 @@ import java.util.Locale;
  */
 public class LoginPresenter implements LocationListener, LoginContract.UserActionsListener {
 
-    public static float RADIUS_DISTANCE = 100;
+    public static float RADIUS_DISTANCE = 200;
 
     private LoginContract.View mView;
 
@@ -62,7 +62,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
             mView.showLocationSubscribeError();
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
     }
 
     @Override

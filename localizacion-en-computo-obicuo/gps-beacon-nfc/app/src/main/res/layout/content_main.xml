@@ -12,17 +12,47 @@
     tools:context=".views.activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <android.support.v4.widget.NestedScrollView
+        app:behavior_overlapTop="64dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.luisburgos.gpsbeaconnfc.views.widgets.ExpandableTextView
+                android:id="@+id/jsonContentTextView"
+                android:text="Contenido del mensaje"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginBottom="10dp" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
     <TextView
         android:id="@+id/holderLocationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:enabled="false"
+        android:text="Hello World!"
+        android:layout_above="@+id/btnDownload"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btnDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Descargar contenido"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="51dp" />
+
+
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.luisburgos.gpsbeaconnfc.util;
 
 import android.content.Context;
 
+import com.luisburgos.gpsbeaconnfc.interactor.MainInteractor;
 import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
 import com.luisburgos.gpsbeaconnfc.managers.UserSessionManager;
 import com.luisburgos.gpsbeaconnfc.views.activities.LoginActivity;
@@ -16,5 +17,9 @@ public class Injection {
 
     public static LocationPreferencesManager provideLocationPreferencesManager(Context context) {
         return new LocationPreferencesManager(context);
+    }
+
+    public static MainInteractor provideMainInteractor() {
+        return new MainInteractor();
     }
 }
