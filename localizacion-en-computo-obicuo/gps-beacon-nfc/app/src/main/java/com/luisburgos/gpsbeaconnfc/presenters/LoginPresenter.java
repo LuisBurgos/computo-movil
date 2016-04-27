@@ -1,6 +1,7 @@
 package com.luisburgos.gpsbeaconnfc.presenters;
 
 import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,6 +12,8 @@ import android.util.Log;
 import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
 import com.luisburgos.gpsbeaconnfc.managers.UserSessionManager;
 import com.luisburgos.gpsbeaconnfc.presenters.contracts.LoginContract;
+import com.luisburgos.gpsbeaconnfc.util.GPSDataLoader;
+import com.luisburgos.gpsbeaconnfc.util.Injection;
 import com.luisburgos.gpsbeaconnfc.util.PermissionHelper;
 import com.luisburgos.gpsbeaconnfc.views.activities.MainActivity;
 
@@ -62,17 +65,28 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
             mView.showLocationSubscribeError();
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
+
+        Criteria criteria = new Criteria();
+        criteria.setPowerRequirement(Criteria.POWER_HIGH);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(true);
+
+        locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true), 2000, 0, this);
+        mView.setProgressIndicator(true);
     }
 
     @Override
     public void unsubscribeForLocationChanges(Context context) {
         locationManager.removeUpdates(this);
+        mView.setProgressIndicator(false);
     }
 
     @Override
-    public void doLogin() {
+    public void doLogin(Context context) {
         //mSessionManager.createUserLoginSession("", "");
+        Injection.provideContentPreferencesManager(context).registerIsOnCampus();
         mView.showMain();
     }
 
@@ -82,16 +96,31 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
     }
 
     @Override
-    public void loadLocation() {
+    public void loadLocation(final Context context) {
+        mView.setProgressIndicator(true);
         if(mLocationPreferences.hasAlreadySetLocation()){
             mCurrentLocation = new Location("");
             mCurrentLocation.setLatitude(mLocationPreferences.getLatitude());
             mCurrentLocation.setLongitude(mLocationPreferences.getLongitude());
             mView.setCurrentLocation(mLocationPreferences.getLastKnowLocation());
-            calculateDistance();
         } else{
             mView.setCanLoginState(false);
         }
+
+        new GPSDataLoader(context, Injection.provideLocationPreferencesManager(context), new GPSDataLoader.OnLocationLoaded() {
+            @Override
+            public void onLocationLoadFinished(double lat, double lng) {
+                mCurrentLocation = new Location("");
+                mCurrentLocation.setLatitude(lat);
+                mCurrentLocation.setLongitude(lng);
+                mView.setProgressIndicator(false);
+                mLocationPreferences.registerLocationValues(lat, lng);
+                mView.setCurrentLocation("LAT: " + String.valueOf(lat) + " - LNG: " + String.valueOf(lng));
+                Log.d(MainActivity.TAG, "CHANGE LOCATION: " + "LAT: " + String.valueOf(lat) + " - LNG: " + String.valueOf(lng));
+                subscribeForLocationChanges(context);
+                calculateDistance();
+            }
+        }).loadLastKnownLocation();
     }
 
     public void calculateDistance() {
@@ -106,6 +135,8 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
 
         boolean isInsideCampus = distance <= RADIUS_DISTANCE;
         mView.setCanLoginState(isInsideCampus);
+        //DEBUG:
+        //mView.setCanLoginState(true);
         if(!isInsideCampus){
             mView.showErrorMessage("No estás dentro del campus");
         }
@@ -131,12 +162,14 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d(MainActivity.TAG, "ENABLED: " + provider);
+        Log.d(MainActivity.TAG, "STATUS CHANGED: " + provider);
+
     }
 
     @Override
     public void onProviderEnabled(String provider) {
         Log.d(MainActivity.TAG, "ENABLED: " + provider);
+        mView.setProgressIndicator(false);
     }
 
     @Override

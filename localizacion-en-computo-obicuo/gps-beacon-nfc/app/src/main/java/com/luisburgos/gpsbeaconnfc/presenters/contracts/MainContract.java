@@ -14,11 +14,15 @@ public interface MainContract {
         void setProgressIndicator(boolean active);
 
         void showErrorMessage();
+
+        void setCurrentLocation(String location);
+
+        void showNoLongerInCampusMessage();
     }
 
     interface ActionsListener {
 
-        void downloadContent();
+        void downloadContent(Context context);
     }
 
 }

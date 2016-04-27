@@ -49,6 +49,7 @@
         android:id="@+id/btnDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="Descargar contenido"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

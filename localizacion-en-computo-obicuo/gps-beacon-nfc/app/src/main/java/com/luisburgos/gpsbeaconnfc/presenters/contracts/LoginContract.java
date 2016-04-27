@@ -32,11 +32,11 @@ public interface LoginContract {
 
         void unsubscribeForLocationChanges(Context context);
 
-        void doLogin();
+        void doLogin(Context context);
 
         void reloadInformation();
 
-        void loadLocation();
+        void loadLocation(Context context);
     }
 
 

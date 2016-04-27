@@ -7,6 +7,9 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -23,11 +26,14 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.repackaged.retrofit_v1_9_0.retrofit.RestAdapter;
+import com.luisburgos.gpsbeaconnfc.managers.ContentPreferencesManager;
 import com.luisburgos.gpsbeaconnfc.presenters.contracts.MainContract;
 import com.luisburgos.gpsbeaconnfc.presenters.MainPresenter;
 import com.luisburgos.gpsbeaconnfc.R;
 import com.luisburgos.gpsbeaconnfc.managers.LocationPreferencesManager;
 import com.luisburgos.gpsbeaconnfc.util.Injection;
+import com.luisburgos.gpsbeaconnfc.util.NFCUtils;
+import com.luisburgos.gpsbeaconnfc.util.NdefReaderTask;
 import com.luisburgos.gpsbeaconnfc.util.files.FileManagerHelper;
 
 import java.util.List;
@@ -39,27 +45,29 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     public static final String TAG = "GPS-BEACON-NFC";
+    public static final String CAN_DOWNLOAD_CONTENT = "CAN_DOWNLOAD_CONTENT";
 
     @Bind(R.id.mainCoordinator) CoordinatorLayout mCoordinator;
     @Bind(R.id.jsonContentTextView) TextView jsonContentTextView;
     @Bind(R.id.holderLocationTextView) TextView holderLocationTextView;
     @Bind(R.id.btnDownload) Button btnDownload;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     private BluetoothAdapter bluetoothAdapter;
     private BeaconManager beaconManager;
     private MainPresenter mActionsListener;
     private ProgressDialog mProgressDialog;
+    private NfcAdapter mNfcAdapter;
     boolean isOnClassroom = false;
     private int ENABLE_BLUETOOTH = 0;
+    private boolean isNFCSupported;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
 
         mActionsListener = new MainPresenter(
                 this, Injection.provideLocationPreferencesManager(this), Injection.provideMainInteractor()
@@ -69,25 +77,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         );
 
         beaconManager = new BeaconManager(getApplicationContext());
-
-        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
-            @Override
-            public void onEnteredRegion(Region region, List<Beacon> list) {
-                Log.d(MainActivity.TAG, "Entrando a Region");
-                isOnClassroom = true;
-                btnDownload.setEnabled(isOnClassroom);
-                showNotification(
-                        "BIENVENIDO AL CC1",
-                        "¿Listo para descargar la información de la aisgnatura?");
-            }
-            @Override
-            public void onExitedRegion(Region region) {
-                Log.d(MainActivity.TAG, "Saliendo de Region");
-                isOnClassroom = false;
-                btnDownload.setEnabled(isOnClassroom);
-                showNotification("SALIDA","Acabas de salir del CC1. Nos vemos pronto");
-            }
-        });
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
@@ -100,26 +89,132 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         });
 
+        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
+            @Override
+            public void onEnteredRegion(Region region, List<Beacon> list) {
+                Log.d(MainActivity.TAG, "Entrando a Region");
+                isOnClassroom = true;
+                Injection.provideContentPreferencesManager(getApplicationContext()).registerIsOnClassroom();
+                btnDownload.setEnabled(isOnClassroom);
+                showNotification(
+                        "BIENVENIDO AL CC1",
+                        "¿Listo para descargar la información de la aisgnatura?");
+                mActionsListener.downloadContent(getApplicationContext());
+            }
+            @Override
+            public void onExitedRegion(Region region) {
+                Log.d(MainActivity.TAG, "Saliendo de Region");
+                isOnClassroom = false;
+                Injection.provideContentPreferencesManager(getApplicationContext()).unregisterIsOnClassroom();
+                btnDownload.setEnabled(isOnClassroom);
+                showNotification("SALIDA","Acabas de salir del CC1. Nos vemos pronto");
+            }
+        });
+
+
         btnDownload.setEnabled(false);
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isOnClassroom){
-                    mActionsListener.downloadContent();
+                    mActionsListener.downloadContent(getApplicationContext());
                 }
             }
         });
         setupProgressDialog();
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (mNfcAdapter == null) {
+            isNFCSupported = false;
+            Snackbar.make(mCoordinator, "This device doesn't support NFC.", Snackbar.LENGTH_INDEFINITE).show();
+            enableContentDownloadByButton();
+        } else {
+            isNFCSupported = true;
+            if (!mNfcAdapter.isEnabled()) {
+                Snackbar.make(mCoordinator, "NFC is disabled.", Snackbar.LENGTH_LONG).show();
+            }
+            handleIntent(getIntent());
+        }
+    }
+
+    private void enableContentDownloadByButton() {
+        btnDownload.setVisibility(View.VISIBLE);
+    }
+
+    private void handleIntent(Intent intent) {
+        ContentPreferencesManager contentPreferencesManager = Injection.provideContentPreferencesManager(this);
+        if(contentPreferencesManager.isOnCampus() && contentPreferencesManager.isOnClassroom()){
+            mActionsListener.downloadContent(getApplicationContext());
+        }
+        /*String action = intent.getAction();
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+
+            String type = intent.getType();
+            if (NFCUtils.MIME_TEXT_PLAIN.equals(type)) {
+
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                new NdefReaderTask().execute(tag);
+
+            } else {
+                Log.d(TAG, "Wrong mime type: " + type);
+            }
+        } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
+
+            // In case we would still use the Tech Discovered Intent
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            String[] techList = tag.getTechList();
+            String searchedTech = Ndef.class.getName();
+
+            for (String tech : techList) {
+                if (searchedTech.equals(tech)) {
+                    new NdefReaderTask().execute(tag);
+                    break;
+                }
+            }
+        }*/
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ContentPreferencesManager contentPreferencesManager = Injection.provideContentPreferencesManager(this);
+        if(contentPreferencesManager.isOnCampus() && contentPreferencesManager.isOnClassroom()){
+            mActionsListener.downloadContent(getApplicationContext());
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if(isNFCSupported){
+            NFCUtils.setupForegroundDispatch(this, mNfcAdapter);
+        }
+
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(bluetoothAdapter != null){
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(turnOn, ENABLE_BLUETOOTH);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(isNFCSupported){
+            NFCUtils.stopForegroundDispatch(this, mNfcAdapter);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        /**
+         * This method gets called, when a new Intent gets associated with the current activity instance.
+         * Instead of creating a new activity, onNewIntent will be called. For more information have a look
+         * at the documentation.
+         *
+         * In our case this method gets called, when the user attaches a Tag to the device.
+         */
+        handleIntent(intent);
     }
 
     public void showNotification(String title, String message) {
@@ -158,16 +253,39 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showErrorMessage() {
-        Snackbar.make(mCoordinator, "", Snackbar.LENGTH_LONG)
+        Snackbar.make(mCoordinator, "Error downloading content", Snackbar.LENGTH_INDEFINITE)
                 .setAction("REINTENTAR", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mActionsListener.downloadContent();
+                        mActionsListener.downloadContent(getApplicationContext());;
                     }
                 })
                 .show();
 
         jsonContentTextView.setText("Error downloading");
+    }
+
+    @Override
+    public void setCurrentLocation(String location) {
+        holderLocationTextView.setText(location);
+    }
+
+    @Override
+    public void showNoLongerInCampusMessage() {
+        jsonContentTextView.setText("Error validating");
+        Snackbar.make(mCoordinator, "You are not longer in campus", Snackbar.LENGTH_INDEFINITE)
+                .setAction("REINGRESAR", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Injection
+                                .provideContentPreferencesManager(getApplicationContext())
+                                .unregisterIsOnClassroom()
+                                .registerIsOnCampus();
+                        finish();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    }
+                })
+                .show();
     }
 
     private void setupProgressDialog() {
