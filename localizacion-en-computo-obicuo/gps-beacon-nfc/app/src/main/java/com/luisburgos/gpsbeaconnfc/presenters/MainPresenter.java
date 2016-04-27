@@ -81,8 +81,6 @@ public class MainPresenter implements MainContract.ActionsListener, ArticlesCall
         float distance = mCurrentLocation.distanceTo(campusLibraryLocation);
 
         boolean isInsideCampus = distance <= RADIUS_DISTANCE;
-        //DEBUG:
-        //mView.setCanLoginState(true);
         if(!isInsideCampus){
             mView.showNoLongerInCampusMessage();
         } else {

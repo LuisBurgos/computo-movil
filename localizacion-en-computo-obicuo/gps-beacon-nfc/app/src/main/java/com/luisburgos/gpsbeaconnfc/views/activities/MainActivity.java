@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
+        isOnClassroom = getIntent().getBooleanExtra(CAN_DOWNLOAD_CONTENT, false);
         mActionsListener = new MainPresenter(
                 this, Injection.provideLocationPreferencesManager(this), Injection.provideMainInteractor()
         );

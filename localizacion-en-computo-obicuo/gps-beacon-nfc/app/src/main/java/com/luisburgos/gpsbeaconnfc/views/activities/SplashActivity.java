@@ -49,9 +49,11 @@ public class SplashActivity extends AppCompatActivity {
             public void onLocationLoadFinished(double lat, double lng) {
                 mProgressDialog.dismiss();
                 Intent i;
-                if(contentPreferencesManager.isOnCampus() && contentPreferencesManager.isOnClassroom()){
+                if(contentPreferencesManager.isOnCampus()){
                     i = new Intent(SplashActivity.this, MainActivity.class);
-                    i.putExtra(MainActivity.CAN_DOWNLOAD_CONTENT, true);
+                    if(contentPreferencesManager.isOnClassroom()){
+                        i.putExtra(MainActivity.CAN_DOWNLOAD_CONTENT, true);
+                    }
                 }else{
                     i = new Intent(SplashActivity.this, LoginActivity.class);
                 }

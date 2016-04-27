@@ -74,7 +74,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
         criteria.setCostAllowed(true);
 
         locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true), 2000, 0, this);
-        mView.setProgressIndicator(true);
+        //mView.setProgressIndicator(true);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
         mView.setCurrentLocation(
                 "LAT: " + String.valueOf(location.getLatitude()) + " - LNG: " + String.valueOf(location.getLongitude())
         );
-        Log.d(MainActivity.TAG, "CHANGE LOCATION: " +
+        Log.d(MainActivity.TAG, "GPS LOCATION: " +
                 "LAT: " + String.valueOf(location.getLatitude()) + " - LNG: " + String.valueOf(location.getLongitude()));
         calculateDistance();
     }
@@ -175,5 +175,6 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
     @Override
     public void onProviderDisabled(String provider) {
         Log.d(MainActivity.TAG, "DISABLED: " + provider);
+        mView.setProgressIndicator(false);
     }
 }
