@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.luisburgos.gpsbeaconnfc.R;
 import com.luisburgos.gpsbeaconnfc.managers.ContentPreferencesManager;
@@ -48,13 +50,24 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         setupProgressDialog();
+
+        String action = getIntent().getAction();
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+
+            Toast.makeText(SplashActivity.this, "Abierto via NFC", Toast.LENGTH_SHORT).show();
+            Log.d(MainActivity.TAG, "Abierto via NFC");
+            Injection.provideContentPreferencesManager(this).registerIsOpenViaNFC();
+        } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
+
+
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mProgressDialog.show();
-        new GPSDataLoader(this, Injection.provideLocationPreferencesManager(this), new GPSDataLoader.OnLocationLoaded() {
+        /*new GPSDataLoader(this, Injection.provideLocationPreferencesManager(this), new GPSDataLoader.OnLocationLoaded() {
             @Override
             public void onLocationLoadFinished(double lat, double lng) {
                 mProgressDialog.dismiss();
@@ -64,11 +77,12 @@ public class SplashActivity extends AppCompatActivity {
                 mCurrentLocation.setLongitude(lng);
                 calculateDistance();
             }
-        }).loadLastKnownLocation();
+        }).loadLastKnownLocation();*/
 
-        /*new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                mProgressDialog.dismiss();
                 Intent i;
                 if(sessionManager.isUserLoggedIn()){
                     i = new Intent(SplashActivity.this, MainActivity.class);
@@ -78,7 +92,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-        }, SPLASH_TIME_OUT);*/
+        }, SPLASH_TIME_OUT);
     }
 
     private void setupProgressDialog() {

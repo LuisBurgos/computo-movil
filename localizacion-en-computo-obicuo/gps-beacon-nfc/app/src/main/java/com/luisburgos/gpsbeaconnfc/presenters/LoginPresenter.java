@@ -107,7 +107,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
             mView.setCanLoginState(false);
         }
 
-        new GPSDataLoader(context, Injection.provideLocationPreferencesManager(context), new GPSDataLoader.OnLocationLoaded() {
+        /*new GPSDataLoader(context, Injection.provideLocationPreferencesManager(context), new GPSDataLoader.OnLocationLoaded() {
             @Override
             public void onLocationLoadFinished(double lat, double lng) {
                 mCurrentLocation = new Location("");
@@ -120,7 +120,8 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
                 subscribeForLocationChanges(context);
                 calculateDistance();
             }
-        }).loadLastKnownLocation();
+        }).loadLastKnownLocation();*/
+        subscribeForLocationChanges(context);
     }
 
     public void calculateDistance() {

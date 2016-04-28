@@ -41,7 +41,7 @@ public class MainPresenter implements MainContract.ActionsListener, ArticlesCall
     @Override
     public void downloadContent(final Context context) {
         mView.setProgressIndicator(true);
-        new GPSDataLoader(context, Injection.provideLocationPreferencesManager(context), new GPSDataLoader.OnLocationLoaded() {
+        /*new GPSDataLoader(context, Injection.provideLocationPreferencesManager(context), new GPSDataLoader.OnLocationLoaded() {
             @Override
             public void onLocationLoadFinished(double lat, double lng) {
                 mCurrentLocation = new Location("");
@@ -53,7 +53,11 @@ public class MainPresenter implements MainContract.ActionsListener, ArticlesCall
                 Log.d(MainActivity.TAG, "CHANGE LOCATION: " + "LAT: " + String.valueOf(lat) + " - LNG: " + String.valueOf(lng));
                 calculateDistance();
             }
-        }).loadLastKnownLocation();
+        }).loadLastKnownLocation();*/
+        mCurrentLocation = new Location("");
+        mCurrentLocation.setLatitude(Injection.provideLocationPreferencesManager(context).getLatitude());
+        mCurrentLocation.setLongitude(Injection.provideLocationPreferencesManager(context).getLongitude());
+        calculateDistance();
     }
 
     @Override

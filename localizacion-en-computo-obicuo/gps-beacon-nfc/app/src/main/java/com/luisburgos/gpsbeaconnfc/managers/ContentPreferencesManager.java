@@ -18,6 +18,8 @@ public class ContentPreferencesManager {
 
     public static final String KEY_IS_ON_CLASSROOM = "KEY_IS_ON_CLASSROOM";
     public static final String KEY_IS_ON_CAMPUS = "KEY_IS_ON_CAMPUS";
+    public static final String KEY_IS_OPEN_VIA_NFC = "KEY_IS_OPEN_VIA_NFC";
+
 
     public ContentPreferencesManager(Context context){
         this.mContext = context;
@@ -56,8 +58,18 @@ public class ContentPreferencesManager {
         return mPreferences.getBoolean(KEY_IS_ON_CAMPUS, false);
     }
 
+
+    public boolean isOpenViaNFC(){
+        return mPreferences.getBoolean(KEY_IS_OPEN_VIA_NFC, false);
+    }
+
     public void clear(){
         mEditor.clear();
+        mEditor.commit();
+    }
+
+    public void registerIsOpenViaNFC() {
+        mEditor.putBoolean(KEY_IS_OPEN_VIA_NFC, true);
         mEditor.commit();
     }
 }

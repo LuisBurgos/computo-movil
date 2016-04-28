@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        setupProgressDialog();
         isOnClassroom = getIntent().getBooleanExtra(CAN_DOWNLOAD_CONTENT, false);
         mActionsListener = new MainPresenter(
                 this, Injection.provideLocationPreferencesManager(this), Injection.provideMainInteractor()
@@ -75,6 +77,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         holderLocationTextView.setText(
                 Injection.provideLocationPreferencesManager(this).getLastKnowLocation()
         );
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (mNfcAdapter == null) {
+            isNFCSupported = false;
+            Snackbar.make(mCoordinator, "This device doesn't support NFC.", Snackbar.LENGTH_INDEFINITE).show();
+            enableContentDownloadByButton();
+        } else {
+            isNFCSupported = true;
+            if (!mNfcAdapter.isEnabled()) {
+                Snackbar.make(mCoordinator, "NFC is disabled.", Snackbar.LENGTH_LONG).show();
+            }
+
+            if(Injection.provideContentPreferencesManager(this).isOpenViaNFC()){
+                handleIntent(getIntent());
+            }
+        }
 
         beaconManager = new BeaconManager(getApplicationContext());
 
@@ -86,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                         "monitored region",
                         UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
                         63463, 21120));
+                mProgressDialog.setTitle("Buscando Beacon");
+                mProgressDialog.show();
             }
         });
 
@@ -93,16 +113,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onEnteredRegion(Region region, List<Beacon> list) {
                 Log.d(MainActivity.TAG, "Entrando a Region");
+                mProgressDialog.dismiss();
                 isOnClassroom = true;
                 Injection.provideContentPreferencesManager(getApplicationContext()).registerIsOnClassroom();
                 btnDownload.setEnabled(isOnClassroom);
+                jsonContentTextView.setText("Estás cerca del BEACON, acercate al NFC Tag para descargar el contenido.");
                 showNotification(
                         "BIENVENIDO AL CC1",
                         "¿Listo para descargar la información de la aisgnatura?");
-                mActionsListener.downloadContent(getApplicationContext());
+                //mActionsListener.downloadContent(getApplicationContext());
             }
             @Override
             public void onExitedRegion(Region region) {
+                mProgressDialog.dismiss();
                 Log.d(MainActivity.TAG, "Saliendo de Region");
                 isOnClassroom = false;
                 Injection.provideContentPreferencesManager(getApplicationContext()).unregisterIsOnClassroom();
@@ -121,20 +144,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 }
             }
         });
-        setupProgressDialog();
 
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (mNfcAdapter == null) {
-            isNFCSupported = false;
-            Snackbar.make(mCoordinator, "This device doesn't support NFC.", Snackbar.LENGTH_INDEFINITE).show();
-            enableContentDownloadByButton();
-        } else {
-            isNFCSupported = true;
-            if (!mNfcAdapter.isEnabled()) {
-                Snackbar.make(mCoordinator, "NFC is disabled.", Snackbar.LENGTH_LONG).show();
-            }
-            handleIntent(getIntent());
-        }
+
+
     }
 
     private void enableContentDownloadByButton() {
@@ -142,45 +154,29 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void handleIntent(Intent intent) {
-        ContentPreferencesManager contentPreferencesManager = Injection.provideContentPreferencesManager(this);
-        if(contentPreferencesManager.isOnCampus() && contentPreferencesManager.isOnClassroom()){
-            mActionsListener.downloadContent(getApplicationContext());
-        }
-        /*String action = intent.getAction();
+
+        String action = intent.getAction();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
 
-            String type = intent.getType();
-            if (NFCUtils.MIME_TEXT_PLAIN.equals(type)) {
-
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                new NdefReaderTask().execute(tag);
-
-            } else {
-                Log.d(TAG, "Wrong mime type: " + type);
+            Toast.makeText(MainActivity.this, "Abierto via NFC", Toast.LENGTH_SHORT).show();
+            ContentPreferencesManager contentPreferencesManager = Injection.provideContentPreferencesManager(this);
+            if(contentPreferencesManager.isOnCampus() && contentPreferencesManager.isOnClassroom()){
+                mActionsListener.downloadContent(getApplicationContext());
             }
+
         } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
 
-            // In case we would still use the Tech Discovered Intent
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            String[] techList = tag.getTechList();
-            String searchedTech = Ndef.class.getName();
 
-            for (String tech : techList) {
-                if (searchedTech.equals(tech)) {
-                    new NdefReaderTask().execute(tag);
-                    break;
-                }
-            }
-        }*/
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        ContentPreferencesManager contentPreferencesManager = Injection.provideContentPreferencesManager(this);
+        /*ContentPreferencesManager contentPreferencesManager = Injection.provideContentPreferencesManager(this);
         if(contentPreferencesManager.isOnCampus() && contentPreferencesManager.isOnClassroom()){
             mActionsListener.downloadContent(getApplicationContext());
-        }
+        }*/
     }
 
     @Override
@@ -195,6 +191,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(turnOn, ENABLE_BLUETOOTH);
         }
+
+
     }
 
     @Override
