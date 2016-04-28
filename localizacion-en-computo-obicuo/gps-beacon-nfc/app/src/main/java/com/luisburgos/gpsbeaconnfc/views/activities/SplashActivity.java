@@ -95,7 +95,7 @@ public class SplashActivity extends AppCompatActivity {
 
         Log.d(MainActivity.TAG, "DEVICE ON CAMPUS: " + isInsideCampus);
         Intent i;
-        if(isInsideCampus){
+        if(isInsideCampus && sessionManager.isUserLoggedIn()){
             i = new Intent(SplashActivity.this, MainActivity.class);
             if(contentPreferencesManager.isOnClassroom()){
                 i.putExtra(MainActivity.CAN_DOWNLOAD_CONTENT, true);

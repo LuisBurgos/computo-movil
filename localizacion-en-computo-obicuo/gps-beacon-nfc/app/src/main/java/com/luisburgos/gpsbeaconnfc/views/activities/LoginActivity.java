@@ -176,6 +176,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         mProgressDialog = new ProgressDialog(LoginActivity.this);
         mProgressDialog.setMessage("Obteniendo ubicación actual");
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCancelable(true);
     }
 }

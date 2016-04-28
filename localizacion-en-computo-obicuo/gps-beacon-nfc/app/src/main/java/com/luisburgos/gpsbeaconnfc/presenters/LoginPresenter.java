@@ -74,7 +74,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
         criteria.setCostAllowed(true);
 
         locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true), 2000, 0, this);
-        mView.setProgressIndicator(true);
+        //mView.setProgressIndicator(true);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
 
     @Override
     public void doLogin(Context context) {
-        //mSessionManager.createUserLoginSession("", "");
+        mSessionManager.createUserLoginSession("", "");
         Injection.provideContentPreferencesManager(context).registerIsOnCampus();
         mView.showMain();
     }
