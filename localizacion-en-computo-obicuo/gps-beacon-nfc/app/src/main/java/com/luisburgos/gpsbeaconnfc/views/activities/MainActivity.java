@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                         Injection
                                 .provideContentPreferencesManager(getApplicationContext())
                                 .unregisterIsOnClassroom()
-                                .registerIsOnCampus();
+                                .unregisterIsOnCampus();
                         finish();
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
