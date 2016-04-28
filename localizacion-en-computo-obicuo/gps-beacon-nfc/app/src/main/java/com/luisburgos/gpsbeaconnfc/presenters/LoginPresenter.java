@@ -74,7 +74,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
         criteria.setCostAllowed(true);
 
         locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true), 2000, 0, this);
-        //mView.setProgressIndicator(true);
+        mView.setProgressIndicator(true);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class LoginPresenter implements LocationListener, LoginContract.UserActio
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         Log.d(MainActivity.TAG, "STATUS CHANGED: " + provider);
-
+        mView.setProgressIndicator(false);
     }
 
     @Override
