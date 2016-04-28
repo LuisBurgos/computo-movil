@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.luisburgos.gpsbeaconnfc.R;
@@ -57,6 +58,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onLocationLoadFinished(double lat, double lng) {
                 mProgressDialog.dismiss();
+                Log.d(MainActivity.TAG, "CHANGE LOCATION: " + "LAT: " + String.valueOf(lat) + " - LNG: " + String.valueOf(lng));
                 mCurrentLocation = new Location("");
                 mCurrentLocation.setLatitude(lat);
                 mCurrentLocation.setLongitude(lng);
@@ -91,6 +93,7 @@ public class SplashActivity extends AppCompatActivity {
         float distance = mCurrentLocation.distanceTo(campusLibraryLocation);
         boolean isInsideCampus = distance <= LoginPresenter.RADIUS_DISTANCE;
 
+        Log.d(MainActivity.TAG, "DEVICE ON CAMPUS: " + isInsideCampus);
         Intent i;
         if(isInsideCampus){
             i = new Intent(SplashActivity.this, MainActivity.class);
