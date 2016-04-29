@@ -2,6 +2,9 @@ package com.luisburgos.gpsbeaconnfc.managers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.luisburgos.gpsbeaconnfc.GPSBeaconNFCApplication;
 
 /**
  * Created by luisburgos on 31/03/16.
@@ -27,7 +30,7 @@ public class LocationPreferencesManager {
     }
 
     public void registerLocationValues(double lat, double lng){
-        //Log.d(MyApp.TAG, "SAVING: LAT: " + String.valueOf(lat) + " - LNG " + String.valueOf(lng));
+        Log.d(GPSBeaconNFCApplication.TAG, "SAVING: LAT: " + String.valueOf(lat) + " - LNG " + String.valueOf(lng));
         registerPreferences(KEY_IS_LOCATION_SET, true);
         registerPreferences(KEY_LAT, lat);
         registerPreferences(KEY_LNG, lng);

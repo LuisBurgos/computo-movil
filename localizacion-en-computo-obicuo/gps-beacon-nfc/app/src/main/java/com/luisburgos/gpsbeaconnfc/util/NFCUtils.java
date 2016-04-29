@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 
+import com.luisburgos.gpsbeaconnfc.views.activities.ContentActivity;
+
 /**
  * Created by luisburgos on 26/04/16.
  */
@@ -19,7 +21,7 @@ public class NFCUtils {
      * @param adapter The {@link NfcAdapter} used for the foreground dispatch.
      */
     public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
-        final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
+        final Intent intent = new Intent(activity.getApplicationContext(), ContentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);

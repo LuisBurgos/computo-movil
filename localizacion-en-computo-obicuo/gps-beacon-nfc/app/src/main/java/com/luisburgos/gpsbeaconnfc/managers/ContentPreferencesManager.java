@@ -19,6 +19,7 @@ public class ContentPreferencesManager {
     public static final String KEY_IS_ON_CLASSROOM = "KEY_IS_ON_CLASSROOM";
     public static final String KEY_IS_ON_CAMPUS = "KEY_IS_ON_CAMPUS";
     public static final String KEY_IS_OPEN_VIA_NFC = "KEY_IS_OPEN_VIA_NFC";
+    private static final String KEY_IS_USER_LOGIN = "IS_USER_LOGIN";
 
 
     public ContentPreferencesManager(Context context){
@@ -27,14 +28,28 @@ public class ContentPreferencesManager {
         mEditor = mPreferences.edit();
     }
 
-    public void registerIsOnCampus(){
+    public ContentPreferencesManager registerIsOnCampus(){
         mEditor.putBoolean(KEY_IS_ON_CAMPUS, true);
         mEditor.commit();
+        return this;
     }
 
-    public void registerIsOnClassroom(){
+    public ContentPreferencesManager registerIsOnClassroom(){
         mEditor.putBoolean(KEY_IS_ON_CLASSROOM, true);
         mEditor.commit();
+        return this;
+    }
+
+    public ContentPreferencesManager registerIsOpenViaNFC() {
+        mEditor.putBoolean(KEY_IS_OPEN_VIA_NFC, true);
+        mEditor.commit();
+        return this;
+    }
+
+    public ContentPreferencesManager registerIsUserLogin(){
+        mEditor.putBoolean(KEY_IS_USER_LOGIN, true);
+        mEditor.commit();
+        return this;
     }
 
     public ContentPreferencesManager unregisterIsOnCampus(){
@@ -45,6 +60,18 @@ public class ContentPreferencesManager {
 
     public ContentPreferencesManager unregisterIsOnClassroom(){
         mEditor.putBoolean(KEY_IS_ON_CLASSROOM, false);
+        mEditor.commit();
+        return this;
+    }
+
+    public ContentPreferencesManager unregisterIsOpenViaNFC(){
+        mEditor.putBoolean(KEY_IS_OPEN_VIA_NFC, false);
+        mEditor.commit();
+        return this;
+    }
+
+    public ContentPreferencesManager unregisterIsUserLogin(){
+        mEditor.putBoolean(KEY_IS_USER_LOGIN, false);
         mEditor.commit();
         return this;
     }
@@ -63,13 +90,12 @@ public class ContentPreferencesManager {
         return mPreferences.getBoolean(KEY_IS_OPEN_VIA_NFC, false);
     }
 
-    public void clear(){
-        mEditor.clear();
-        mEditor.commit();
+    public boolean isUserLoggedIn(){
+        return mPreferences.getBoolean(KEY_IS_USER_LOGIN, false);
     }
 
-    public void registerIsOpenViaNFC() {
-        mEditor.putBoolean(KEY_IS_OPEN_VIA_NFC, true);
+    public void clear(){
+        mEditor.clear();
         mEditor.commit();
     }
 }

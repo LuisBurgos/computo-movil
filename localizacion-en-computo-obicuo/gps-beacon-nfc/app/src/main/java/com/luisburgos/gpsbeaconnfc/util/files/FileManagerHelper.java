@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 
+import com.luisburgos.gpsbeaconnfc.GPSBeaconNFCApplication;
 import com.luisburgos.gpsbeaconnfc.views.activities.MainActivity;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ public class FileManagerHelper {
                     context.openFileOutput(DEFAULT_FILE_NAME, Context.MODE_WORLD_WRITEABLE)
             ));
             writer.write(newContent + eol);
-            Log.d(MainActivity.TAG, "SAVING ON FILE: " + newContent);
+            Log.d(GPSBeaconNFCApplication.TAG, "SAVING ON FILE: " + newContent);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

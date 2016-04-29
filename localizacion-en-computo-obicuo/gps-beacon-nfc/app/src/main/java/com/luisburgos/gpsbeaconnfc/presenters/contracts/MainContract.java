@@ -11,16 +11,30 @@ public interface MainContract {
 
         void showContent(String content);
 
+        void showNoLongerInCampusMessage();
+
         void setProgressIndicator(boolean active);
 
-        void showErrorMessage();
+        void setCanLoginState(boolean canLoginState);
 
         void setCurrentLocation(String location);
 
-        void showNoLongerInCampusMessage();
+        void setCurrentDistance(String distance);
+
+        void showLocationSubscribeError();
+
+        void showErrorMessage(String message);
+
+        void onLoginResult(boolean result);
     }
 
     interface ActionsListener {
+
+        void subscribeForLocationChanges(Context context);
+
+        void unsubscribeForLocationChanges(Context context);
+
+        void loadLocation(Context context);
 
         void downloadContent(Context context);
     }

@@ -11,32 +11,12 @@ public interface LoginContract {
 
         void onLoginResult(Boolean result);
 
-        void setProgressIndicator(boolean active);
-
-        void setCanLoginState(boolean canLoginState);
-
-        void setCurrentLocation(String location);
-
-        void setCurrentDistance(String distance);
-
-        void showLocationSubscribeError();
-
-        void showErrorMessage(String message);
-
-        void showMain();
     }
 
     interface UserActionsListener {
 
-        void subscribeForLocationChanges(Context context);
-
-        void unsubscribeForLocationChanges(Context context);
-
         void doLogin(Context context);
 
-        void reloadInformation();
-
-        void loadLocation(Context context);
     }
 
 
