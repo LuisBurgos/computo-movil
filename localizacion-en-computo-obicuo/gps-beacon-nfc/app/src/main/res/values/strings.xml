@@ -36,5 +36,6 @@
     <string name="title_activity_main">GPS, Beacons and NFC</string>
     <string name="beacon_message">Acercate al Beacon para obtener acceso a contenido secreto</string>
     <string name="can_login_message">Perfecto! Ahora puedes iniciar sesión!</string>
+    <string name="nfc_message">Localiza al tag NFC para obtener nueva información</string>
 
 </resources>

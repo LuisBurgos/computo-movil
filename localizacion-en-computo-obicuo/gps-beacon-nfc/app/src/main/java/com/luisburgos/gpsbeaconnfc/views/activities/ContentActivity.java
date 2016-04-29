@@ -22,6 +22,7 @@ public class ContentActivity extends AppCompatActivity implements ArticlesCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
         ButterKnife.bind(this);
+        setupProgressDialog();
         loadInformation();
     }
 
@@ -45,7 +46,7 @@ public class ContentActivity extends AppCompatActivity implements ArticlesCallba
 
     private void setupProgressDialog() {
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("Verificando ubicación");
+        mProgressDialog.setMessage("Descargando informacion");
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);
     }

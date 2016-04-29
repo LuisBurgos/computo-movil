@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 this, Injection.provideLocationPreferencesManager(this), Injection.provideMainInteractor()
         );
 
-        String action = getIntent().getAction();
+        handleIntent(getIntent());
+        /*String action = getIntent().getAction();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
             Toast.makeText(this, "Open by NFC", Toast.LENGTH_SHORT).show();
             Log.d(GPSBeaconNFCApplication.TAG, "Open by NFC");
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             Toast.makeText(this, "Open by NFC", Toast.LENGTH_SHORT).show();
             Log.d(GPSBeaconNFCApplication.TAG, "Open by NFC");
             contentPreferencesManager.registerIsOpenViaNFC();
-        }
+        }*/
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         String action = intent.getAction();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-
+            contentPreferencesManager.registerIsOpenViaNFC();
             Toast.makeText(MainActivity.this, "Abierto via NFC", Toast.LENGTH_SHORT).show();
             ContentPreferencesManager contentPreferencesManager = Injection.provideContentPreferencesManager(this);
             if(contentPreferencesManager.isOnCampus() && contentPreferencesManager.isOnClassroom()){
-                mActionsListener.downloadContent(getApplicationContext());
+                startActivity(new Intent(this, ContentActivity.class));
             }
 
         } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) { //Do nothing now
@@ -134,11 +135,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             NFCUtils.setupForegroundDispatch(this, mNfcAdapter);
         }
 
-        if(Injection.provideContentPreferencesManager(this).isOnClassroom()){
-            mainDescriptionMessage.setText("Localiza al tag NFC para obtener nueva información");
+        if(Injection.provideContentPreferencesManager(getApplicationContext()).isOnClassroom()){
+            mainDescriptionMessage.setText(getString(R.string.nfc_message));
             setupContentIntent();
         } else {
-            setCanLoginState(true);
+            btnLogin.setVisibility(View.VISIBLE);
+            btnLogin.setEnabled(true);
+            mainDescriptionMessage.setText(getString(R.string.can_login_message));
         }
 
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
@@ -150,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void setupContentIntent() {
         if( mNfcAdapter != null ){
-            Intent intent = new Intent(this, ContentActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
@@ -167,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onPause();
         if(isNFCSupported){
             NFCUtils.stopForegroundDispatch(this, mNfcAdapter);
+            contentPreferencesManager.unregisterIsOpenViaNFC();
         }
         mActionsListener.unsubscribeForLocationChanges(this);
     }
@@ -175,10 +179,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onDestroy() {
         super.onDestroy();
         mActionsListener.unsubscribeForLocationChanges(this);
+        Injection.provideContentPreferencesManager(getApplicationContext()).unregisterIsUserLogin();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
+        Log.d(GPSBeaconNFCApplication.TAG, "Nuevo intent para NFC");
         handleIntent(intent);
     }
 
@@ -234,14 +240,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onLoginResult(boolean result) {
-        mainDescriptionMessage.setText(getString(R.string.beacon_message));
+
+        if(Injection.provideContentPreferencesManager(getApplicationContext()).isOnClassroom()){
+            mainDescriptionMessage.setText(getString(R.string.nfc_message));
+        } else {
+            mainDescriptionMessage.setText(getString(R.string.beacon_message));
+        }
         Injection.provideContentPreferencesManager(this).registerIsUserLogin();
         btnLogin.setVisibility(View.GONE);
     }
 
     @Override
     public void showNoLongerInCampusMessage() {
-
+        mainDescriptionMessage.setText(getString(R.string.lbl_login_message));
+        Injection.provideContentPreferencesManager(getApplicationContext()).unregisterIsUserLogin();
+        setCanLoginState(false);
+        btnLogin.setVisibility(View.VISIBLE);
+        btnLogin.setEnabled(false);
     }
 
     private void setupProgressDialog() {

@@ -11,8 +11,8 @@ import com.luisburgos.gpsbeaconnfc.views.activities.MainActivity;
  */
 public class LocationHelper {
 
-    //public static float RADIUS_DISTANCE = 200;
-    public static float RADIUS_DISTANCE = 8760;
+    public static float RADIUS_DISTANCE = 150;
+    //public static float RADIUS_DISTANCE = 8760;
 
     private Location mCurrentLocation;
     private Location buildingBLocation;

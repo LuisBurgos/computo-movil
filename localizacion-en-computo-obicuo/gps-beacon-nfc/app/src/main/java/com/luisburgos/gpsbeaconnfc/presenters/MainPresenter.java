@@ -31,6 +31,7 @@ public class MainPresenter implements MainContract.ActionsListener, LocationList
     private MainInteractor mInteractor;
     private LocationManager locationManager;
     private Location mCurrentLocation;
+    private Context mContext;
 
     public MainPresenter(
             @NonNull MainContract.View view,
@@ -44,6 +45,7 @@ public class MainPresenter implements MainContract.ActionsListener, LocationList
 
     @Override
     public void downloadContent(final Context context) {
+        mContext = context;
         mView.setProgressIndicator(true);
         mCurrentLocation = new Location("");
         mCurrentLocation.setLatitude(Injection.provideLocationPreferencesManager(context).getLatitude());
@@ -66,6 +68,9 @@ public class MainPresenter implements MainContract.ActionsListener, LocationList
         mView.setCanLoginState(isInsideCampus);
 
         if(!isInsideCampus){
+            if(mContext != null){
+                Injection.provideContentPreferencesManager(mContext).unregisterIsUserLogin();
+            }
             mView.showNoLongerInCampusMessage();
         } else {
             //mInteractor.loadArticlesData(this);
@@ -74,6 +79,7 @@ public class MainPresenter implements MainContract.ActionsListener, LocationList
 
     @Override
     public void loadLocation(final Context context) {
+        mContext = context;
         if(mLocationPreferences.hasAlreadySetLocation()){
             mCurrentLocation = new Location("");
             mCurrentLocation.setLatitude(mLocationPreferences.getLatitude());
@@ -85,6 +91,7 @@ public class MainPresenter implements MainContract.ActionsListener, LocationList
 
     @Override
     public void subscribeForLocationChanges(Context context) {
+        mContext = context;
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (PermissionHelper.hasNoPermissionToAccessLocation(context)) {
             mView.showLocationSubscribeError();
