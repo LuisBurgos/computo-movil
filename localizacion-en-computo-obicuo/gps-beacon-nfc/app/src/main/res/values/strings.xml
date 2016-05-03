@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">GPS,Beacosn,NFC</string>
+
+    <!-- Splash Activity -->
+    <string name="title_activity_splash">Splash Screen</string>
+    <string name="splash_footer">Cómputo Móvil - 2016</string>
+
+    <!-- Login Activity -->
+    <string name="title_activity_login">Login</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_username">This username is invalid</string>
+    <string name="error_non_existing_user">This username does not exist</string>
+    <string name="error_password_not_match">Invalid password for this username</string>
+    <string name="error_invalid_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="lbl_btn_login">Iniciar Sesión</string>
+    <string name="lbl_btn_logout">Log out</string>
+    <string name="lbl_main_message">Current session</string>
+    <string name="lbl_welcome_message">Bienvenido</string>
+    <string name="lbl_login_message">Podrás iniciar sesión si te encuentras dentro de las instalaciones de la Facultad de Matemáticas de la UADY</string>
+    <string name="lbl_loading_message">Cargando...</string>
+    <string name="empty_data_message">Empty Fields</string>
+    <string name="error_failed_login">Error on login</string>
+    <string name="lbl_username_prefix"><b>"Username: "</b></string>
+    <string name="lbl_password_hint">Password</string>
+    <string name="lbl_username_hint">Username</string>
+    <string name="lbl_app_description_message">GPS, Beacons and NFC</string>
+    <string name="label_view_more">Ver más</string>
+    <string name="current_location">Ubicación Actual:</string>
+    <string name="location_holder">Location...</string>
+    <string name="current_distance">Distancia Actual</string>
+    <string name="distance_holder">Distancia...</string>
+    <string name="title_activity_main">GPS, Beacons and NFC</string>
+    <string name="beacon_message">Acercate al Beacon para obtener acceso a contenido secreto</string>
+    <string name="can_login_message">Perfecto! Ahora puedes iniciar sesión!</string>
+    <string name="nfc_message">Localiza al tag NFC para obtener nueva información</string>
+
+</resources>
