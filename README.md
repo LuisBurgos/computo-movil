@@ -23,5 +23,5 @@ Al final del curso el estudiante debe ser capaz de:
 1. [Unidad 1: Introducción](https://github.com/LuisBurgos/computo-movil/tree/unidad-1/).
 2. [Unidad 2: Tipos de Conexiones Inalámbricas](https://github.com/LuisBurgos/computo-movil/tree/unidad-2/).
 3. [Unidad 3: Acceso de servicios y aplicaciones en la nube](https://github.com/LuisBurgos/computo-movil/tree/unidad-3/)
-4. Unidad 4: Localización en Cómputo Ubicuo.
+4. [Unidad 4: Localización en Cómputo Ubicuo](https://github.com/LuisBurgos/computo-movil/tree/unidad-4/)
 5. Unidad 5: Cómputo sensible al contexto.

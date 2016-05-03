@@ -7,4 +7,4 @@ Realizar aplicaciones pequeñas que hagan uso de los tipos de conexiones inalám
 ### Temas
 
 1. Bluetooth.
-5. [Desarrollo de aplicación](https://github.com/LuisBurgos/computo-movil/tree/unidad-2/conexiones-inalambricas/example-bluetooth).
+2. [Desarrollo de aplicación](https://github.com/LuisBurgos/computo-movil/tree/unidad-2/conexiones-inalambricas/example-bluetooth).
