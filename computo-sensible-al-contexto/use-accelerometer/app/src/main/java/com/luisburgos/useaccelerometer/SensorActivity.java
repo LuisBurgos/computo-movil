@@ -1,19 +1,22 @@
 package com.luisburgos.useaccelerometer;
 
-import android.app.Application;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.TextView;
 
 public class SensorActivity extends AppCompatActivity implements SensorEventListener {
 
     private static final String TAG = "SENSOR";
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+
+    private TextView xAxis;
+    private TextView yAxis;
+    private TextView zAxis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,10 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        xAxis = (TextView) findViewById(R.id.textViewAxisX);
+        yAxis = (TextView) findViewById(R.id.textViewAxisY);
+        zAxis = (TextView) findViewById(R.id.textViewAxisZ);
     }
 
     @Override
@@ -47,6 +54,8 @@ public class SensorActivity extends AppCompatActivity implements SensorEventList
         float y = values[1];
         float z = values[2];
 
-        Log.d(TAG, "X: " + String.valueOf(x) + " Y: " + String.valueOf(y) + " Z: " + String.valueOf(z));
+        xAxis.setText(String.valueOf(x));
+        yAxis.setText(String.valueOf(y));
+        zAxis.setText(String.valueOf(z));
     }
 }
