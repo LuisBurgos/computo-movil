@@ -1,12 +1,12 @@
-# Cómputo Móvil Aplicado
+# Cómputo Móvil Aplicado.
 
-### Descripción
+### Descripción.
 
 Realizar soluciones de cómputo donde se requiera la aplicación del computo móvil. Este es el curso introductorio de cómputo móvil a nivel licenciatura y está orientado hacia el desarrollo de proyectos.
 
-**Profesor**: Juan Francisco Garcilazo Ortiz
+**Profesor**: Juan Francisco Garcilazo Ortiz.
 
-### Objetivos
+### Objetivos.
 
 1. Introducir las principales aplicaciones del cómputo móvil y ubicuo que permitan identificar problemáticas que puedan ser resueltas usando esta tecnología.
 2. Describir y clasificar las principales aplicaciones del cómputo móvil y ubicuo que resuelven problemáticas existentes.
@@ -18,10 +18,13 @@ Al final del curso el estudiante debe ser capaz de:
 * Identificar los principales elementos de una aplicación móvil.
 * Realizar aplicaciones en el campo del cómputo móvil.
 
-### Contenido
+### Contenido.
 
-1. [Unidad 1: Introducción](https://github.com/LuisBurgos/computo-movil/tree/unidad-1/).
-2. [Unidad 2: Tipos de Conexiones Inalámbricas](https://github.com/LuisBurgos/computo-movil/tree/unidad-2/).
-3. [Unidad 3: Acceso de servicios y aplicaciones en la nube](https://github.com/LuisBurgos/computo-movil/tree/unidad-3/)
-4. [Unidad 4: Localización en Cómputo Ubicuo](https://github.com/LuisBurgos/computo-movil/tree/unidad-4/)
-5. [Unidad 5: Cómputo sensible al contexto](https://github.com/LuisBurgos/computo-movil/tree/unidad-5/)
+1. [Unidad 1: Introducción](https://github.com/LuisBurgos/computo-movil/tree/unidad-1/introduccion).
+2. [Unidad 2: Tipos de Conexiones Inalámbricas](https://github.com/LuisBurgos/computo-movil/tree/unidad-2/conexiones-inalambricas).
+3. [Unidad 3: Acceso de servicios y aplicaciones en la nube](https://github.com/LuisBurgos/computo-movil/tree/unidad-3/servicios-web-en-la-nube)
+4. [Unidad 4: Localización en Cómputo Ubicuo](https://github.com/LuisBurgos/computo-movil/tree/unidad-4/localizacion-en-computo-obicuo)
+5. [Unidad 5: Cómputo sensible al contexto](https://github.com/LuisBurgos/computo-movil/tree/unidad-5/computo-sensible-al-contexto)
+
+### Proyecto Final.
+[Rynder](https://github.com/elsypinzonv/rynder), herramienta móvil para encontrar restaurantes cercanos a tu ubicación. Puedes encontrar y conocer la información de los restaurantes a tu alrededor de manera fácil y sencilla.
