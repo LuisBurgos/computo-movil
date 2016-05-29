@@ -20,11 +20,11 @@ Al final del curso el estudiante debe ser capaz de:
 
 ### Contenido.
 
-1. [Unidad 1: Introducción](https://github.com/LuisBurgos/computo-movil/tree/unidad-1/introduccion).
-2. [Unidad 2: Tipos de Conexiones Inalámbricas](https://github.com/LuisBurgos/computo-movil/tree/unidad-2/conexiones-inalambricas).
-3. [Unidad 3: Acceso de servicios y aplicaciones en la nube](https://github.com/LuisBurgos/computo-movil/tree/unidad-3/servicios-web-en-la-nube)
-4. [Unidad 4: Localización en Cómputo Ubicuo](https://github.com/LuisBurgos/computo-movil/tree/unidad-4/localizacion-en-computo-obicuo)
-5. [Unidad 5: Cómputo sensible al contexto](https://github.com/LuisBurgos/computo-movil/tree/unidad-5/computo-sensible-al-contexto)
+1. [Unidad 1: Introducción](https://github.com/LuisBurgos/computo-movil/tree/master/introduccion).
+2. [Unidad 2: Tipos de Conexiones Inalámbricas](https://github.com/LuisBurgos/computo-movil/tree/master/conexiones-inalambricas).
+3. [Unidad 3: Acceso de servicios y aplicaciones en la nube](https://github.com/LuisBurgos/computo-movil/tree/master/servicios-web-en-la-nube)
+4. [Unidad 4: Localización en Cómputo Ubicuo](https://github.com/LuisBurgos/computo-movil/tree/master/localizacion-en-computo-obicuo)
+5. [Unidad 5: Cómputo sensible al contexto](https://github.com/LuisBurgos/computo-movil/tree/master/computo-sensible-al-contexto)
 
 ### Proyecto Final.
 [Rynder](https://github.com/elsypinzonv/rynder), herramienta móvil para encontrar restaurantes cercanos a tu ubicación. Puedes encontrar y conocer la información de los restaurantes a tu alrededor de manera fácil y sencilla.
